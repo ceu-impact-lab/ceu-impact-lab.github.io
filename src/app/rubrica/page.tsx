@@ -1,8 +1,9 @@
 "use client";
 
-import { Box, Card, CardContent, LinearProgress, Stack, Typography } from "@mui/material";
+import { Box, Card, CardContent, Stack, Typography } from "@mui/material";
 import { Section } from "@/components/Section";
 import { CTAButtons } from "@/components/CTAButtons";
+import { AnimatedLinearProgress } from "@/components/AnimatedLinearProgress";
 import { siteContent } from "@/content/site";
 
 export default function RubricaPage() {
@@ -13,7 +14,7 @@ export default function RubricaPage() {
           <Typography color="text.secondary">
             La evaluacion combina impacto, innovacion, ejecucion tecnica y presentacion.
           </Typography>
-          {siteContent.rubric.map((item) => (
+          {siteContent.rubric.map((item, index) => (
             <Card key={item.category} variant="outlined">
               <CardContent>
                 <Stack spacing={1}>
@@ -23,10 +24,9 @@ export default function RubricaPage() {
                       {item.weight}%
                     </Typography>
                   </Stack>
-                  <LinearProgress
-                    variant="determinate"
+                  <AnimatedLinearProgress
                     value={item.weight}
-                    sx={{ height: 8, borderRadius: 999 }}
+                    delayMs={index * 120}
                   />
                 </Stack>
               </CardContent>

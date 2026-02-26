@@ -16,9 +16,9 @@ export default function AgendaPage() {
             de sabado y domingo, y awards institucionales el martes.
           </Typography>
           <Grid container spacing={3}>
-            {siteContent.scheduleBlocks.map((block) => (
+            {siteContent.scheduleBlocks.map((block, index) => (
               <Grid size={{ xs: 12, md: 4 }} key={block.label}>
-                <ScheduleBlock {...block} />
+                <ScheduleBlock {...block} delayMs={index * 140} />
               </Grid>
             ))}
           </Grid>

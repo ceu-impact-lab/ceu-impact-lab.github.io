@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   Grid,
-  LinearProgress,
   Stack,
   Step,
   StepLabel,
@@ -17,6 +16,7 @@ import Link from "next/link";
 import { Section } from "@/components/Section";
 import { CTAButtons } from "@/components/CTAButtons";
 import { ScheduleBlock } from "@/components/ScheduleBlock";
+import { AnimatedLinearProgress } from "@/components/AnimatedLinearProgress";
 import { siteContent } from "@/content/site";
 
 export default function Home() {
@@ -101,9 +101,9 @@ export default function Home() {
 
       <Section title="Agenda" subtitle="Preview" id="agenda">
         <Grid container spacing={3}>
-          {siteContent.scheduleBlocks.map((block) => (
+          {siteContent.scheduleBlocks.map((block, index) => (
             <Grid size={{ xs: 12, md: 4 }} key={block.label}>
-              <ScheduleBlock {...block} />
+              <ScheduleBlock {...block} delayMs={index * 120} />
             </Grid>
           ))}
         </Grid>
@@ -111,7 +111,7 @@ export default function Home() {
 
       <Section title="Criterios de evaluacion" subtitle="Rubrica" id="rubrica">
         <Stack spacing={2}>
-          {siteContent.rubric.map((item) => (
+          {siteContent.rubric.map((item, index) => (
             <Card key={item.category} variant="outlined">
               <CardContent>
                 <Stack spacing={1}>
@@ -121,10 +121,9 @@ export default function Home() {
                       {item.weight}%
                     </Typography>
                   </Stack>
-                  <LinearProgress
-                    variant="determinate"
+                  <AnimatedLinearProgress
                     value={item.weight}
-                    sx={{ height: 8, borderRadius: 999 }}
+                    delayMs={index * 120}
                   />
                 </Stack>
               </CardContent>

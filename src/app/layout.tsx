@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Manrope, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import { Layout } from "@/components/Layout";
 import { siteContent } from "@/content/site";
 import { ThemeRegistry } from "@/theme/ThemeRegistry";
+import { Layout } from "@/components/Layout";
 
 const manrope = Manrope({
   variable: "--font-manrope",

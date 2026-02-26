@@ -25,6 +25,7 @@ export function Layout({ children }: LayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
+    // Keep the mobile drawer state clean when switching to desktop widths.
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
         setIsMenuOpen(false);
@@ -36,13 +37,16 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      {/* Ambient background layer; tweak opacity/gradients in AnimatedBackground if needed. */}
       <AnimatedBackground />
+      {/* Custom cursor overlay (desktop pointers only); style in globals.css. */}
       <CursorDot />
       <AppBar
         position="fixed"
         color="transparent"
         elevation={0}
         sx={{
+          // Adjust these inset values to align the floating navbar with page margins.
           top: { xs: 12, md: 16 },
           left: "50%",
           width: {
@@ -80,6 +84,7 @@ export function Layout({ children }: LayoutProps) {
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
             <Stack direction="row" spacing={1} sx={{ display: { xs: "none", lg: "flex" } }}>
+              {/* Desktop-only primary links. */}
               {navItems.map((item) => (
                 <Button key={item.href} component={Link} href={item.href} size="small">
                   {item.label}
@@ -87,6 +92,7 @@ export function Layout({ children }: LayoutProps) {
               ))}
             </Stack>
             <Box sx={{ display: { xs: "none", lg: "block" } }}>
+              {/* Desktop-only CTAs; adjust size via CTAButtons props. */}
               <CTAButtons size="small" />
             </Box>
             <IconButton
@@ -107,6 +113,7 @@ export function Layout({ children }: LayoutProps) {
         sx={{
           display: { xs: "block", lg: "none" },
           "& .MuiDrawer-paper": {
+            // Mobile menu spacing; adjust mt/mx/p for different visual density.
             mt: { xs: 9, sm: 10 },
             borderRadius: 2,
             mx: { xs: 2, sm: 3 },

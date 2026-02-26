@@ -11,6 +11,7 @@ export function CursorDot() {
       return;
     }
 
+    // Track pointer movement and move the custom cursor without re-rendering.
     let raf = 0;
     const handleMove = (event: MouseEvent) => {
       const x = event.clientX;

@@ -12,6 +12,7 @@ type ScheduleBlockProps = {
 };
 
 export function ScheduleBlock({ day, date, label, items, delayMs = 0 }: ScheduleBlockProps) {
+  // delayMs staggers reveal animations; tweak threshold for earlier/later entry.
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.2 });
 
   return (

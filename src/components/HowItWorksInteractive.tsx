@@ -23,6 +23,7 @@ type HowItWorksInteractiveProps = {
 };
 
 export function HowItWorksInteractive({ steps, details }: HowItWorksInteractiveProps) {
+  // Intersection trigger to reset the section when it comes into view.
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.6 });
   const [activeStep, setActiveStep] = useState(0);
   const hasEntered = useRef(false);
@@ -33,6 +34,7 @@ export function HowItWorksInteractive({ steps, details }: HowItWorksInteractiveP
   }, [activeStep, lastStep]);
 
   useEffect(() => {
+    // Ensure the first step is active when the section enters view.
     if (inView && !hasEntered.current) {
       setActiveStep(0);
       hasEntered.current = true;
@@ -42,6 +44,7 @@ export function HowItWorksInteractive({ steps, details }: HowItWorksInteractiveP
     }
   }, [inView]);
 
+  // Connector styling: tweak duration to change line fill speed.
   const AnimatedConnector = styled(StepConnector)(({ theme }) => ({
     [`& .MuiStepConnector-line`]: {
       border: 0,
@@ -64,6 +67,7 @@ export function HowItWorksInteractive({ steps, details }: HowItWorksInteractiveP
     <Box
       ref={ref}
       sx={{
+        // Keep margins controlled by Section; avoid extra vertical padding here.
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
@@ -80,6 +84,7 @@ export function HowItWorksInteractive({ steps, details }: HowItWorksInteractiveP
           <Step key={step} completed={index < clampStep}>
             <StepButton
               onClick={() => {
+                // Users can jump to any step; update the active marker immediately.
                 setActiveStep(index);
               }}
             >

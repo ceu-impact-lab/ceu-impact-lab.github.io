@@ -19,20 +19,48 @@ export const theme = createTheme({
     fontFamily: "var(--font-manrope), system-ui, sans-serif",
     h1: {
       fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
-      fontWeight: 700,
-      letterSpacing: "-0.02em",
+      fontWeight: 800,
+      letterSpacing: "-0.03em",
     },
     h2: {
       fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
-      fontWeight: 700,
+      fontWeight: 800,
+      letterSpacing: "-0.02em",
     },
     h3: {
       fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
+      fontWeight: 700,
+      letterSpacing: "-0.01em",
+    },
+    h4: {
+      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
       fontWeight: 600,
+    },
+    h5: {
+      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
+      fontWeight: 700,
+    },
+    h6: {
+      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
+      fontWeight: 700,
+    },
+    subtitle1: {
+      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
+      fontWeight: 700,
+    },
+    subtitle2: {
+      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
+      fontWeight: 700,
     },
     button: {
       textTransform: "none",
-      fontWeight: 600,
+      fontWeight: 700,
+      letterSpacing: "0.01em",
+    },
+    overline: {
+      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
+      fontWeight: 700,
+      letterSpacing: "0.12em",
     },
   },
   shape: {

@@ -1,8 +1,11 @@
 "use client";
 
-import { AppBar, Box, Button, Container, Stack, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, Container, Drawer, IconButton, Stack, Toolbar, Typography } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
 import { siteContent } from "@/content/site";
 import { CTAButtons } from "@/components/CTAButtons";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
@@ -18,6 +21,18 @@ const navItems = [
 ];
 
 export function Layout({ children }: LayoutProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsMenuOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <AnimatedBackground />
@@ -57,19 +72,56 @@ export function Layout({ children }: LayoutProps) {
               {siteContent.eventName}
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <Stack direction="row" spacing={1}>
+            <Stack direction="row" spacing={1} sx={{ display: { xs: "none", lg: "flex" } }}>
               {navItems.map((item) => (
                 <Button key={item.href} component={Link} href={item.href} size="small">
                   {item.label}
                 </Button>
               ))}
             </Stack>
-            <Box sx={{ display: { xs: "none", md: "block" } }}>
+            <Box sx={{ display: { xs: "none", lg: "block" } }}>
               <CTAButtons size="small" />
             </Box>
+            <IconButton
+              aria-label={isMenuOpen ? "Cerrar menu" : "Abrir menu"}
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              sx={{ display: { xs: "inline-flex", lg: "none" } }}
+            >
+              {isMenuOpen ? <CloseIcon /> : <MenuIcon />}
+            </IconButton>
           </Container>
         </Toolbar>
       </AppBar>
+      <Drawer
+        anchor="top"
+        open={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+        ModalProps={{ keepMounted: true }}
+        sx={{
+          display: { xs: "block", lg: "none" },
+          "& .MuiDrawer-paper": {
+            mt: { xs: 9, sm: 10 },
+            borderRadius: 2,
+            mx: { xs: 2, sm: 3 },
+            p: 3,
+          },
+        }}
+      >
+        <Stack spacing={2}>
+          {navItems.map((item) => (
+            <Button
+              key={item.href}
+              component={Link}
+              href={item.href}
+              size="large"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {item.label}
+            </Button>
+          ))}
+          <CTAButtons direction="column" size="large" />
+        </Stack>
+      </Drawer>
       <Box component="main" sx={{ flexGrow: 1, pt: { xs: 10, md: 12 }, position: "relative", zIndex: 1 }}>
         {children}
       </Box>

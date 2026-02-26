@@ -12,8 +12,8 @@ export const siteContent = {
     companyContactUrl: "mailto:impactlab@ceu.es",
   },
   themeTokens: {
-    primary: "#0B57D0",
-    secondary: "#1B5E20",
+    primary: "#003CA3",
+    secondary: "#070850",
   },
   scheduleBlocks: [
     {

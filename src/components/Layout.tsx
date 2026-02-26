@@ -60,7 +60,7 @@ export function Layout({ children }: LayoutProps) {
           border: "1px solid",
           borderColor: "divider",
           borderRadius: 999,
-          backgroundColor: "rgba(255, 255, 255, 0.9)",
+          backgroundColor: "#92DBDC",
         }}
       >
         <Toolbar sx={{ px: { xs: 1, sm: 2, lg: 2 } }}>

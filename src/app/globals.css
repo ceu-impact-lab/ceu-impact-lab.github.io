@@ -9,7 +9,7 @@ body {
 }
 
 body {
-  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-family: var(--font-poppins), Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -38,12 +38,12 @@ a {
     left: 0;
     width: 18px;
     height: 18px;
-    border: 2px solid #0b57d0;
+    border: 2px solid #003CA3;
     border-radius: 50%;
     transform: translate3d(-100px, -100px, 0);
     pointer-events: none;
     z-index: 9999;
-    background: rgba(11, 87, 208, 0.08);
+    background: #92DBDC;
     mix-blend-mode: multiply;
   }
 }

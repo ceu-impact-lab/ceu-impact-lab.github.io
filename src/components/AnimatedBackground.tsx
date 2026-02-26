@@ -32,9 +32,9 @@ export function AnimatedBackground() {
           inset: "-10%",
           // Update rgba values to shift hue or intensity without changing layout.
           background:
-            "radial-gradient(44% 44% at 20% 18%, rgba(11, 87, 208, 0.22) 0%, rgba(11, 87, 208, 0) 60%)," +
-            "radial-gradient(38% 38% at 82% 28%, rgba(27, 94, 32, 0.18) 0%, rgba(27, 94, 32, 0) 60%)," +
-            "radial-gradient(32% 32% at 28% 82%, rgba(11, 87, 208, 0.12) 0%, rgba(11, 87, 208, 0) 70%)",
+            "radial-gradient(44% 44% at 20% 18%, #188FF1 0%, transparent 60%)," +
+            "radial-gradient(38% 38% at 82% 28%, #52A095 0%, transparent 60%)," +
+            "radial-gradient(32% 32% at 28% 82%, #755B77 0%, transparent 70%)",
           // Change duration to speed up or slow down the drift.
           animation: `${drift} 22s ease-in-out infinite`,
         },

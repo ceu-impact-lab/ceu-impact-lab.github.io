@@ -3,9 +3,9 @@
   top: 0;
   z-index: 1000;
   padding-top: env(safe-area-inset-top);
-  background: rgba(255, 255, 255, 0.9);
+  background: #92DBDC;
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #969696;
 }
 
 .bar {
@@ -22,7 +22,7 @@
 .brand {
   font-weight: 700;
   font-size: 18px;
-  color: #111111;
+  color: #070850;
   text-decoration: none;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .navLink {
-  color: #111111;
+  color: #070850;
   text-decoration: none;
   font-size: 15px;
   padding: 8px 4px;
@@ -47,15 +47,15 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  border: 1px solid #d0d0d0;
+  border: 1px solid #969696;
   border-radius: 10px;
-  background: #ffffff;
+  background: #92DBDC;
 }
 
 .hamburgerIcon {
   width: 20px;
   height: 2px;
-  background: #111111;
+  background: #070850;
   position: relative;
   display: block;
 }
@@ -67,7 +67,7 @@
   left: 0;
   width: 20px;
   height: 2px;
-  background: #111111;
+  background: #070850;
 }
 
 .hamburgerIcon::before {
@@ -81,7 +81,7 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: #070850;
   border: none;
   padding: 0;
   z-index: 900;
@@ -93,7 +93,7 @@
   top: calc(var(--nav-h) + env(safe-area-inset-top));
   height: calc(100dvh - var(--nav-h) - env(safe-area-inset-top));
   height: calc(100vh - var(--nav-h) - env(safe-area-inset-top));
-  background: #ffffff;
+  background: #92DBDC;
   transform: translateY(-10px);
   opacity: 0;
   pointer-events: none;
@@ -122,7 +122,7 @@
   min-height: 44px;
   padding: 10px 12px;
   border-radius: 10px;
-  color: #111111;
+  color: #070850;
   text-decoration: none;
   font-size: 16px;
 }
@@ -130,7 +130,7 @@
 .mobileLink:focus-visible,
 .navLink:focus-visible,
 .hamburger:focus-visible {
-  outline: 2px solid #0b57d0;
+  outline: 2px solid #003CA3;
   outline-offset: 2px;
 }
 

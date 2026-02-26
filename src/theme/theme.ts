@@ -6,61 +6,67 @@ export const theme = createTheme({
     mode: "light",
     primary: {
       main: siteContent.themeTokens.primary,
+      dark: "#070850",
+      light: "#188FF1",
     },
     secondary: {
       main: siteContent.themeTokens.secondary,
     },
     background: {
-      default: "#f8f9fb",
-      paper: "#ffffff",
+      default: "#92DBDC",
+      paper: "#92DBDC",
+    },
+    divider: "#969696",
+    text: {
+      primary: "#070850",
+      secondary: "#003CA3",
     },
   },
   typography: {
-    fontFamily: "var(--font-manrope), system-ui, sans-serif",
+    fontFamily: "var(--font-poppins), Verdana, sans-serif",
     h1: {
-      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
-      fontWeight: 800,
-      letterSpacing: "-0.03em",
-    },
-    h2: {
-      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
-      fontWeight: 800,
+      fontFamily: "var(--font-poppins), Verdana, sans-serif",
+      fontWeight: 200,
       letterSpacing: "-0.02em",
     },
-    h3: {
-      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
-      fontWeight: 700,
+    h2: {
+      fontFamily: "var(--font-poppins), Verdana, sans-serif",
+      fontWeight: 200,
       letterSpacing: "-0.01em",
     },
+    h3: {
+      fontFamily: "var(--font-poppins), Verdana, sans-serif",
+      fontWeight: 600,
+    },
     h4: {
-      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
+      fontFamily: "var(--font-poppins), Verdana, sans-serif",
       fontWeight: 600,
     },
     h5: {
-      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
-      fontWeight: 700,
+      fontFamily: "var(--font-poppins), Verdana, sans-serif",
+      fontWeight: 600,
     },
     h6: {
-      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
-      fontWeight: 700,
+      fontFamily: "var(--font-poppins), Verdana, sans-serif",
+      fontWeight: 600,
     },
     subtitle1: {
-      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
-      fontWeight: 700,
+      fontFamily: "var(--font-poppins), Verdana, sans-serif",
+      fontWeight: 600,
     },
     subtitle2: {
-      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
-      fontWeight: 700,
+      fontFamily: "var(--font-poppins), Verdana, sans-serif",
+      fontWeight: 600,
     },
     button: {
       textTransform: "none",
-      fontWeight: 700,
+      fontWeight: 600,
       letterSpacing: "0.01em",
     },
     overline: {
-      fontFamily: "var(--font-space-grotesk), system-ui, sans-serif",
-      fontWeight: 700,
-      letterSpacing: "0.12em",
+      fontFamily: "var(--font-poppins), Verdana, sans-serif",
+      fontWeight: 600,
+      letterSpacing: "0.1em",
     },
   },
   shape: {

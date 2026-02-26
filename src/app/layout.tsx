@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
-import { Manrope, Space_Grotesk } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { siteContent } from "@/content/site";
 import { ThemeRegistry } from "@/theme/ThemeRegistry";
 import { Layout } from "@/components/Layout";
 
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
+const poppins = localFont({
+  variable: "--font-poppins",
   display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  display: "swap",
+  src: [
+    { path: "../../fonts/Poppins/Poppins-ExtraLight.ttf", weight: "200", style: "normal" },
+    { path: "../../fonts/Poppins/Poppins-Regular.ttf", weight: "400", style: "normal" },
+    { path: "../../fonts/Poppins/Poppins-SemiBold.ttf", weight: "600", style: "normal" },
+    { path: "../../fonts/Poppins/Poppins-ExtraBold.ttf", weight: "800", style: "normal" },
+    { path: "../../fonts/Poppins/Poppins-Black.ttf", weight: "900", style: "normal" },
+  ],
 });
 
 export const metadata: Metadata = {
@@ -39,7 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${manrope.variable} ${spaceGrotesk.variable}`}>
+      <body className={poppins.variable}>
         <ThemeRegistry>
           <Layout>{children}</Layout>
         </ThemeRegistry>

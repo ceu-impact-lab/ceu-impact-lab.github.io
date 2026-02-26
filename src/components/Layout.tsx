@@ -27,9 +27,13 @@ export function Layout({ children }: LayoutProps) {
         elevation={0}
         sx={{
           top: { xs: 12, md: 16 },
-          left: { xs: 12, md: 24 },
-          right: { xs: 12, md: 24 },
-          width: "auto",
+          left: "50%",
+          width: {
+            xs: "calc(100% - 32px)",
+            sm: "calc(100% - 48px)",
+            lg: "1200px",
+          },
+          transform: "translateX(-50%)",
           zIndex: 2,
           backdropFilter: "blur(16px)",
           border: "1px solid",
@@ -38,8 +42,12 @@ export function Layout({ children }: LayoutProps) {
           backgroundColor: "rgba(255, 255, 255, 0.9)",
         }}
       >
-        <Toolbar>
-          <Container maxWidth="lg" sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Toolbar sx={{ px: { xs: 1, sm: 2, lg: 2 } }}>
+          <Container
+            disableGutters
+            maxWidth="lg"
+            sx={{ display: "flex", alignItems: "center", gap: { xs: 1.5, sm: 2 } }}
+          >
             <Typography
               variant="h6"
               component={Link}

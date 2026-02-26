@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { siteContent } from "@/content/site";
 import { CTAButtons } from "@/components/CTAButtons";
+import { AnimatedBackground } from "@/components/AnimatedBackground";
 
 type LayoutProps = {
   children: ReactNode;
@@ -19,6 +20,7 @@ const navItems = [
 export function Layout({ children }: LayoutProps) {
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      <AnimatedBackground />
       <AppBar
         position="fixed"
         color="transparent"
@@ -28,6 +30,7 @@ export function Layout({ children }: LayoutProps) {
           left: { xs: 12, md: 24 },
           right: { xs: 12, md: 24 },
           width: "auto",
+          zIndex: 2,
           backdropFilter: "blur(16px)",
           border: "1px solid",
           borderColor: "divider",
@@ -59,10 +62,10 @@ export function Layout({ children }: LayoutProps) {
           </Container>
         </Toolbar>
       </AppBar>
-      <Box component="main" sx={{ flexGrow: 1, pt: { xs: 10, md: 12 } }}>
+      <Box component="main" sx={{ flexGrow: 1, pt: { xs: 10, md: 12 }, position: "relative", zIndex: 1 }}>
         {children}
       </Box>
-      <Box component="footer" sx={{ py: 6, borderTop: "1px solid", borderColor: "divider" }}>
+      <Box component="footer" sx={{ py: 6, borderTop: "1px solid", borderColor: "divider", position: "relative", zIndex: 1 }}>
         <Container maxWidth="lg" sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 2, justifyContent: "space-between" }}>
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>

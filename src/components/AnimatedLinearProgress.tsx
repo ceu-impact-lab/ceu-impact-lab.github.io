@@ -16,7 +16,9 @@ export function AnimatedLinearProgress({
 	// Use IntersectionObserver to only animate once the bar is on screen.
 	const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.2 });
 	const [progress, setProgress] = useState(0);
-	const target = Math.max(0, Math.min(100, value));
+	// Visual boost for 30% bars to emphasize priority without changing data labels.
+	const boostedValue = value === 30 ? 38 : value;
+	const target = Math.max(0, Math.min(100, boostedValue));
 	// Adjust durationMs to speed up or slow down the fill animation.
 	const durationMs = 900;
 

@@ -35,7 +35,7 @@ export default function Home() {
                 {siteContent.eventName}
               </Typography>
               <Typography variant="h5" color="text.secondary">
-                Retos reales, talento emergente y MVP funcional en solo 2 dias.
+                Innovacion intensiva de 48h con equipos multidisciplinares y retos reales.
               </Typography>
               <Stack direction="row" spacing={2} flexWrap="wrap">
                 <Typography variant="subtitle1">{siteContent.dates}</Typography>
@@ -57,7 +57,7 @@ export default function Home() {
                 <Stack spacing={2}>
                   <Typography variant="h6">Lo esencial</Typography>
                   <Typography color="text.secondary">
-                    Equipos de hasta 5 personas, retos propuestos por empresas y foco en empleabilidad.
+                    Equipos asignados al azar, retos de empresas y foco en empleabilidad.
                   </Typography>
                   <Stack spacing={1}>
                     <Typography variant="body2" color="text.secondary">

@@ -16,8 +16,9 @@ export default function EmpresasPage() {
                 <CardContent>
                   <Typography variant="h6">ROI para patrocinadores</Typography>
                   <Typography color="text.secondary">
-                    Acceso directo a talento, branding universitario e ideas aplicables
-                    a negocio. Recogida de CVs y entrevistas opcionales durante el evento.
+                    Acceso directo a CVs y talento en accion, posicionamiento de marca
+                    ante futuros profesionales e innovacion aplicada a retos reales.
+                    Entrevistas o practicas opcionales durante el evento.
                   </Typography>
                 </CardContent>
               </Card>
@@ -26,16 +27,16 @@ export default function EmpresasPage() {
                   <Typography variant="h6">Formas de colaborar</Typography>
                   <Stack spacing={1}>
                     <Typography color="text.secondary">
-                      - Proponer reto real y aportar datos/contexto.
+                      - Proponer un reto real y aportar datos/contexto.
                     </Typography>
                     <Typography color="text.secondary">
-                      - Mentores y jurado especializados.
+                      - Enviar mentores y formar parte del jurado.
                     </Typography>
                     <Typography color="text.secondary">
-                      - Premios, becas o practicas.
+                      - Aportar premio tecnologico o reconocimiento.
                     </Typography>
                     <Typography color="text.secondary">
-                      - Logistica e in-kind (espacios, tecnologia, catering).
+                      - Colaboracion en especie: catering, welcome packs, materiales.
                     </Typography>
                   </Stack>
                 </CardContent>

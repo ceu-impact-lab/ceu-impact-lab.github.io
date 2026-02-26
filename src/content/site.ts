@@ -1,5 +1,5 @@
-const hardFreezeTime = "XX:XX";
-const submissionDeadlineTime = "XX:XX";
+const hardFreezeTime = "12:30";
+const submissionDeadlineTime = "12:30";
 const pitchDuration = "X/Y minutos";
 
 export const siteContent = {
@@ -19,22 +19,26 @@ export const siteContent = {
     {
       day: "Sabado",
       date: "25 Abril",
-      label: "Kickoff y definicion de equipos",
+      label: "Kickoff y build",
       items: [
-        "Bienvenida y presentacion de retos",
-        "Formacion de equipos multidisciplinares",
-        "Mentorias iniciales con empresas",
-        "Inicio del desarrollo",
+        "09:00-09:30 Recepcion de participantes y empresas",
+        "09:30-10:30 Presentacion del evento y retos",
+        "10:30-14:00 Bloque de trabajo I",
+        "14:00-15:00 Comida + networking",
+        "15:00-19:00 Bloque de trabajo II",
+        "19:00-20:00 Cierre del dia + networking",
       ],
     },
     {
       day: "Domingo",
       date: "26 Abril",
-      label: "Build + entregas",
+      label: "Pitches y cierre",
       items: [
-        "Trabajo intensivo y mentoring",
-        "Hard freeze y cierre de repositorios",
-        "Preparacion de pitch y demo",
+        "09:00-09:30 Llegada de participantes",
+        "09:30-12:30 Bloque de trabajo final",
+        "12:30 Hard freeze y cierre de entregas",
+        "13:00-14:00 Presentaciones de proyectos",
+        "14:00-15:00 Cierre en Aula Magna",
       ],
     },
     {
@@ -42,17 +46,17 @@ export const siteContent = {
       date: "28 Abril",
       label: "Awards institucionales",
       items: [
-        "Demo day y presentaciones finales",
-        "Deliberacion del jurado",
-        "Premios y cierre institucional",
+        "Acto oficial de 1h-1:30h",
+        "Premios con Vicerrectorado y empresas",
+        "Cobertura institucional CEU Media",
       ],
     },
   ],
   keyStats: [
-    { value: "50", label: "plazas iniciales (escalable)" },
-    { value: "5", label: "maximo por equipo" },
-    { value: "2", label: "dias de build" },
-    { value: "MVP", label: "entregable funcional" },
+    { value: "50", label: "participantes seleccionados" },
+    { value: "48h", label: "desarrollo intensivo" },
+    { value: "1", label: "campus" },
+    { value: "MVP", label: "prototipo funcional" },
   ],
   howItWorksSteps: [
     "Aplica y seleccion",
@@ -64,10 +68,10 @@ export const siteContent = {
     "Awards",
   ],
   rubric: [
-    { category: "Impacto y viabilidad", weight: 30 },
-    { category: "Innovacion", weight: 30 },
-    { category: "Ejecucion tecnica", weight: 25 },
-    { category: "Presentacion", weight: 15 },
+    { category: "Innovacion y valor de la idea", weight: 30 },
+    { category: "Dificultad tecnica y arquitectura", weight: 30 },
+    { category: "Adecuacion al reto y a la empresa", weight: 25 },
+    { category: "Pitch, demo y Q&A", weight: 15 },
   ],
   rulebook: {
     submissionDeadlineTime,
@@ -78,31 +82,33 @@ export const siteContent = {
         id: "elegibilidad",
         title: "Elegibilidad",
         items: [
-          { text: "Participacion por invitacion o seleccion previa." },
-          { text: "Equipos de hasta 5 personas, multidisciplinares." },
+          { text: "Participantes asignados aleatoriamente en equipos de hasta 5." },
+          { text: "Cada equipo recibe un reto asignado de una empresa patrocinadora." },
         ],
       },
       {
         id: "conflictos",
         title: "Conflicto de interes",
         items: [
-          { text: "Declarar relaciones directas con empresas patrocinadoras." },
-          { text: "El jurado podra aplicar recusacion si procede." },
+          {
+            text:
+              "Organizadores, voluntarios, jurado y mentores de empresa no pueden competir.",
+          },
         ],
       },
       {
         id: "asistencia",
         title: "Asistencia externa",
         items: [
-          { text: "No se permite asistencia externa al equipo.", highlight: true },
-          { text: "Mentores oficiales son la unica ayuda permitida." },
+          { text: "Prohibida toda asistencia externa al equipo.", highlight: true },
+          { text: "No se permiten revisiones remotas ni trabajo subcontratado." },
         ],
       },
       {
         id: "entregable",
         title: "Entregable funcional",
         items: [
-          { text: "Se requiere un prototipo funcional (MVP)." },
+          { text: "Se requiere un prototipo funcional (MVP) operativo." },
           { text: "La demo debe ser en vivo, no grabada.", highlight: true },
         ],
       },
@@ -110,8 +116,12 @@ export const siteContent = {
         id: "originalidad",
         title: "Originalidad",
         items: [
-          { text: "Trabajo desarrollado durante el evento." },
-          { text: "Se permite reutilizar piezas open source.", highlight: true },
+          { text: "El codigo principal debe escribirse durante el hackathon." },
+          {
+            text:
+              "Se permite usar frameworks, APIs y software open source como apoyo.",
+            highlight: true,
+          },
         ],
       },
       {
@@ -131,7 +141,7 @@ export const siteContent = {
             text: `Hard freeze a las ${hardFreezeTime} del domingo.`,
             highlight: true,
           },
-          { text: "No se aceptan commits posteriores." },
+          { text: "No se aceptan commits ni cambios posteriores (repos, APIs, BD)." },
         ],
       },
       {
@@ -140,7 +150,7 @@ export const siteContent = {
         items: [
           { text: "Entrega unica mediante repo publico." },
           {
-            text: `La hora limite de entrega es ${submissionDeadlineTime}.`,
+            text: `La hora limite de entrega es ${submissionDeadlineTime} del domingo.`,
           },
         ],
       },
@@ -149,7 +159,7 @@ export const siteContent = {
         title: "Pitch",
         items: [
           {
-            text: `Pitch de ${pitchDuration} incluyendo demo en vivo.`,
+            text: `Pitch de ${pitchDuration} + demo en vivo + Q&A.`,
             highlight: true,
           },
         ],
@@ -158,8 +168,8 @@ export const siteContent = {
         id: "conducta",
         title: "Codigo de conducta",
         items: [
-          { text: "Respeto, inclusion y colaboracion." },
-          { text: "Incumplimientos pueden resultar en descalificacion." },
+          { text: "Respeto absoluto a participantes, mentores y staff." },
+          { text: "Plagio, sabotaje o toxicidad conlleva descalificacion." },
         ],
       },
     ],
@@ -168,17 +178,17 @@ export const siteContent = {
     {
       question: "Quien puede participar?",
       answer:
-        "Estudiantes seleccionados de perfiles tecnicos y de negocio, con cupos iniciales de 50 plazas.",
+        "Estudiantes seleccionados de perfiles tecnicos y de negocio, con cupo inicial de 50 plazas.",
     },
     {
       question: "Necesito equipo previo?",
       answer:
-        "No. Facilitamos dinamicas para formar equipos balanceados el primer dia.",
+        "No. Los equipos se asignan aleatoriamente en el kickoff.",
     },
     {
       question: "Puedo reutilizar codigo open source?",
       answer:
-        "Si, siempre que se declare y se mantenga el repositorio publico con licencia MIT.",
+        "Si, siempre que el repositorio sea publico y con licencia MIT.",
     },
     {
       question: "Habra mentoring?",

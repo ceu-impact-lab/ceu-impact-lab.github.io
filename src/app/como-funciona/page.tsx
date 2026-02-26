@@ -31,9 +31,9 @@ export default function ComoFuncionaPage() {
             <Grid size={{ xs: 12, md: 4 }}>
               <Card variant="outlined">
                 <CardContent>
-                  <Typography variant="h6">Equipos mixtos</Typography>
+                  <Typography variant="h6">Equipos asignados</Typography>
                   <Typography color="text.secondary">
-                    Ingenieria, datos, economia y marketing trabajando juntos.
+                    Equipos aleatorios de hasta 5 personas, con perfiles tecnicos y de negocio.
                   </Typography>
                 </CardContent>
               </Card>
@@ -41,9 +41,9 @@ export default function ComoFuncionaPage() {
             <Grid size={{ xs: 12, md: 4 }}>
               <Card variant="outlined">
                 <CardContent>
-                  <Typography variant="h6">Mentoria activa</Typography>
+                  <Typography variant="h6">Mentoria y jurado</Typography>
                   <Typography color="text.secondary">
-                    Acompanamiento de expertos para acelerar el MVP.
+                    Mentores de empresa y jurado para evaluar prototipos funcionales.
                   </Typography>
                 </CardContent>
               </Card>

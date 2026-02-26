@@ -1,0 +1,33 @@
+"use client";
+
+import { Box, Button, Card, CardContent, Stack, TextField, Typography } from "@mui/material";
+import { Section } from "@/components/Section";
+
+export default function ContactoPage() {
+  return (
+    <Box>
+      <Section title="Contacto" subtitle="Hablemos">
+        <Stack spacing={3}>
+          <Typography color="text.secondary">
+            Escribenos para dudas generales, colaboraciones o prensa.
+          </Typography>
+          <Card variant="outlined">
+            <CardContent>
+              <Stack spacing={2}>
+                <TextField label="Nombre" fullWidth />
+                <TextField label="Email" type="email" fullWidth />
+                <TextField label="Mensaje" fullWidth multiline minRows={4} />
+                <Button variant="contained" size="large">
+                  Enviar mensaje
+                </Button>
+              </Stack>
+            </CardContent>
+          </Card>
+          <Typography variant="body2" color="text.secondary">
+            Email: impacto@ceu.es (placeholder)
+          </Typography>
+        </Stack>
+      </Section>
+    </Box>
+  );
+}

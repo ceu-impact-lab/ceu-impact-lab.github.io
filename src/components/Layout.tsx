@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { siteContent } from "@/content/site";
 import { CTAButtons } from "@/components/CTAButtons";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
+import { CursorDot } from "@/components/CursorDot";
 
 type LayoutProps = {
   children: ReactNode;
@@ -36,6 +37,7 @@ export function Layout({ children }: LayoutProps) {
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <AnimatedBackground />
+      <CursorDot />
       <AppBar
         position="fixed"
         color="transparent"

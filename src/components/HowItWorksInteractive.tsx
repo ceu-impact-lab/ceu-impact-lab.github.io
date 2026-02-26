@@ -1,6 +1,19 @@
 "use client";
 
-import { Box, Card, CardContent, Fade, Stack, Step, StepButton, StepLabel, Stepper, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Fade,
+  Stack,
+  Step,
+  StepButton,
+  StepConnector,
+  StepLabel,
+  Stepper,
+  Typography,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "@/components/useInView";
 
@@ -29,6 +42,24 @@ export function HowItWorksInteractive({ steps, details }: HowItWorksInteractiveP
     }
   }, [inView]);
 
+  const AnimatedConnector = styled(StepConnector)(({ theme }) => ({
+    [`& .MuiStepConnector-line`]: {
+      border: 0,
+      height: 2,
+      borderRadius: 2,
+      backgroundColor: theme.palette.divider,
+      backgroundImage: `linear-gradient(${theme.palette.primary.main}, ${theme.palette.primary.main})`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "left center",
+      backgroundSize: "0% 100%",
+      transition: "background-size 900ms ease, background-color 900ms ease",
+    },
+    [`&.Mui-active .MuiStepConnector-line, &.Mui-completed .MuiStepConnector-line`]: {
+      backgroundColor: theme.palette.primary.main,
+      backgroundSize: "100% 100%",
+    },
+  }));
+
   return (
     <Box
       ref={ref}
@@ -42,10 +73,11 @@ export function HowItWorksInteractive({ steps, details }: HowItWorksInteractiveP
         alternativeLabel
         nonLinear
         activeStep={clampStep}
+        connector={<AnimatedConnector />}
         sx={{ flexWrap: "wrap" }}
       >
         {steps.map((step, index) => (
-          <Step key={step}>
+          <Step key={step} completed={index < clampStep}>
             <StepButton
               onClick={() => {
                 setActiveStep(index);

@@ -67,6 +67,15 @@ export const siteContent = {
     "Pitch + demo",
     "Awards",
   ],
+  howItWorksDetails: [
+    "Inscripcion y seleccion de perfiles tecnicos y de negocio. Cupo inicial de 50 plazas.",
+    "Equipos asignados aleatoriamente de hasta 5 personas con perfiles mixtos.",
+    "Las empresas presentan sus retos reales y cada equipo recibe uno asignado.",
+    "48 horas de trabajo intensivo con mentoring y soporte del jurado.",
+    "Cierre absoluto de entregas a las 12:30 del domingo. No se aceptan cambios.",
+    "Presentacion en vivo con demo funcional y espacio para preguntas del jurado.",
+    "Acto institucional de premios con empresas y Vicerrectorado el martes.",
+  ],
   rubric: [
     { category: "Innovacion y valor de la idea", weight: 30 },
     { category: "Dificultad tecnica y arquitectura", weight: 30 },

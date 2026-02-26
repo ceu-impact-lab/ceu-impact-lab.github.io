@@ -7,9 +7,6 @@ import {
   CardContent,
   Grid,
   Stack,
-  Step,
-  StepLabel,
-  Stepper,
   Typography,
 } from "@mui/material";
 import Link from "next/link";
@@ -17,6 +14,7 @@ import { Section } from "@/components/Section";
 import { CTAButtons } from "@/components/CTAButtons";
 import { ScheduleBlock } from "@/components/ScheduleBlock";
 import { AnimatedLinearProgress } from "@/components/AnimatedLinearProgress";
+import { HowItWorksInteractive } from "@/components/HowItWorksInteractive";
 import { siteContent } from "@/content/site";
 
 export default function Home() {
@@ -90,13 +88,10 @@ export default function Home() {
       </Section>
 
       <Section title="Como funciona" subtitle="Proceso" id="como-funciona">
-        <Stepper alternativeLabel sx={{ flexWrap: "wrap" }}>
-          {siteContent.howItWorksSteps.map((step) => (
-            <Step key={step}>
-              <StepLabel>{step}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+        <HowItWorksInteractive
+          steps={siteContent.howItWorksSteps}
+          details={siteContent.howItWorksDetails}
+        />
       </Section>
 
       <Section title="Agenda" subtitle="Preview" id="agenda">

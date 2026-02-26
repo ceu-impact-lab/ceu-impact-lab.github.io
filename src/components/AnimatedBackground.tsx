@@ -25,7 +25,7 @@ export function AnimatedBackground() {
         inset: 0,
         zIndex: 0,
         pointerEvents: "none",
-        opacity: 0.9,
+        opacity: 0.45,
         "&::before": {
           content: '""',
           position: "absolute",

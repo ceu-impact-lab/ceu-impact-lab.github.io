@@ -69,6 +69,16 @@ export const theme = createTheme({
       letterSpacing: "0.1em",
     },
   },
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "rgba(218, 218, 218, 0.35)",
+          backdropFilter: "blur(16px)",
+        },
+      },
+    },
+  },
   shape: {
     borderRadius: 16,
   },

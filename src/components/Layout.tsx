@@ -69,6 +69,11 @@ export function Layout({ children }: LayoutProps) {
               variant="h6"
               component={Link}
               href="/"
+              onClick={() => {
+                if (typeof window !== "undefined" && window.location.pathname === "/") {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
               sx={{ fontWeight: 700, color: "text.primary" }}
             >
               {siteContent.eventName}

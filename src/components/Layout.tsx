@@ -3,6 +3,7 @@
 import { AppBar, Box, Button, Container, Drawer, IconButton, Stack, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
@@ -10,6 +11,8 @@ import { siteContent } from "@/content/site";
 import { CTAButtons } from "@/components/CTAButtons";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
 import { CursorDot } from "@/components/CursorDot";
+import logo from "../../img/CEU_Impact_Lab-Logo.png";
+import logoMarginless from "../../img/CEU_Impact_Lab-Logo-Marginless.png";
 
 type LayoutProps = {
   children: ReactNode;
@@ -69,8 +72,7 @@ export function Layout({ children }: LayoutProps) {
             maxWidth="lg"
             sx={{ display: "flex", alignItems: "center", gap: { xs: 1.5, sm: 2 } }}
           >
-            <Typography
-              variant="h6"
+            <Box
               component={Link}
               href="/"
               onClick={() => {
@@ -78,10 +80,32 @@ export function Layout({ children }: LayoutProps) {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }
               }}
-              sx={{ fontWeight: 700, color: "text.primary" }}
+              sx={{ display: "inline-flex", alignItems: "center", gap: 1, textDecoration: "none" }}
             >
-              {siteContent.eventName}
-            </Typography>
+              <Image
+                src={logo}
+                alt="CEU Impact Lab"
+                width={220}
+                height={44}
+                style={{ width: "auto", height: 32 }}
+                priority
+              />
+              <Box
+                component="span"
+                sx={{
+                  position: "absolute",
+                  width: 1,
+                  height: 1,
+                  padding: 0,
+                  margin: -1,
+                  overflow: "hidden",
+                  clip: "rect(0, 0, 0, 0)",
+                  border: 0,
+                }}
+              >
+                {siteContent.eventName}
+              </Box>
+            </Box>
             <Box sx={{ flexGrow: 1 }} />
             <Stack direction="row" spacing={1} sx={{ display: { xs: "none", lg: "flex" } }}>
               {/* Desktop-only primary links. */}
@@ -141,10 +165,31 @@ export function Layout({ children }: LayoutProps) {
       </Box>
       <Box component="footer" sx={{ py: 6, borderTop: "1px solid", borderColor: "divider", position: "relative", zIndex: 1 }}>
         <Container maxWidth="lg" sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 2, justifyContent: "space-between" }}>
-          <Box>
-            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-              {siteContent.eventName}
-            </Typography>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+            <Box component={Link} href="/" sx={{ display: "inline-flex", alignItems: "center" }}>
+              <Image
+                src={logoMarginless}
+                alt="CEU Impact Lab"
+                width={220}
+                height={44}
+                style={{ width: "auto", height: 28 }}
+              />
+              <Box
+                component="span"
+                sx={{
+                  position: "absolute",
+                  width: 1,
+                  height: 1,
+                  padding: 0,
+                  margin: -1,
+                  overflow: "hidden",
+                  clip: "rect(0, 0, 0, 0)",
+                  border: 0,
+                }}
+              >
+                {siteContent.eventName}
+              </Box>
+            </Box>
             <Typography variant="body2" color="text.secondary">
               {siteContent.location}
             </Typography>

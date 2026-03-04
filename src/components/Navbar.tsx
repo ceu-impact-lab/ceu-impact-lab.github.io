@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "@/components/Navbar.module.css";
 import { useLockBodyScroll } from "@/components/useLockBodyScroll";
 import { useFocusTrap } from "@/components/useFocusTrap";
+import logo from "../../img/CEU_Impact_Lab-Logo.png";
 
 const links = [
   { label: "Home", href: "/" },
@@ -58,7 +60,13 @@ export function Navbar() {
     <header className={styles.header}>
       <div className={styles.bar}>
         <Link className={styles.brand} href="/">
-          Brand
+          <Image
+            src={logo}
+            alt="CEU Impact Lab"
+            className={styles.brandLogo}
+            priority
+          />
+          <span className={styles.srOnly}>CEU Impact Lab</span>
         </Link>
         <nav className={styles.desktopNav} aria-label="Main navigation">
           {links.map((link) => (

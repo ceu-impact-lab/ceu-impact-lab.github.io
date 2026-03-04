@@ -56,7 +56,7 @@ main .MuiButton-outlined {
     pointer-events: none;
     z-index: 9999;
     background: rgba(218, 218, 218, 0.35);
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(1px);
     mix-blend-mode: multiply;
   }
 }

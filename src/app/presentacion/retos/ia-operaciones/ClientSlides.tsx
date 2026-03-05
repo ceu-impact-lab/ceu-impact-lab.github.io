@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import type { ReactNode } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { siteContent } from "@/content/site";
 import styles from "./slides.module.css";
 import logo from "../../../../../img/CEU_Impact_Lab-Logo-Marginless.png";
@@ -22,11 +22,12 @@ function SlideFrame({ children }: SlideFrameProps) {
 export function ClientSlides() {
   const totalSlides = 12;
   const [activeSlide, setActiveSlide] = useState(0);
-  const [isPrinting, setIsPrinting] = useState(false);
   const visibleDotCount = 3;
   const rafRef = useRef<number | null>(null);
   const [scale, setScale] = useState(1);
   const stageRef = useRef<HTMLElement | null>(null);
+  const canvasRef = useRef<HTMLDivElement | null>(null);
+  const trackRef = useRef<HTMLDivElement | null>(null);
 
   const visibleDots = (() => {
     if (totalSlides <= visibleDotCount) {
@@ -103,34 +104,75 @@ export function ClientSlides() {
     };
   }, []);
 
-  useEffect(() => {
-    const before = () => setIsPrinting(true);
-    const after  = () => setIsPrinting(false);
-    window.addEventListener("beforeprint", before);
-    window.addEventListener("afterprint",  after);
-    return () => {
-      window.removeEventListener("beforeprint", before);
-      window.removeEventListener("afterprint",  after);
-    };
+  /**
+   * preparePrint — fuerza el estado de impresión directamente en el DOM
+   * antes de que el navegador capture la página para PDF/impresora.
+   * Es síncrono y no depende del ciclo de render de React.
+   */
+  const preparePrint = useCallback(() => {
+    // Quita el transform scale del canvas (el !important de @media print
+    // ya lo hace en CSS, pero esto actúa como red de seguridad síncrona)
+    if (canvasRef.current) {
+      canvasRef.current.style.setProperty("transform", "none");
+      canvasRef.current.style.setProperty("overflow", "visible");
+    }
+    // Apila todas las slides verticalmente eliminando el translateX
+    if (trackRef.current) {
+      trackRef.current.style.setProperty("transform", "none");
+      trackRef.current.style.setProperty("display", "block");
+      trackRef.current.style.setProperty("height", "auto");
+      trackRef.current.style.setProperty("overflow", "visible");
+    }
+    // Libera el stage de position:fixed para que el navegador pagine el flujo
+    if (stageRef.current) {
+      stageRef.current.style.setProperty("position", "static");
+      stageRef.current.style.setProperty("overflow", "visible");
+      stageRef.current.style.setProperty("width", "1920px");
+      stageRef.current.style.setProperty("height", "auto");
+    }
   }, []);
+
+  /**
+   * restoreAfterPrint — devuelve el DOM al estado interactivo normal.
+   * Al eliminar las propiedades inline, React re-aplica sus estilos en el
+   * siguiente render (p. ej. transform: scale(n) en el canvas).
+   */
+  const restoreAfterPrint = useCallback(() => {
+    if (canvasRef.current) {
+      canvasRef.current.style.removeProperty("transform");
+      canvasRef.current.style.removeProperty("overflow");
+    }
+    if (trackRef.current) {
+      trackRef.current.style.removeProperty("transform");
+      trackRef.current.style.removeProperty("display");
+      trackRef.current.style.removeProperty("height");
+      trackRef.current.style.removeProperty("overflow");
+    }
+    if (stageRef.current) {
+      stageRef.current.style.removeProperty("position");
+      stageRef.current.style.removeProperty("overflow");
+      stageRef.current.style.removeProperty("width");
+      stageRef.current.style.removeProperty("height");
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("beforeprint", preparePrint);
+    window.addEventListener("afterprint",  restoreAfterPrint);
+    return () => {
+      window.removeEventListener("beforeprint", preparePrint);
+      window.removeEventListener("afterprint",  restoreAfterPrint);
+    };
+  }, [preparePrint, restoreAfterPrint]);
 
   return (
     <main className={styles.stage} ref={stageRef}>
-        <button
-          type="button"
-          className={styles.pdfBtn}
-          onClick={() => window.print()}
-        >
-          Descargar PDF
-        </button>
-        <div className={styles.deckCanvas} style={{ transform: `scale(${scale})` }}>
+        <div className={styles.deckCanvas} ref={canvasRef} style={{ transform: `scale(${scale})` }}>
           {/* Add new slides as <section className={styles.slide}> inside this track. */}
           <div
             className={styles.track}
-            style={{
-              transform: isPrinting ? "none" : `translateX(-${activeSlide * 100}%)`,
-              flexDirection: isPrinting ? "column" : undefined,
-            }}
+            ref={trackRef}
+            style={{ transform: `translateX(-${activeSlide * 100}%)` }}
           >
           <section className={styles.slide} aria-label="Diapositiva 1: Portada">
             <SlideFrame>
@@ -921,6 +963,14 @@ export function ClientSlides() {
               <span className={styles.controlArrow} aria-hidden="true">
                 &gt;
               </span>
+            </button>
+            <button
+              type="button"
+              className={styles.pdfBtn}
+              onClick={() => { preparePrint(); window.print(); }}
+              aria-label="Descargar presentación como PDF"
+            >
+              PDF
             </button>
           </div>
         </div>

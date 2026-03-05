@@ -919,73 +919,94 @@
   letter-spacing: 0.05em;
 }
 
-/* ── PDF download button ──────────────────────────────────── */
+/* ── PDF download button — inline chip inside .controls ── */
 .pdfBtn {
-  position: absolute;
-  top: 20px;
-  right: 80px;
-  z-index: 20;
-  padding: 8px 18px;
+  padding: 5px 13px;
   border-radius: var(--s-r-chip);
   border: 1px solid var(--s-primary-border);
   background: var(--s-glass);
   backdrop-filter: var(--s-blur);
   color: var(--s-primary);
   font-family: var(--font-poppins), Verdana, sans-serif;
-  font-size: var(--ppt-fine);
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease;
+  opacity: 0.7;
+  transition: opacity 160ms ease, background 160ms ease, border-color 160ms ease;
   white-space: nowrap;
+  line-height: 1;
 }
 .pdfBtn:hover {
+  opacity: 1;
   background: var(--s-primary-tint);
   border-color: var(--s-primary);
 }
 
-/* ── Print / PDF export ──────────────────────────────────── */
+/* ── Print / PDF export ──────────────────────────────────────────── */
+/*
+ * Las slides están en el DOM con clase .slide y normalmente sólo una
+ * está visible (el track usa translateX). Para imprimir hay que mostrar
+ * todas temporalmente — lo hacen las reglas @media print de abajo junto
+ * con la lógica imperativa preparePrint() / restoreAfterPrint() del TSX.
+ */
 @media print {
-  /* Hide all interactive UI */
+  /* 1. Ocultar UI de navegación */
   .controls,
   .pdfBtn {
     display: none !important;
   }
 
-  /* Unfix the stage so the page can flow */
+  /* 2. Liberar el stage del position:fixed (era el culpable principal
+        de las páginas en blanco: el navegador sólo imprimía el primer
+        «frame» fijo y rellenaba el resto con blanco). */
   .stage {
     position: static !important;
     inset: auto !important;
     overflow: visible !important;
-    width: auto !important;
+    width: 1920px !important;
     height: auto !important;
     display: block !important;
     background: transparent !important;
   }
 
-  /* Scale down 1920px canvas to fit A4 landscape (~1056px visual width).    */
-  /* !important overrides the inline style={{ transform: scale(n) }} from JS. */
+  /* 3. Quitar la transformación de escala del canvas (el inline style
+        scale(n) queda anulado por !important) y liberar el overflow:hidden
+        que impedía ver las slides fuera del viewport. */
   .deckCanvas {
-    transform: scale(0.55) !important;
-    transform-origin: top left !important;
+    transform: none !important;
+    width: 1920px !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* 4. El track pasa a flujo de bloque: todas las slides apiladas.
+        La JS de preparePrint() también fuerza esto por si los estilos
+        inline de React no se han aplicado todavía cuando dispara beforeprint. */
+  .track {
+    display: block !important;
+    transform: none !important;
+    width: 1920px !important;
+    height: auto !important;
+    transition: none !important;
+    overflow: visible !important;
+  }
+
+  /* 5. Cada slide es una página apaisada exacta */
+  .slide {
+    display: block !important;
     width: 1920px !important;
     height: 1080px !important;
-  }
-
-  /* Track: stack slides vertically (React clears translateX via isPrinting). */
-  .track {
-    transition: none !important;
-  }
-
-  /* Each slide = one landscape print page */
-  .slide {
-    flex: 0 0 1080px !important;
+    flex: none !important;
+    overflow: hidden !important;
     page-break-after: always !important;
     break-after: page !important;
     page-break-inside: avoid !important;
   }
 }
 
+/* @page exactamente del tamaño del canvas: sin escalado, sin márgenes.
+   Cada slide encaja perfectamente en una página apaisada. */
 @page {
-  size: A4 landscape;
+  size: 1920px 1080px;
   margin: 0;
 }

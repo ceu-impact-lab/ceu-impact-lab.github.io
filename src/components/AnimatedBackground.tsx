@@ -8,10 +8,34 @@ const drift = keyframes`
     transform: translate3d(-6%, -4%, 0) scale(1);
   }
   50% {
-    transform: translate3d(4%, 6%, 0) scale(1.04);
+    transform: translate3d(5%, 8%, 0) scale(1.08);
   }
   100% {
     transform: translate3d(-6%, -4%, 0) scale(1);
+  }
+`;
+
+const pulse = keyframes`
+  0% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1.05;
+  }
+  100% {
+    opacity: 0.75;
+  }
+`;
+
+const orbit = keyframes`
+  0% {
+    background-position: 5% 10%, 85% 20%, 20% 90%;
+  }
+  50% {
+    background-position: 25% 30%, 65% 10%, 45% 70%;
+  }
+  100% {
+    background-position: 5% 10%, 85% 20%, 20% 90%;
   }
 `;
 
@@ -35,8 +59,9 @@ export function AnimatedBackground() {
             "radial-gradient(44% 44% at 20% 18%, #188FF1 0%, transparent 60%)," +
             "radial-gradient(38% 38% at 82% 28%, #52A095 0%, transparent 60%)," +
             "radial-gradient(32% 32% at 28% 82%, #755B77 0%, transparent 70%)",
+          backgroundSize: "190% 190%",
           // Change duration to speed up or slow down the drift.
-          animation: `${drift} 22s ease-in-out infinite`,
+          animation: `${drift} 18s ease-in-out infinite, ${pulse} 9s ease-in-out infinite, ${orbit} 18s ease-in-out infinite`,
         },
         "@media (prefers-reduced-motion: reduce)": {
           "&::before": {

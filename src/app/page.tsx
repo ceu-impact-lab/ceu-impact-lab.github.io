@@ -14,9 +14,10 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import MuiLink from "@mui/material/Link";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Section } from "@/components/ui/Section";
 import { CTAButtons } from "@/components/ui/CTAButtons";
 import { ScheduleBlock } from "@/components/ui/ScheduleBlock";
@@ -35,6 +36,40 @@ export default function Home() {
       transform: "translateY(-4px)",
       boxShadow: 4,
     },
+  };
+  const renderFaqAnswer = (answer: string): ReactNode[] => {
+    const nodes: ReactNode[] = [];
+    const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    let lastIndex = 0;
+    let match: RegExpExecArray | null;
+
+    while ((match = regex.exec(answer)) !== null) {
+      const [full, text, href] = match;
+      const start = match.index;
+      if (start > lastIndex) {
+        nodes.push(answer.slice(lastIndex, start));
+      }
+      const isExternal = /^https?:\/\//i.test(href);
+      nodes.push(
+        <MuiLink
+          key={`${href}-${start}`}
+          href={href}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noreferrer" : undefined}
+          color="inherit"
+          underline="always"
+        >
+          {text}
+        </MuiLink>
+      );
+      lastIndex = start + full.length;
+    }
+
+    if (lastIndex < answer.length) {
+      nodes.push(answer.slice(lastIndex));
+    }
+
+    return nodes;
   };
 
   return (
@@ -263,11 +298,25 @@ export default function Home() {
             <Card key={item.question} variant="outlined" sx={hoverCardSx}>
               <CardContent>
                 <Typography variant="subtitle1">{item.question}</Typography>
-                <Typography color="text.secondary">{item.answer}</Typography>
+                <Typography color="text.secondary" component="span">
+                  {renderFaqAnswer(item.answer)}
+                </Typography>
               </CardContent>
             </Card>
           ))}
-          <Button component={Link} href="/faq" variant="contained">
+          <Button
+            component={Link}
+            href="/faq"
+            variant="outlined"
+            sx={{
+              boxShadow: "none",
+              borderColor: "divider",
+              color: "text.primary",
+              "&:hover": {
+                borderColor: "divider",
+              },
+            }}
+          >
             Ver todas las preguntas
           </Button>
         </Stack>

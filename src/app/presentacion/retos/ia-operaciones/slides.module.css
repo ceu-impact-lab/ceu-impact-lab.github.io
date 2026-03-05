@@ -1,28 +1,39 @@
+/* ── Design tokens (mirrors MUI theme — no new palette) ──────────── */
 :root {
-  --slide-ink: #070850;
-  --slide-accent: #003ca3;
-  --slide-soft: #f5f7fb;
+  /* --- MUI palette.background.default */
+  --s-bg:             #92DBDC;
+  /* --- MUI text.primary */
+  --s-ink:            #070850;
+  /* --- MUI primary.main / text.secondary */
+  --s-primary:        #003CA3;
+  /* --- MUI primary.dark */
+  --s-primary-dark:   #070850;
+  /* --- MUI primary.light */
+  --s-primary-light:  #188FF1;
+  /* --- AnimatedBackground radial hue 2 */
+  --s-teal-mid:       #52A095;
+  /* --- AnimatedBackground radial hue 3 */
+  --s-purple:         #755B77;
+  /* --- MUI divider */
+  --s-divider:        #969696;
+  /* --- MUI Paper background */
+  --s-glass:          rgba(218, 218, 218, 0.35);
+  /* --- MUI paper backdropFilter */
+  --s-blur:           blur(16px);
+  /* --- MUI shape.borderRadius */
+  --s-r:              16px;
+  --s-r-chip:         8px;
+  /* --- Derived alpha helpers */
+  --s-ink-muted:      rgba(7, 8, 80, 0.58);
+  --s-ink-dim:        rgba(7, 8, 80, 0.38);
+  --s-ink-faint:      rgba(7, 8, 80, 0.1);
+  --s-primary-tint:   rgba(0, 60, 163, 0.09);
+  --s-primary-border: rgba(0, 60, 163, 0.24);
 }
 
-.stage {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background: #000000;
-  color: var(--slide-ink);
-  /* Center the canvas in the viewport using flexbox — no math, no offset */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+/* first .stage definition removed (was duplicate from edit conflict) */
 
-.stage,
-.stage * {
-  cursor: auto !important;
-}
-
+/* ── Global reset (slide-only scope) ────────────────────────────── */
 :global(html) {
   height: 100%;
   width: 100%;
@@ -41,205 +52,339 @@
   display: none !important;
 }
 
+/* ── Stage & canvas ──────────────────────────────────────────────── */
+.stage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  /* Site teal: MUI background.default */
+  background: var(--s-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stage,
+.stage * {
+  cursor: auto !important;
+  box-sizing: border-box;
+}
+
 /* .deckWrapper removed — scale is applied directly on .deckCanvas via inline style */
 
 .deckCanvas {
   width: 1920px;
   height: 1080px;
-  /* flex-shrink: 0 prevents the parent flex container from collapsing the canvas */
   flex-shrink: 0;
-  /* Scale is applied via inline style; transform-origin center keeps it centered after scaling */
   transform-origin: center center;
   will-change: transform;
   position: relative;
   overflow: hidden;
+  /* Mirrors AnimatedBackground: same 3 radials at ~40% opacity over site teal base */
   background:
-    radial-gradient(60% 55% at 18% 22%, rgba(24, 143, 241, 0.22), transparent 78%),
-    radial-gradient(58% 52% at 78% 28%, rgba(82, 160, 149, 0.2), transparent 78%),
-    radial-gradient(48% 44% at 36% 82%, rgba(117, 91, 119, 0.16), transparent 80%),
-    linear-gradient(180deg, #f2f6fc 0%, #ffffff 56%, #edf3fb 100%);
-  border: 1px solid rgba(7, 8, 80, 0.16);
+    radial-gradient(44% 44% at 20% 18%, rgba(24, 143, 241, 0.40) 0%, transparent 60%),
+    radial-gradient(38% 38% at 82% 28%, rgba(82, 160, 149, 0.40) 0%, transparent 60%),
+    radial-gradient(32% 32% at 28% 82%, rgba(117, 91, 119, 0.35) 0%, transparent 70%),
+    var(--s-bg);
+  /* Site font: var(--font-poppins) registered in root layout.tsx */
+  font-family: var(--font-poppins), Verdana, sans-serif;
+  color: var(--s-ink);
+  border: 1px solid var(--s-divider);
 }
+
+/* Grid texture removed: site does not use a background grid */
 
 .track {
   width: 100%;
   height: 100%;
   display: flex;
-  transition: transform 420ms ease;
+  transition: transform 420ms cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
+  position: relative;
+  z-index: 1;
 }
 
 .controls {
   position: absolute;
   left: 50%;
-  bottom: 32px;
+  bottom: 28px;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 12px;
-  z-index: 3;
+  gap: 14px;
+  z-index: 10;
 }
 
 .controlButton {
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(0, 0, 0, 0.6);
-  color: #ffffff;
+  /* Site button style: frosted glass matching MUI AppBar / Paper */
+  border: 1px solid var(--s-divider);
+  background: var(--s-glass);
+  backdrop-filter: var(--s-blur);
+  color: var(--s-ink);
   display: grid;
   place-items: center;
-  cursor: pointer;
-  transition: opacity 150ms ease, transform 150ms ease, border-color 150ms ease;
+  cursor: pointer !important;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
 }
 
 .controlButton:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
+  opacity: 0.3;
+  cursor: not-allowed !important;
 }
 
 .controlButton:not(:disabled):hover {
-  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(218, 218, 218, 0.6);
+  border-color: var(--s-primary);
   transform: translateY(-1px);
 }
 
 .controlArrow {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .dotRow {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(0, 0, 0, 0.5);
+  /* Site card/glass style */
+  border: 1px solid var(--s-divider);
+  background: var(--s-glass);
+  backdrop-filter: var(--s-blur);
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--s-divider);
   background: transparent;
-  transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
 }
 
 .dotActive {
-  background: #ffffff;
-  border-color: #ffffff;
-  transform: scale(1.05);
+  background: var(--s-primary);
+  border-color: var(--s-primary);
+  transform: scale(1.3);
+  box-shadow: 0 0 6px rgba(0, 60, 163, 0.4);
 }
 
+/* ── Slide shell ─────────────────────────────────────────────────── */
 .slide {
   flex: 0 0 100%;
   height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 64px;
+  align-items: stretch;
+  justify-content: stretch;
   position: relative;
 }
 
 .slideFrame {
   width: 100%;
   height: 100%;
-  border-radius: 0;
-  padding: 56px;
+  padding: 64px 80px 72px;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  gap: 24px;
+  gap: 28px;
   position: relative;
-  overflow: hidden;
-  box-shadow: none;
 }
 
+/* ── Corner logo ─────────────────────────────────────────────────── */
+.cornerLogo {
+  position: absolute;
+  right: 24px;
+  bottom: 22px;
+  height: 20px;
+  width: auto;
+  /* Light bg: logo rendered at native color, just faded */
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ── Slide header ────────────────────────────────────────────────── */
 .slideHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  z-index: 1;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--s-divider);
 }
 
 .slideMeta {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 14px;
+  gap: 14px;
+  font-size: 15px;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: rgba(7, 8, 80, 0.65);
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  color: var(--s-ink-muted);
 }
 
 .slideNumber {
-  font-weight: 700;
-  color: var(--slide-accent);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--s-primary);
+  background: var(--s-primary-tint);
+  border: 1px solid var(--s-primary-border);
+  padding: 4px 10px;
+  border-radius: 4px;
 }
 
 .logo {
-  height: 34px;
+  height: 32px;
   width: auto;
+  /* Light bg — native logo colors */
 }
 
-.cornerLogo {
-  position: absolute;
-  right: 20px;
-  bottom: 18px;
-  height: 18px;
-  width: auto;
-  opacity: 0.5;
-  pointer-events: none;
-}
-
+/* ── Typography scale ────────────────────────────────────────────── */
 .slideTitle {
-  font-size: 64px;
-  font-weight: 700;
-  line-height: 1.1;
+  font-size: 68px;
+  /* MUI h1/h2: fontWeight 200 ExtraLight */
+  font-weight: 200;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--s-ink);
+  margin: 0;
 }
 
 .slideSubtitle {
-  font-size: 34px;
-  color: rgba(7, 8, 80, 0.8);
-  margin-top: 8px;
-}
-
-.slideBody {
-  display: grid;
-  gap: 16px;
-  z-index: 1;
-  overflow: hidden;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--s-ink-muted);
+  margin: 12px 0 0;
 }
 
 .lead {
-  font-size: 24px;
+  font-size: 22px;
   line-height: 1.5;
-  color: rgba(7, 8, 80, 0.85);
+  color: var(--s-ink-muted);
+}
+
+/* ── Slide body & layout ─────────────────────────────────────────── */
+.slideBody {
+  display: grid;
+  gap: 20px;
+  align-content: start;
+  overflow: hidden;
 }
 
 .columns {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
 }
 
-.card {
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(7, 8, 80, 0.1);
-  border-radius: 10px;
-  padding: 20px;
+.col2 {
   display: grid;
-  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
 }
 
+.col3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* ── Cards ───────────────────────────────────────────────────────── */
+.card {
+  /* MUI Paper: frosted glass */
+  background: var(--s-glass);
+  border: 1px solid var(--s-divider);
+  border-radius: var(--s-r);
+  padding: 24px 28px;
+  display: grid;
+  gap: 14px;
+  backdrop-filter: var(--s-blur);
+}
+
+.card strong {
+  font-size: 19px;
+  /* MUI subtitle/h3: fontWeight 600 */
+  font-weight: 600;
+  color: var(--s-ink);
+  letter-spacing: -0.01em;
+}
+
+.card p,
+.card span {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--s-ink-muted);
+}
+
+/* Top-border accent variants using only site palette */
+.cardAccent { border-top: 2px solid var(--s-primary); }
+.cardCyan   { border-top: 2px solid var(--s-teal-mid); }
+.cardAmber  { border-top: 2px solid var(--s-primary-light); }
+.cardRed    { border-top: 2px solid var(--s-purple); }
+.cardGreen  { border-top: 2px solid var(--s-primary-dark); }
+
+/* ── List ────────────────────────────────────────────────────────── */
 .list {
   display: grid;
   gap: 10px;
-  padding-left: 24px;
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--s-ink-muted);
 }
 
+.list li {
+  padding-left: 22px;
+  position: relative;
+}
+
+.list li::before {
+  content: "›";
+  position: absolute;
+  left: 4px;
+  color: var(--s-primary);
+  font-weight: 600;
+}
+
+.listOl {
+  display: grid;
+  gap: 10px;
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+  counter-reset: ol-counter;
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--s-ink-muted);
+}
+
+.listOl li {
+  padding-left: 32px;
+  position: relative;
+  counter-increment: ol-counter;
+}
+
+.listOl li::before {
+  content: counter(ol-counter) ".";
+  position: absolute;
+  left: 0;
+  color: var(--s-primary);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* ── Tags / chips ────────────────────────────────────────────────── */
 .tagRow {
   display: flex;
   flex-wrap: wrap;
@@ -247,165 +392,381 @@
 }
 
 .tag {
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: 1px solid rgba(7, 8, 80, 0.15);
-  background: rgba(0, 60, 163, 0.08);
+  padding: 8px 18px;
+  border-radius: var(--s-r-chip);
+  border: 1px solid var(--s-primary-border);
+  background: var(--s-primary-tint);
+  color: var(--s-primary);
   font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
-.triangle {
+/* ── Slide footer ────────────────────────────────────────────────── */
+.slideFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--s-ink-dim);
+  padding-top: 14px;
+  border-top: 1px solid var(--s-ink-faint);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── Cover slide extras ──────────────────────────────────────────── */
+.coverTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--s-primary);
+  background: var(--s-primary-tint);
+  border: 1px solid var(--s-primary-border);
+  padding: 6px 16px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.coverDivider {
+  width: 56px;
+  height: 3px;
+  background: var(--s-primary);
+  border-radius: 2px;
+  margin: 16px 0;
+}
+
+/* ── Infografía 1: Problem Map (slide 2) ─────────────────────────── */
+.problemGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.problemCard {
+  background: var(--s-glass);
+  border: 1px solid var(--s-divider);
+  border-radius: var(--s-r);
+  padding: 24px;
+  display: grid;
+  gap: 10px;
   position: relative;
-  height: 220px;
+  overflow: hidden;
+  backdrop-filter: var(--s-blur);
+}
+
+.problemCard::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+
+.problemCardRed::before    { background: var(--s-primary); }
+.problemCardAmber::before  { background: var(--s-primary-light); }
+.problemCardOrange::before { background: var(--s-teal-mid); }
+
+.problemIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--s-r-sm);
   display: grid;
   place-items: center;
+  flex-shrink: 0;
 }
 
-.triangle::before {
-  content: "";
-  width: 0;
-  height: 0;
-  border-left: 120px solid transparent;
-  border-right: 120px solid transparent;
-  border-top: 200px solid rgba(0, 60, 163, 0.12);
-}
+.problemIconRed    { background: var(--s-primary-tint); }
+.problemIconAmber  { background: rgba(24, 143, 241, 0.12); }
+.problemIconOrange { background: rgba(82, 160, 149, 0.15); }
 
-.triangleLabel {
-  position: absolute;
-  font-weight: 600;
-  color: var(--slide-ink);
-  font-size: 16px;
-  text-align: center;
-}
-
-.triangleLabel.top {
-  top: 0;
-}
-
-.triangleLabel.middle {
-  top: 68px;
-}
-
-.triangleLabel.bottom {
-  bottom: 0;
-}
-
-.flow {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(80px, 1fr));
-  align-items: center;
-  gap: 12px;
-  text-align: center;
-  font-size: 16px;
-}
-
-.flowStep {
-  background: #ffffff;
-  border: 1px solid rgba(7, 8, 80, 0.12);
-  border-radius: 6px;
-  padding: 12px 10px;
-}
-
-.flowArrow {
+.problemTitle {
   font-size: 18px;
-  color: var(--slide-accent);
+  font-weight: 600;
+  color: var(--s-ink);
+  margin: 0;
 }
 
-.dashboard {
+.problemDesc {
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--s-ink-muted);
+  margin: 0;
+}
+
+.impactRow {
   display: grid;
-  gap: 14px;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.impactCard {
+  background: var(--s-primary-tint);
+  border: 1px solid var(--s-primary-border);
+  border-radius: var(--s-r);
+  padding: 18px 22px;
+  display: grid;
+  gap: 4px;
+}
+
+.impactLabel {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--s-primary);
+}
+
+.impactDesc {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--s-ink);
+  line-height: 1.35;
+}
+
+/* ── Infografía 2: System Flow (slide 8) ─────────────────────────── */
+.flowDiagram {
+  display: grid;
+  grid-template-columns: 1fr 32px 1fr 32px 1fr 32px 1fr 32px 1fr;
+  align-items: start;
+  gap: 0;
+  padding: 8px 0;
+}
+
+.flowNode {
+  display: grid;
+  gap: 10px;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+}
+
+.flowNodeIcon {
+  width: 68px;
+  height: 68px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--s-divider);
+  background: var(--s-glass);
+  backdrop-filter: var(--s-blur);
+}
+
+.flowNodeIcon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.flowNodeLabel {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--s-ink);
+  line-height: 1.2;
+}
+
+.flowNodeSub {
+  font-size: 13px;
+  color: var(--s-ink-muted);
+  line-height: 1.3;
+}
+
+.flowArrowSvg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.flowStep0 .flowNodeIcon { background: var(--s-primary-tint);         border-color: var(--s-primary-border);          }
+.flowStep0 svg            { color: var(--s-primary); }
+.flowStep1 .flowNodeIcon { background: rgba(24, 143, 241, 0.12);       border-color: rgba(24, 143, 241, 0.30);         }
+.flowStep1 svg            { color: var(--s-primary-light); }
+.flowStep2 .flowNodeIcon { background: rgba(82, 160, 149, 0.15);       border-color: rgba(82, 160, 149, 0.35);         }
+.flowStep2 svg            { color: var(--s-teal-mid); }
+.flowStep3 .flowNodeIcon { background: rgba(117, 91, 119, 0.15);       border-color: rgba(117, 91, 119, 0.35);         }
+.flowStep3 svg            { color: var(--s-purple); }
+.flowStep4 .flowNodeIcon { background: rgba(7, 8, 80, 0.08);           border-color: rgba(7, 8, 80, 0.18);             }
+.flowStep4 svg            { color: var(--s-ink); }
+
+/* ── Infografía 3: Evaluation chart (slide 9) ────────────────────── */
+.evalChart {
+  display: grid;
+  gap: 18px;
+}
+
+.evalItem {
+  display: grid;
+  grid-template-columns: 260px 1fr 56px;
+  align-items: center;
+  gap: 20px;
+}
+
+.evalLabel {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--s-ink);
+  text-align: right;
+  line-height: 1.2;
+}
+
+.evalBarTrack {
+  height: 18px;
+  border-radius: 4px;
+  background: var(--s-ink-faint);
+  overflow: hidden;
+}
+
+.evalBarFill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.evalPct {
+  font-size: 19px;
+  font-weight: 800;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Infografía 4: KPI cards (slide 12) ──────────────────────────── */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.kpiCard {
+  background: var(--s-glass);
+  border: 1px solid var(--s-divider);
+  border-radius: var(--s-r);
+  padding: 24px;
+  display: grid;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: var(--s-blur);
+}
+
+.kpiCard::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+
+.kpiBlue::before   { background: var(--s-primary); }
+.kpiCyan::before   { background: var(--s-primary-light); }
+.kpiAmber::before  { background: var(--s-teal-mid); }
+.kpiRed::before    { background: var(--s-purple); }
+
+.kpiValue {
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+}
+
+.kpiBlue .kpiValue  { color: var(--s-primary); }
+.kpiCyan .kpiValue  { color: var(--s-primary-light); }
+.kpiAmber .kpiValue { color: var(--s-teal-mid); }
+.kpiRed .kpiValue   { color: var(--s-purple); }
+
+.kpiLabel {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--s-ink);
+}
+
+.kpiSub {
+  font-size: 13px;
+  color: var(--s-ink-muted);
+  line-height: 1.3;
+}
+
+/* ── Mini dashboard (slide 6) ────────────────────────────────────── */
+.miniDash {
+  display: grid;
+  gap: 10px;
 }
 
 .chartBars {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  height: 80px;
+  gap: 6px;
+  height: 68px;
   align-items: end;
 }
 
 .chartBars span {
   display: block;
   width: 100%;
-  border-radius: 8px 8px 2px 2px;
-  background: rgba(0, 60, 163, 0.7);
+  border-radius: 4px 4px 2px 2px;
+  background: linear-gradient(180deg, var(--s-primary) 0%, rgba(0,60,163,0.35) 100%);
 }
 
-.alert {
-  padding: 12px 14px;
-  border-radius: 6px;
-  background: rgba(255, 76, 76, 0.12);
-  color: #b00020;
-  font-size: 16px;
+.miniAlert {
+  padding: 10px 14px;
+  border-radius: var(--s-r-chip);
+  background: var(--s-primary-tint);
+  border: 1px solid var(--s-primary-border);
+  color: var(--s-primary);
+  font-size: 14px;
   font-weight: 600;
 }
 
-.rank {
+.miniRank {
   display: grid;
-  gap: 8px;
-  font-size: 16px;
-  color: rgba(7, 8, 80, 0.8);
+  gap: 5px;
+  font-size: 14px;
+  color: var(--s-ink-muted);
 }
 
-.evaluation {
-  display: grid;
-  gap: 12px;
-}
-
-.evalRow {
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-  gap: 16px;
-  align-items: center;
-  font-size: 18px;
-}
-
-.evalBar {
-  height: 14px;
-  border-radius: 4px;
-  background: rgba(7, 8, 80, 0.08);
-  overflow: hidden;
-}
-
-.evalBar span {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, var(--slide-accent), #1c8bff);
-}
-
+/* ── Impact row (slide 12) ───────────────────────────────────────── */
 .iconRow {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
 }
 
 .iconCard {
-  border: 1px solid rgba(7, 8, 80, 0.12);
-  border-radius: 6px;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--s-divider);
+  border-radius: var(--s-r);
+  padding: 20px;
+  background: var(--s-glass);
+  backdrop-filter: var(--s-blur);
   display: grid;
   gap: 8px;
   text-align: center;
+}
+
+.iconCard strong {
   font-size: 16px;
+  font-weight: 600;
+  color: var(--s-ink);
+}
+
+.iconCard span {
+  font-size: 13px;
+  color: var(--s-ink-muted);
 }
 
 .iconGlyph {
-  width: 56px;
-  height: 56px;
-  border-radius: 6px;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--s-r-sm);
   margin: 0 auto;
-  background: rgba(0, 60, 163, 0.12);
+  background: var(--s-primary-tint);
+  border: 1px solid var(--s-primary-border);
   display: grid;
   place-items: center;
-  font-weight: 700;
-  color: var(--slide-accent);
+  font-weight: 800;
+  font-size: 12px;
+  color: var(--s-primary);
+  letter-spacing: 0.05em;
 }
 
-.slideFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 16px;
-  color: rgba(7, 8, 80, 0.6);
-}

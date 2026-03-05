@@ -7,13 +7,6 @@ import { siteContent } from "@/content/site";
 import styles from "./slides.module.css";
 import logo from "../../../../../img/CEU_Impact_Lab-Logo-Marginless.png";
 
-const evaluationCriteria = [
-  { label: "Adecuación al reto y a la empresa", value: 35 },
-  { label: "Arquitectura, robustez y escalabilidad", value: 35 },
-  { label: "Implementación y código", value: 15 },
-  { label: "Pitch, demo en directo y Q&A", value: 15 },
-];
-
 type SlideFrameProps = {
   children: ReactNode;
 };
@@ -120,13 +113,14 @@ export function ClientSlides() {
               <header className={styles.slideHeader}>
                 <div className={styles.slideMeta}>
                   <Image src={logo} alt="CEU Impact Lab" className={styles.logo} />
-                  <span></span>
                 </div>
-                <span className={styles.slideNumber}>01</span>
+                <span className={styles.slideNumber}>01 / 12</span>
               </header>
               <div className={styles.slideBody}>
                 <div>
-                  <h1 className={styles.slideTitle}>Reto 00 — IA para Operaciones</h1>
+                  <div className={styles.coverTag}>Reto 00</div>
+                  <h1 className={styles.slideTitle}>IA para Operaciones</h1>
+                  <div className={styles.coverDivider} />
                   <p className={styles.slideSubtitle}>
                     Transformando datos en decisiones de inventario inteligentes
                   </p>
@@ -136,16 +130,16 @@ export function ClientSlides() {
                   ayudar a pequeñas empresas a tomar mejores decisiones de inventario, reducir pérdidas
                   y mejorar su rentabilidad.
                 </p>
-                <div className={styles.columns}>
-                  <div className={styles.card}>
+                <div className={styles.col3}>
+                  <div className={`${styles.card} ${styles.cardAccent}`}>
                     <strong>Datos</strong>
                     <span>Ventas y stock en tiempo real</span>
                   </div>
-                  <div className={styles.card}>
+                  <div className={`${styles.card} ${styles.cardCyan}`}>
                     <strong>IA aplicada</strong>
                     <span>Patrones, predicción y alertas</span>
                   </div>
-                  <div className={styles.card}>
+                  <div className={`${styles.card} ${styles.cardGreen}`}>
                     <strong>Decisión</strong>
                     <span>Reposición inteligente y rentable</span>
                   </div>
@@ -153,7 +147,7 @@ export function ClientSlides() {
               </div>
               <footer className={styles.slideFooter}>
                 <span>{siteContent.dates}</span>
-                <span>Presentación de retos</span>
+                <span>Presentación de retos · CEU Impact Lab</span>
               </footer>
             </SlideFrame>
           </section>
@@ -161,30 +155,52 @@ export function ClientSlides() {
           <section className={styles.slide} aria-label="Diapositiva 2: Enunciado del reto">
             <SlideFrame>
               <header className={styles.slideHeader}>
-                <div className={styles.slideMeta}>
-                  <span>Enunciado del reto</span>
-                </div>
-                <span className={styles.slideNumber}>02</span>
+                <div className={styles.slideMeta}><span>Enunciado del reto</span></div>
+                <span className={styles.slideNumber}>02 / 12</span>
               </header>
               <div className={styles.slideBody}>
                 <p className={styles.lead}>
-                  Las pequeñas y medianas empresas suelen gestionar su inventario con herramientas muy
-                  básicas o mediante hojas de cálculo.
+                  Las pymes gestionan su inventario con hojas de cálculo. El resultado: tres problemas encadenados que generan pérdidas sistemáticas.
                 </p>
-                <div className={styles.columns}>
-                  <ul className={styles.list}>
-                    <li>Exceso de stock en productos con poca demanda.</li>
-                    <li>Roturas de stock en productos con alta demanda.</li>
-                    <li>Decisiones de compra basadas en intuición y no en datos.</li>
-                    <li>Pérdidas económicas e ineficiencia operativa.</li>
-                  </ul>
-                  <div className={styles.card}>
-                    <strong>Problema triangular</strong>
-                    <div className={styles.triangle}>
-                      <span className={`${styles.triangleLabel} ${styles.top}`}>EXCESO DE STOCK</span>
-                      <span className={`${styles.triangleLabel} ${styles.middle}`}>VENTAS IRREGULARES</span>
-                      <span className={`${styles.triangleLabel} ${styles.bottom}`}>ROTURA DE STOCK</span>
+                {/* Infografía: mapa del problema */}
+                <div className={styles.problemGrid}>
+                  <div className={`${styles.problemCard} ${styles.problemCardRed}`}>
+                    <div className={`${styles.problemIcon} ${styles.problemIconRed}`}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" strokeLinecap="round">
+                        <path d="M3 3h18v4H3zM3 10h18v4H3zM3 17h18v4H3z" />
+                      </svg>
                     </div>
+                    <p className={styles.problemTitle}>Exceso de stock</p>
+                    <p className={styles.problemDesc}>Capital inmovilizado en productos de baja rotación. Espacio ocupado, coste financiero elevado.</p>
+                  </div>
+                  <div className={`${styles.problemCard} ${styles.problemCardAmber}`}>
+                    <div className={`${styles.problemIcon} ${styles.problemIconAmber}`}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="2" strokeLinecap="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
+                      </svg>
+                    </div>
+                    <p className={styles.problemTitle}>Ventas irregulares</p>
+                    <p className={styles.problemDesc}>Patrones de demanda no detectados. Decisiones de compra basadas en intuición, no en datos.</p>
+                  </div>
+                  <div className={`${styles.problemCard} ${styles.problemCardOrange}`}>
+                    <div className={`${styles.problemIcon} ${styles.problemIconOrange}`}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#fb923c" strokeWidth="2" strokeLinecap="round">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                        <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+                      </svg>
+                    </div>
+                    <p className={styles.problemTitle}>Rotura de stock</p>
+                    <p className={styles.problemDesc}>Productos de alta demanda sin reposición a tiempo. Ventas perdidas e insatisfacción del cliente.</p>
+                  </div>
+                </div>
+                <div className={styles.impactRow}>
+                  <div className={styles.impactCard}>
+                    <span className={styles.impactLabel}>Impacto directo</span>
+                    <span className={styles.impactDesc}>Pérdidas económicas evitables en cada ciclo de compra</span>
+                  </div>
+                  <div className={styles.impactCard}>
+                    <span className={styles.impactLabel}>Causa raíz</span>
+                    <span className={styles.impactDesc}>Ausencia de análisis de datos automatizado y accesible</span>
                   </div>
                 </div>
               </div>
@@ -315,7 +331,7 @@ export function ClientSlides() {
                       <li>Formato sugerido: CSV o JSON.</li>
                     </ul>
                   </div>
-                  <div className={styles.card}>
+                  <div className={`${styles.card} ${styles.cardCyan}`}>
                     <strong>2. Análisis de datos</strong>
                     <ul className={styles.list}>
                       <li>Calcular métricas básicas de negocio.</li>
@@ -323,7 +339,7 @@ export function ClientSlides() {
                       <li>Identificar productos con alta o baja rotación.</li>
                       <li>Estimar necesidades futuras de reposición.</li>
                     </ul>
-                    <div className={styles.dashboard}>
+                    <div className={styles.miniDash}>
                       <div className={styles.chartBars} aria-hidden="true">
                         <span style={{ height: "40%" }} />
                         <span style={{ height: "70%" }} />
@@ -331,10 +347,10 @@ export function ClientSlides() {
                         <span style={{ height: "85%" }} />
                         <span style={{ height: "30%" }} />
                       </div>
-                      <div className={styles.alert}>Alerta: stock crítico</div>
-                      <div className={styles.rank}>
-                        <span>Top ventas: Producto A</span>
-                        <span>Rotación baja: Producto D</span>
+                      <div className={styles.miniAlert}>⚠ Alerta: stock crítico detectado</div>
+                      <div className={styles.miniRank}>
+                        <span>↑ Top ventas: Producto A</span>
+                        <span>↓ Rotación baja: Producto D</span>
                       </div>
                     </div>
                   </div>
@@ -403,51 +419,121 @@ export function ClientSlides() {
           <section className={styles.slide} aria-label="Diapositiva 8: Entrada y salida">
             <SlideFrame>
               <header className={styles.slideHeader}>
-                <div className={styles.slideMeta}>
-                  <span>Entrada y salida del sistema</span>
-                </div>
-                <span className={styles.slideNumber}>08</span>
+                <div className={styles.slideMeta}><span>Arquitectura del sistema</span></div>
+                <span className={styles.slideNumber}>08 / 12</span>
               </header>
               <div className={styles.slideBody}>
-                <div className={styles.columns}>
-                  <div className={styles.card}>
-                    <strong>Entrada</strong>
+                <div className={styles.col2}>
+                  <div className={`${styles.card} ${styles.cardAccent}`}>
+                    <strong>Entrada de datos</strong>
                     <ul className={styles.list}>
-                      <li>Producto.</li>
-                      <li>Fecha de venta.</li>
-                      <li>Cantidad vendida.</li>
-                      <li>Stock actual.</li>
-                      <li>Precio unitario.</li>
+                      <li>Producto y SKU</li>
+                      <li>Fecha de venta</li>
+                      <li>Cantidad vendida</li>
+                      <li>Stock actual</li>
+                      <li>Precio unitario</li>
                     </ul>
-                  </div>
-                  <div className={styles.card}>
-                    <strong>Salida</strong>
-                    <ul className={styles.list}>
-                      <li>Análisis de inventario.</li>
-                      <li>Identificación de riesgos de stock.</li>
-                      <li>Recomendaciones de compra o reposición.</li>
-                      <li>Visualización o informe de resultados.</li>
-                    </ul>
-                  </div>
-                  <div className={styles.card}>
-                    <strong>Arquitectura sugerida</strong>
-                    <div className={styles.flow}>
-                      <div className={styles.flowStep}>Datos de ventas</div>
-                      <div className={styles.flowArrow}>→</div>
-                      <div className={styles.flowStep}>Procesamiento</div>
-                      <div className={styles.flowArrow}>→</div>
-                      <div className={styles.flowStep}>Análisis IA</div>
-                      <div className={styles.flowArrow}>→</div>
-                      <div className={styles.flowStep}>Recomendaciones</div>
-                      <div className={styles.flowArrow}>→</div>
-                      <div className={styles.flowStep}>Dashboard</div>
+                    <div className={styles.tagRow}>
+                      <span className={styles.tag}>CSV</span>
+                      <span className={styles.tag}>JSON</span>
                     </div>
+                  </div>
+                  <div className={`${styles.card} ${styles.cardGreen}`}>
+                    <strong>Salida del sistema</strong>
+                    <ul className={styles.list}>
+                      <li>Análisis de inventario</li>
+                      <li>Identificación de riesgos de stock</li>
+                      <li>Recomendaciones de reposición</li>
+                      <li>Visualización / informe</li>
+                    </ul>
+                  </div>
+                </div>
+                {/* Infografía: flujo del sistema */}
+                <div className={styles.flowDiagram}>
+                  <div className={`${styles.flowNode} ${styles.flowStep0}`}>
+                    <div className={styles.flowNodeIcon}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <path d="M3 9h18M9 21V9" />
+                      </svg>
+                    </div>
+                    <span className={styles.flowNodeLabel}>Datos de ventas</span>
+                    <span className={styles.flowNodeSub}>CSV / JSON / API</span>
+                  </div>
+                  <div className={styles.flowArrowSvg}>
+                    <svg width="32" height="16" viewBox="0 0 32 16" fill="none">
+                      <path d="M0 8h26" stroke="rgba(7,8,80,0.2)" strokeWidth="1.5"/>
+                      <path d="M20 2l8 6-8 6" stroke="rgba(7,8,80,0.2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <div className={`${styles.flowNode} ${styles.flowStep1}`}>
+                    <div className={styles.flowNodeIcon}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                      </svg>
+                    </div>
+                    <span className={styles.flowNodeLabel}>Procesamiento</span>
+                    <span className={styles.flowNodeSub}>Limpieza y cálculo</span>
+                  </div>
+                  <div className={styles.flowArrowSvg}>
+                    <svg width="32" height="16" viewBox="0 0 32 16" fill="none">
+                      <path d="M0 8h26" stroke="rgba(7,8,80,0.2)" strokeWidth="1.5"/>
+                      <path d="M20 2l8 6-8 6" stroke="rgba(7,8,80,0.2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <div className={`${styles.flowNode} ${styles.flowStep2}`}>
+                    <div className={styles.flowNodeIcon}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                      </svg>
+                    </div>
+                    <span className={styles.flowNodeLabel}>Análisis IA</span>
+                    <span className={styles.flowNodeSub}>Patrones · anomalías</span>
+                  </div>
+                  <div className={styles.flowArrowSvg}>
+                    <svg width="32" height="16" viewBox="0 0 32 16" fill="none">
+                      <path d="M0 8h26" stroke="rgba(7,8,80,0.2)" strokeWidth="1.5"/>
+                      <path d="M20 2l8 6-8 6" stroke="rgba(7,8,80,0.2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <div className={`${styles.flowNode} ${styles.flowStep3}`}>
+                    <div className={styles.flowNodeIcon}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                      </svg>
+                    </div>
+                    <span className={styles.flowNodeLabel}>Recomendaciones</span>
+                    <span className={styles.flowNodeSub}>Acciones concretas</span>
+                  </div>
+                  <div className={styles.flowArrowSvg}>
+                    <svg width="32" height="16" viewBox="0 0 32 16" fill="none">
+                      <path d="M0 8h26" stroke="rgba(7,8,80,0.2)" strokeWidth="1.5"/>
+                      <path d="M20 2l8 6-8 6" stroke="rgba(7,8,80,0.2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <div className={`${styles.flowNode} ${styles.flowStep4}`}>
+                    <div className={styles.flowNodeIcon}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <path d="M3 9h18"/>
+                        <path d="M9 21V9"/>
+                        <path d="M7 13h4v4H7z" fill="currentColor" opacity="0.3"/>
+                      </svg>
+                    </div>
+                    <span className={styles.flowNodeLabel}>Dashboard</span>
+                    <span className={styles.flowNodeSub}>Visualización final</span>
                   </div>
                 </div>
               </div>
               <footer className={styles.slideFooter}>
                 <span>Input / Output</span>
-                <span>Datos -&gt; Insight</span>
+                <span>Datos → Insight → Acción</span>
               </footer>
             </SlideFrame>
           </section>
@@ -455,33 +541,36 @@ export function ClientSlides() {
           <section className={styles.slide} aria-label="Diapositiva 9: Criterios de evaluación">
             <SlideFrame>
               <header className={styles.slideHeader}>
-                <div className={styles.slideMeta}>
-                  <span>Criterios de evaluación</span>
-                </div>
-                <span className={styles.slideNumber}>09</span>
+                <div className={styles.slideMeta}><span>Criterios de evaluación</span></div>
+                <span className={styles.slideNumber}>09 / 12</span>
               </header>
               <div className={styles.slideBody}>
-                <div className={styles.columns}>
-                  <div className={styles.card}>
-                    <strong>Rúbrica oficial</strong>
-                    <p>
-                      La evaluación sigue la rúbrica oficial del evento. Se prioriza el encaje con el
-                      reto y la robustez técnica.
-                    </p>
-                  </div>
-                  <div className={styles.card}>
-                    <strong>Distribución de puntos</strong>
-                    <div className={styles.evaluation}>
-                      {evaluationCriteria.map((item) => (
-                        <div key={item.label} className={styles.evalRow}>
-                          <span>{item.label}</span>
-                          <div className={styles.evalBar}>
-                            <span style={{ width: `${item.value}%` }} />
-                          </div>
-                        </div>
-                      ))}
+                <p className={styles.lead}>
+                  La rúbrica oficial prioriza la adecuación al reto y la solidez técnica. 100 puntos totales distribuidos en cuatro dimensiones.
+                </p>
+                {/* Infografía: barras de evaluación */}
+                <div className={styles.evalChart}>
+                  {[
+                    { label: "Adecuación al reto y a la empresa", pct: 35, color: "#4f8ef7", bg: "rgba(79,142,247,0.15)" },
+                    { label: "Arquitectura, robustez y escalabilidad", pct: 35, color: "#06b6d4", bg: "rgba(6,182,212,0.15)" },
+                    { label: "Implementación y código", pct: 15, color: "#34d399", bg: "rgba(52,211,153,0.15)" },
+                    { label: "Pitch, demo en directo y Q&A", pct: 15, color: "#fbbf24", bg: "rgba(251,191,36,0.15)" },
+                  ].map((item) => (
+                    <div key={item.label} className={styles.evalItem}>
+                      <span className={styles.evalLabel}>{item.label}</span>
+                      <div className={styles.evalBarTrack}>
+                        <div
+                          className={styles.evalBarFill}
+                          style={{ width: `${item.pct}%`, background: `linear-gradient(90deg, ${item.color} 0%, ${item.bg.replace('0.15','0.6')} 100%)` }}
+                        />
+                      </div>
+                      <span className={styles.evalPct} style={{ color: item.color }}>{item.pct}%</span>
                     </div>
-                  </div>
+                  ))}
+                </div>
+                <div className={`${styles.card} ${styles.cardCyan}`}>
+                  <strong>Nota clave</strong>
+                  <p>La evaluación sigue la rúbrica oficial del evento. El encaje con el reto de empresa y la robustez técnica suman el 70% de la nota.</p>
                 </div>
               </div>
               <footer className={styles.slideFooter}>
@@ -543,7 +632,7 @@ export function ClientSlides() {
                 </p>
                 <div className={styles.card}>
                   <strong>Estructura recomendada</strong>
-                  <ol className={styles.list}>
+                <ol className={styles.listOl}>
                     <li>Problema que resuelve la solución.</li>
                     <li>Funcionamiento del sistema.</li>
                     <li>Demostración rápida.</li>
@@ -561,46 +650,52 @@ export function ClientSlides() {
           <section className={styles.slide} aria-label="Diapositiva 12: Impacto potencial">
             <SlideFrame>
               <header className={styles.slideHeader}>
-                <div className={styles.slideMeta}>
-                  <span>Impacto potencial</span>
-                </div>
-                <span className={styles.slideNumber}>12</span>
+                <div className={styles.slideMeta}><span>Impacto potencial</span></div>
+                <span className={styles.slideNumber}>12 / 12</span>
               </header>
               <div className={styles.slideBody}>
-                <p className={styles.lead}>
-                  Soluciones como esta pueden ayudar a pequeñas empresas, comercios locales, negocios de
-                  e-commerce y startups en crecimiento a tomar decisiones más inteligentes basadas en
-                  datos.
-                </p>
-                <div className={styles.iconRow}>
-                  <div className={styles.iconCard}>
-                    <div className={styles.iconGlyph}>TI</div>
-                    <strong>Tienda</strong>
-                    <span>Retail local</span>
+                {/* Infografía: KPI dashboard */}
+                <div className={styles.kpiGrid}>
+                  <div className={`${styles.kpiCard} ${styles.kpiBlue}`}>
+                    <p className={styles.kpiValue}>12+</p>
+                    <span className={styles.kpiLabel}>Productos en riesgo detectados</span>
+                    <span className={styles.kpiSub}>Con stock crítico en los próximos 7 días</span>
                   </div>
-                  <div className={styles.iconCard}>
-                    <div className={styles.iconGlyph}>EC</div>
-                    <strong>E-commerce</strong>
-                    <span>Ventas online</span>
+                  <div className={`${styles.kpiCard} ${styles.kpiCyan}`}>
+                    <p className={styles.kpiValue}>94%</p>
+                    <span className={styles.kpiLabel}>Precisión de reposición</span>
+                    <span className={styles.kpiSub}>Estimación de stock óptimo por producto</span>
                   </div>
-                  <div className={styles.iconCard}>
-                    <div className={styles.iconGlyph}>ST</div>
-                    <strong>Startup</strong>
-                    <span>Crecimiento</span>
+                  <div className={`${styles.kpiCard} ${styles.kpiAmber}`}>
+                    <p className={styles.kpiValue}>×3</p>
+                    <span className={styles.kpiLabel}>Top rotación identificado</span>
+                    <span className={styles.kpiSub}>Productos con ventas 3× la media</span>
                   </div>
-                  <div className={styles.iconCard}>
-                    <div className={styles.iconGlyph}>AI</div>
-                    <strong>Analítica</strong>
-                    <span>Data-driven</span>
+                  <div className={`${styles.kpiCard} ${styles.kpiRed}`}>
+                    <p className={styles.kpiValue}>5</p>
+                    <span className={styles.kpiLabel}>Alertas activas</span>
+                    <span className={styles.kpiSub}>Anomalías detectadas automáticamente</span>
                   </div>
                 </div>
-                <div className={styles.card}>
-                  <strong>Mensaje final</strong>
-                  <p>Data-driven decisions for every business.</p>
+                <div className={styles.col2}>
+                  <div className={`${styles.card} ${styles.cardAccent}`}>
+                    <strong>Sectores beneficiados</strong>
+                    <div className={styles.tagRow}>
+                      <span className={styles.tag}>Retail local</span>
+                      <span className={styles.tag}>E-commerce</span>
+                      <span className={styles.tag}>Startups</span>
+                      <span className={styles.tag}>Distribución</span>
+                    </div>
+                  </div>
+                  <div className={`${styles.card} ${styles.cardGreen}`}>
+                    <strong>Mensaje final</strong>
+                    <p>Data-driven decisions for every business — accesible, automatizado y escalable.</p>
+                  </div>
                 </div>
               </div>
               <footer className={styles.slideFooter}>
                 <span>IA para Operaciones</span>
+                <span>CEU Impact Lab · {siteContent.dates}</span>
               </footer>
             </SlideFrame>
           </section>

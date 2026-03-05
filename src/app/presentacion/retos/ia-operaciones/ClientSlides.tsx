@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { siteContent } from "@/content/site";
 import styles from "./slides.module.css";
 import logo from "../../../../../img/CEU_Impact_Lab-Logo-Marginless.png";
@@ -31,6 +31,9 @@ export function ClientSlides() {
   const totalSlides = 12;
   const [activeSlide, setActiveSlide] = useState(0);
   const visibleDotCount = 3;
+  const rafRef = useRef<number | null>(null);
+  const [scale, setScale] = useState(1);
+  const stageRef = useRef<HTMLElement | null>(null);
 
   const visibleDots = (() => {
     if (totalSlides <= visibleDotCount) {
@@ -72,10 +75,48 @@ export function ClientSlides() {
     return () => window.removeEventListener("keydown", handleKey);
   }, [totalSlides]);
 
+  useEffect(() => {
+    // Base canvas size (PPT-style): keep all slide layout values aligned to this.
+    const baseWidth = 1920;
+    const baseHeight = 1080;
+
+    const updateScale = () => {
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
+      rafRef.current = window.requestAnimationFrame(() => {
+        // Scale = min(viewport/base) to keep aspect ratio without reflow.
+        const stage = stageRef.current;
+        if (!stage) {
+          return;
+        }
+        const nextScale = Math.min(
+          stage.clientWidth / baseWidth,
+          stage.clientHeight / baseHeight
+        );
+        setScale(Math.max(Number(nextScale.toFixed(4)), 0.1));
+      });
+    };
+
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => {
+      window.removeEventListener("resize", updateScale);
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <main className={styles.deck}>
-      <div className={styles.deckInner}>
-        <div className={styles.track} style={{ transform: `translateX(-${activeSlide * 100}%)` }}>
+    <main className={styles.stage} ref={stageRef}>
+      <div
+        className={styles.deckWrapper}
+        style={{ transform: `translate(-50%, -50%) scale(${scale})` }}
+      >
+        <div className={styles.deckCanvas}>
+          {/* Add new slides as <section className={styles.slide}> inside this track. */}
+          <div className={styles.track} style={{ transform: `translateX(-${activeSlide * 100}%)` }}>
           <section className={styles.slide} aria-label="Diapositiva 1: Portada">
             <SlideFrame>
               <header className={styles.slideHeader}>
@@ -565,38 +606,39 @@ export function ClientSlides() {
               </footer>
             </SlideFrame>
           </section>
-        </div>
-        <div className={styles.controls} aria-label="Controles de diapositivas">
-          <button
-            type="button"
-            className={styles.controlButton}
-            onClick={() => setActiveSlide((prev) => Math.max(prev - 1, 0))}
-            aria-label="Diapositiva anterior"
-            disabled={activeSlide === 0}
-          >
-            <span className={styles.controlArrow} aria-hidden="true">
-              &lt;
-            </span>
-          </button>
-          <div className={styles.dotRow} aria-hidden="true">
-            {visibleDots.map((index) => (
-              <span
-                key={index}
-                className={`${styles.dot} ${index === activeSlide ? styles.dotActive : ""}`}
-              />
-            ))}
           </div>
-          <button
-            type="button"
-            className={styles.controlButton}
-            onClick={() => setActiveSlide((prev) => Math.min(prev + 1, totalSlides - 1))}
-            aria-label="Diapositiva siguiente"
-            disabled={activeSlide === totalSlides - 1}
-          >
-            <span className={styles.controlArrow} aria-hidden="true">
-              &gt;
-            </span>
-          </button>
+          <div className={styles.controls} aria-label="Controles de diapositivas">
+            <button
+              type="button"
+              className={styles.controlButton}
+              onClick={() => setActiveSlide((prev) => Math.max(prev - 1, 0))}
+              aria-label="Diapositiva anterior"
+              disabled={activeSlide === 0}
+            >
+              <span className={styles.controlArrow} aria-hidden="true">
+                &lt;
+              </span>
+            </button>
+            <div className={styles.dotRow} aria-hidden="true">
+              {visibleDots.map((index) => (
+                <span
+                  key={index}
+                  className={`${styles.dot} ${index === activeSlide ? styles.dotActive : ""}`}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              className={styles.controlButton}
+              onClick={() => setActiveSlide((prev) => Math.min(prev + 1, totalSlides - 1))}
+              aria-label="Diapositiva siguiente"
+              disabled={activeSlide === totalSlides - 1}
+            >
+              <span className={styles.controlArrow} aria-hidden="true">
+                &gt;
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     </main>

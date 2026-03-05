@@ -92,6 +92,11 @@ export default function RubricaPage() {
                     <Typography color="text.secondary">
                       {activeRubricItem.description}
                     </Typography>
+                    {activeRubricItem.note ? (
+                      <Typography variant="body2" color="text.secondary">
+                        {activeRubricItem.note}
+                      </Typography>
+                    ) : null}
                     <Stack component="ul" spacing={1} sx={{ pl: 2, m: 0 }}>
                       {activeRubricItem.levels.map((level) => (
                         <Typography key={level.range} component="li">

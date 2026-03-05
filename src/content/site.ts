@@ -75,83 +75,85 @@ export const siteContent = {
   ],
   rubricIntroTitle: "Rúbrica Oficial de Evaluación del Jurado (Sobre 100 Puntos)",
   rubricIntroText:
-    "Instrucciones para el Jurado: Evalúe cada proyecto asignando una puntuación en las siguientes cuatro categorías. La puntuación máxima posible es de 100 puntos. Se busca un equilibrio entre la excelencia técnica, la viabilidad real de la idea y la capacidad de comunicación del equipo.",
+    "Instrucciones para el Jurado: Evalúe cada proyecto asignando una puntuación en las siguientes cuatro categorías. La puntuación máxima posible es de 100 puntos. En esta competición se prioriza que la solución responda fielmente a los requisitos del reto, la robustez tecnica y la credibilidad de la arquitectura propuesta en un contexto real. El codigo debe funcionar, pero no se espera un producto perfecto. La presentacion tambien es relevante, ya que el equipo debe ser capaz de explicar y defender su solucion.",
   rubric: [
     {
-      category: "Innovación y Valor de la Idea",
-      maxPoints: 30,
-      description:
-        "Se evalúa la originalidad de la solución propuesta y si realmente resuelve el \"pain point\" (problema) planteado de forma inteligente.",
-      levels: [
-        {
-          range: "0 - 10 pts",
-          label: "Pobre",
-          text:
-            "La idea es un clon de algo que ya existe o no resuelve el problema central del reto.",
-        },
-        {
-          range: "11 - 20 pts",
-          label: "Bueno",
-          text:
-            "La idea es sólida y útil, aunque algo conservadora o predecible.",
-        },
-        {
-          range: "21 - 30 pts",
-          label: "Excelente",
-          text:
-            "Solución altamente creativa, \"fuera de la caja\". Aporta un valor diferencial altísimo que a la empresa no se le había ocurrido.",
-        },
-      ],
-    },
-    {
-      category: "Dificultad Técnica y Arquitectura",
-      maxPoints: 30,
-      description:
-        "El código importa. Se evalúa la complejidad del desarrollo, las tecnologías elegidas y si el sistema está pensado para escalar, no solo para sobrevivir a la demo.",
-      levels: [
-        {
-          range: "0 - 10 pts",
-          label: "Pobre",
-          text:
-            "Desarrollo muy superficial. Casi todo es frontend sin lógica detrás, o la arquitectura elegida no tiene ningún sentido para el problema.",
-        },
-        {
-          range: "11 - 20 pts",
-          label: "Bueno",
-          text:
-            "El prototipo tiene una base técnica decente, uso correcto de APIs y bases de datos, pero la arquitectura podría sufrir si se escala a miles de usuarios.",
-        },
-        {
-          range: "21 - 30 pts",
-          label: "Excelente",
-          text:
-            "Código limpio, stack tecnológico perfectamente justificado. Han montado una arquitectura robusta (backend, frontend, BD, integración de terceros) digna de un proyecto real.",
-        },
-      ],
-    },
-    {
       category: "Adecuación al Reto y a la Empresa",
-      maxPoints: 25,
+      maxPoints: 35,
       description:
-        "¿Han escuchado lo que pedía el patrocinador? Se evalúa si la solución se alinea con los valores de la empresa y si sería viable comercialmente.",
+        "Es el criterio mas importante. Se evalua hasta que punto la solucion responde a los requisitos del enunciado del reto y si encaja con el contexto real de la empresa patrocinadora. No se trata solo de tener una buena idea, sino de resolver exactamente el problema planteado.",
       levels: [
         {
-          range: "0 - 8 pts",
+          range: "0 - 12 pts",
           label: "Pobre",
           text:
-            "El equipo ha hecho \"lo que le apetecía\" ignorando gran parte de los requisitos o la cultura de la empresa patrocinadora.",
+            "La solucion ignora parte importante del enunciado o responde solo parcialmente al problema. El equipo ha reinterpretado el reto de forma demasiado libre.",
         },
         {
-          range: "9 - 17 pts",
+          range: "13 - 24 pts",
           label: "Bueno",
           text:
-            "Resuelve el reto de la empresa, pero requeriría bastantes adaptaciones para ser viable económicamente o encajar en su modelo de negocio.",
+            "La propuesta responde correctamente al reto planteado, aunque algunos requisitos clave no estan completamente cubiertos o necesitarian bastante trabajo adicional para encajar en la empresa.",
         },
         {
-          range: "18 - 25 pts",
+          range: "25 - 35 pts",
           label: "Excelente",
           text:
-            "Encaje perfecto. La empresa podría coger este prototipo mañana mismo, inyectarle presupuesto y tendría todo el sentido comercial y estratégico del mundo.",
+            "La solucion responde claramente a los requisitos del reto. Se nota que el equipo ha entendido el problema real de la empresa. El encaje con su contexto operativo y de negocio es creible.",
+        },
+      ],
+    },
+    {
+      category: "Arquitectura, Robustez y Escalabilidad",
+      maxPoints: 35,
+      description:
+        "Se evalua la calidad de la arquitectura y si la solucion tendria sentido en un entorno real. No se trata solo de que funcione en una demo, sino de si el sistema podria crecer, mantenerse y operar en produccion.",
+      levels: [
+        {
+          range: "0 - 12 pts",
+          label: "Pobre",
+          text:
+            "Arquitectura improvisada o poco realista. Componentes mal justificados o sistema pensado unicamente para la demo.",
+        },
+        {
+          range: "13 - 24 pts",
+          label: "Bueno",
+          text:
+            "Arquitectura razonable con una base tecnica solida. El sistema podria funcionar en un entorno real, aunque habria que reforzar varios aspectos para soportar carga, mantenimiento o integracion.",
+        },
+        {
+          range: "25 - 35 pts",
+          label: "Excelente",
+          text:
+            "Arquitectura muy bien pensada. Tecnologias bien elegidas y justificadas. El diseno muestra claramente como el sistema podria escalar, integrarse y mantenerse como un producto real.",
+        },
+      ],
+    },
+    {
+      category: "Implementación y Código",
+      maxPoints: 15,
+      description:
+        "El codigo debe funcionar y demostrar que la solucion es tecnicamente viable. No se exige un producto completamente terminado, pero si un prototipo real que funcione durante la demo.",
+      note:
+        "Regla importante: si el prototipo no funciona durante la demo en directo, la puntuacion en esta categoria no puede superar los 5 puntos. No se aceptan videos de demostracion como sustituto de una demo funcional.",
+      levels: [
+        {
+          range: "0 - 5 pts",
+          label: "Pobre",
+          text:
+            "El prototipo no funciona correctamente, esta incompleto o apenas hay logica implementada.",
+        },
+        {
+          range: "6 - 10 pts",
+          label: "Bueno",
+          text:
+            "El prototipo funciona y demuestra las funcionalidades principales. El codigo cumple su objetivo aunque podria mejorar en estructura o calidad.",
+        },
+        {
+          range: "11 - 15 pts",
+          label: "Excelente",
+          text:
+            "Implementacion solida. Codigo claro, funcional y con una estructura razonable para un proyecto desarrollado en el tiempo disponible.",
         },
       ],
     },
@@ -159,25 +161,25 @@ export const siteContent = {
       category: "Pitch, Demo en Directo y Q&A",
       maxPoints: 15,
       description:
-        "Saber venderlo es vital. Se evalúa la claridad de la presentación, que la demo técnica funcione y cómo defienden el proyecto ante las preguntas.",
+        "Se evalua la claridad de la presentacion y la capacidad del equipo para explicar y defender su solucion. Un buen proyecto tambien necesita ser entendido y vendido correctamente.",
       levels: [
         {
           range: "0 - 5 pts",
           label: "Pobre",
           text:
-            "Pitch desorganizado, se han pasado de tiempo o el prototipo ha crasheado de forma catastrófica durante la demo. Respuestas muy flojas en el Q&A.",
+            "Presentacion desorganizada, problemas graves en la demo o respuestas poco claras durante el Q&A.",
         },
         {
           range: "6 - 10 pts",
           label: "Bueno",
           text:
-            "Presentación clara. La demo ha funcionado (con algún bug menor aceptable). Han sabido responder a las preguntas del jurado con coherencia.",
+            "Pitch claro, demo funcional y respuestas razonables a las preguntas del jurado.",
         },
         {
           range: "11 - 15 pts",
           label: "Excelente",
           text:
-            "Pitch nivel startup buscando inversión. Control perfecto del tiempo, demo fluida demostrando las core features y defensa brillante y segura durante las preguntas del jurado.",
+            "Presentacion muy clara y convincente. Demo fluida que demuestra las funcionalidades clave. El equipo defiende bien las decisiones tecnicas y de producto.",
         },
       ],
     },

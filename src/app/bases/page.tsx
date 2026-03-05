@@ -10,10 +10,9 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
 import { Section } from "@/components/ui/Section";
-import { CTAButtons } from "@/components/ui/CTAButtons";
 import { siteContent } from "@/content/site";
 
 type RulebookPanelProps = {
@@ -35,23 +34,66 @@ function RulebookPanel({ value, index, children }: RulebookPanelProps) {
   );
 }
 
+type RulebookSectionProps = {
+  section: (typeof siteContent.rulebook.sections)[number];
+};
+
+function RulebookSectionContent({ section }: RulebookSectionProps) {
+  return (
+    <Card variant="outlined">
+      <CardContent>
+        <Stack spacing={2}>
+          <Typography variant="h6">{section.title}</Typography>
+          {section.items.map((item) => (
+            <Box
+              key={item.text}
+              sx={{
+                p: 2,
+                borderRadius: 2,
+                border: "1px solid",
+                borderColor: "divider",
+                backgroundColor: "transparent",
+              }}
+            >
+              <Typography color="text.secondary">{item.text}</Typography>
+            </Box>
+          ))}
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function BasesPage() {
   const [tabIndex, setTabIndex] = useState(0);
   const sections = siteContent.rulebook.sections;
   const searchParams = useSearchParams();
-  const [hasUserSelected, setHasUserSelected] = useState(false);
+  const [maxPanelHeight, setMaxPanelHeight] = useState(0);
+  const measureRefs = useRef<Array<HTMLDivElement | null>>([]);
 
-  const urlTabIndex = useMemo(() => {
+  useEffect(() => {
     const tabId = searchParams.get("tab");
     if (!tabId) {
-      return null;
+      return;
     }
     const nextIndex = sections.findIndex((section) => section.id === tabId);
-    return nextIndex === -1 ? null : nextIndex;
+    if (nextIndex !== -1) {
+      setTabIndex(nextIndex);
+    }
   }, [searchParams, sections]);
 
-  const activeTabIndex =
-    hasUserSelected || urlTabIndex === null ? tabIndex : urlTabIndex;
+  useLayoutEffect(() => {
+    const measure = () => {
+      const heights = measureRefs.current
+        .map((node) => (node ? node.offsetHeight : 0))
+        .filter((height) => height > 0);
+      if (heights.length) {
+        setMaxPanelHeight(Math.max(...heights));
+      }
+    };
+
+    measure();
+  }, [sections]);
 
   return (
     <Box>
@@ -65,11 +107,8 @@ export default function BasesPage() {
               <Tabs
                 orientation="vertical"
                 variant="scrollable"
-                value={activeTabIndex}
-                onChange={(_event, value) => {
-                  setHasUserSelected(true);
-                  setTabIndex(value);
-                }}
+                value={tabIndex}
+                onChange={(_event, value) => setTabIndex(value)}
                 aria-label="Indice del reglamento"
                 sx={{
                   borderRight: 1,
@@ -92,44 +131,48 @@ export default function BasesPage() {
               </Tabs>
             </Grid>
             <Grid size={{ xs: 12, md: 8 }}>
-              {sections.map((section, index) => (
-                <RulebookPanel
-                  key={section.id}
-                  value={activeTabIndex}
-                  index={index}
+              <Box sx={{ position: "relative" }}>
+                <Box
+                  sx={{
+                    minHeight: maxPanelHeight ? `${maxPanelHeight}px` : "auto",
+                  }}
                 >
-                  <Card variant="outlined">
-                    <CardContent>
-                      <Stack spacing={2}>
-                        <Typography variant="h6">{section.title}</Typography>
-                        {section.items.map((item) => (
-                          <Box
-                            key={item.text}
-                            sx={{
-                              p: 2,
-                              borderRadius: 2,
-                              border: "1px solid",
-                              borderColor: item.highlight
-                                ? "primary.main"
-                                : "divider",
-                              backgroundColor: item.highlight
-                                ? "action.hover"
-                                : "transparent",
-                            }}
-                          >
-                            <Typography color="text.secondary">
-                              {item.text}
-                            </Typography>
-                          </Box>
-                        ))}
-                      </Stack>
-                    </CardContent>
-                  </Card>
-                </RulebookPanel>
-              ))}
+                  {sections.map((section, index) => (
+                    <RulebookPanel
+                      key={section.id}
+                      value={tabIndex}
+                      index={index}
+                    >
+                      <RulebookSectionContent section={section} />
+                    </RulebookPanel>
+                  ))}
+                </Box>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: 0,
+                    overflow: "hidden",
+                    visibility: "hidden",
+                    pointerEvents: "none",
+                  }}
+                >
+                  {sections.map((section, index) => (
+                    <Box
+                      key={section.id}
+                      ref={(node) => {
+                        measureRefs.current[index] = node;
+                      }}
+                    >
+                      <RulebookSectionContent section={section} />
+                    </Box>
+                  ))}
+                </Box>
+              </Box>
             </Grid>
           </Grid>
-          <CTAButtons />
         </Stack>
       </Section>
     </Box>

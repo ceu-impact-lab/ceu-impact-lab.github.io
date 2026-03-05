@@ -217,23 +217,18 @@ export default function Home() {
                 width: "100%",
               }}
             >
-              <CardContent sx={{ pb: 2 }}>
+              <CardActionArea component={Link} href={`/bases?tab=${section.id}`}>
+                <CardContent sx={{ pb: 2 }}>
                 <Stack spacing={1.5}>
                   <Typography variant="subtitle1">
                     {index + 1}. {section.title}
                   </Typography>
                   <Typography color="text.secondary">
-                    {section.items[0]?.text}
+                      {section.summary}
                   </Typography>
-                  <Button
-                    component={Link}
-                    href={`/bases?tab=${section.id}`}
-                    variant="outlined"
-                  >
-                    Ver detalle
-                  </Button>
                 </Stack>
-              </CardContent>
+                </CardContent>
+              </CardActionArea>
             </Card>
           ))}
         </Box>

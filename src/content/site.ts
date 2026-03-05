@@ -192,6 +192,8 @@ export const siteContent = {
       {
         id: "elegibilidad",
         title: "Elegibilidad y participación",
+        summary:
+          "Inscripción individual o en equipos de cinco, elección de empresa y prohibición de conflictos de interés o asistencia externa.",
         items: [
           {
             text:
@@ -211,6 +213,8 @@ export const siteContent = {
       {
         id: "proyecto",
         title: "Proyecto y desarrollo",
+        summary:
+          "Entrega de prototipo funcional con código desarrollado durante el hackathon y uso de FOSS únicamente como apoyo.",
         items: [
           {
             text:
@@ -230,6 +234,8 @@ export const siteContent = {
       {
         id: "entrega",
         title: "Entrega y hard freeze",
+        summary:
+          "Repositorio público, hard freeze estricto sin cambios posteriores y pitch deck en PDF.",
         items: [
           {
             text:
@@ -250,6 +256,8 @@ export const siteContent = {
       {
         id: "pitch",
         title: "Pitch y demo en directo",
+        summary:
+          "Tiempo estricto y demostración en vivo obligatoria, sin vídeos pregrabados.",
         items: [
           {
             text:
@@ -265,6 +273,8 @@ export const siteContent = {
       {
         id: "propiedad",
         title: "Propiedad intelectual y licencias",
+        summary:
+          "Publicación obligatoria del proyecto como open source bajo licencia MIT.",
         items: [
           {
             text:
@@ -280,6 +290,8 @@ export const siteContent = {
       {
         id: "conducta",
         title: "Código de conducta y régimen disciplinario",
+        summary:
+          "Régimen estricto frente a plagio, sabotaje, conducta inapropiada o incumplimiento de normas.",
         items: [
           {
             text:

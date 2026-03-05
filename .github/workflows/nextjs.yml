@@ -35,6 +35,12 @@ jobs:
           GITHUB_PAGES: "true"
         run: npm run build
 
+      - name: Verify export output
+        run: test -f out/index.html
+
+      - name: Disable Jekyll
+        run: touch out/.nojekyll
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

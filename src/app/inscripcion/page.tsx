@@ -12,7 +12,7 @@ export default function InscripcionPage() {
 
   return (
     <Box>
-      <Section title="Inscripcion" subtitle="Estudiantes">
+      <Section title="Inscripción" subtitle="Estudiantes">
         <Stack spacing={4}>
           <Card variant="outlined">
             <CardContent>
@@ -29,11 +29,11 @@ export default function InscripcionPage() {
                   size="large"
                   disabled={!hasRegistration}
                 >
-                  Inscribete (Estudiantes)
+                  Inscríbete (Estudiantes)
                 </Button>
                 {!hasRegistration ? (
                   <Typography variant="body2" color="text.secondary">
-                    Registro abierto proximamente. Actualiza el enlace en el contenido.
+                    Registro abierto próximamente. Actualiza el enlace en el contenido.
                   </Typography>
                 ) : null}
               </Stack>
@@ -61,7 +61,7 @@ export default function InscripcionPage() {
                   <ListItemIcon>
                     <CheckCircleOutlineIcon color="primary" />
                   </ListItemIcon>
-                  <ListItemText primary="Trae portatil y cargador." />
+                  <ListItemText primary="Trae portátil y cargador." />
                 </ListItem>
               </List>
             </CardContent>

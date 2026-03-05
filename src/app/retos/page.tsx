@@ -8,10 +8,10 @@ import { siteContent } from "@/content/site";
 export default function RetosPage() {
   return (
     <Box>
-      <Section title="Retos" subtitle="Categorias">
+      <Section title="Retos" subtitle="Categorías">
         <Stack spacing={4}>
           <Typography color="text.secondary">
-            Las categorias se anuncian en kickoff. Detalles revelados al inicio.
+            Las categorías se anuncian en kickoff. Detalles revelados al inicio.
           </Typography>
           <Grid container spacing={3}>
             {siteContent.challengeCategories.map((challenge) => (

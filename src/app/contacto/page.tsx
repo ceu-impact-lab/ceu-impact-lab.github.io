@@ -9,7 +9,7 @@ export default function ContactoPage() {
       <Section title="Contacto" subtitle="Hablemos">
         <Stack spacing={3}>
           <Typography color="text.secondary">
-            Escribenos para dudas generales, colaboraciones o prensa.
+            Escríbenos para dudas generales, colaboraciones o prensa.
           </Typography>
           <Card variant="outlined">
             <CardContent>

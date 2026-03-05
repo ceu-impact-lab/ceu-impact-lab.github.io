@@ -24,7 +24,7 @@ export function CTAButtons({ direction = "row", size = "large" }: CTAButtonsProp
         color="primary"
         disabled={!hasRegistration}
       >
-        Inscribete (Estudiantes)
+        Inscríbete (Estudiantes)
       </Button>
       <Button
         component={Link}

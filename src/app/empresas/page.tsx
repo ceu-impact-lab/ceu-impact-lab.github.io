@@ -8,7 +8,7 @@ import { siteContent } from "@/content/site";
 export default function EmpresasPage() {
   return (
     <Box>
-      <Section title="Empresas" subtitle="Colaboracion">
+      <Section title="Empresas" subtitle="Colaboración">
         <Grid container spacing={4}>
           <Grid size={{ xs: 12, md: 7 }}>
             <Stack spacing={3}>
@@ -16,9 +16,9 @@ export default function EmpresasPage() {
                 <CardContent>
                   <Typography variant="h6">ROI para patrocinadores</Typography>
                   <Typography color="text.secondary">
-                    Acceso directo a CVs y talento en accion, posicionamiento de marca
-                    ante futuros profesionales e innovacion aplicada a retos reales.
-                    Entrevistas o practicas opcionales durante el evento.
+                    Acceso directo a CVs y talento en acción, posicionamiento de marca
+                    ante futuros profesionales e innovación aplicada a retos reales.
+                    Entrevistas o prácticas opcionales durante el evento.
                   </Typography>
                 </CardContent>
               </Card>
@@ -33,10 +33,10 @@ export default function EmpresasPage() {
                       - Enviar mentores y formar parte del jurado.
                     </Typography>
                     <Typography color="text.secondary">
-                      - Aportar premio tecnologico o reconocimiento.
+                      - Aportar premio tecnológico o reconocimiento.
                     </Typography>
                     <Typography color="text.secondary">
-                      - Colaboracion en especie: catering, welcome packs, materiales.
+                      - Colaboración en especie: catering, welcome packs, materiales.
                     </Typography>
                   </Stack>
                 </CardContent>

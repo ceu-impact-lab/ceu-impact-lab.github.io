@@ -1,12 +1,12 @@
-const hardFreezeTime = "12:30";
-const submissionDeadlineTime = "12:30";
+const hardFreezeTime = "10:00";
+const submissionDeadlineTime = "10:00";
 const pitchDuration = "X/Y minutos";
 
 export const siteContent = {
   eventName: "CEU Impact Lab",
-  dates: "25-26 Abril 2026",
-  awardsDate: "Martes 28 Abril 2026",
-  location: "Campus Monteprincipe, CEU Madrid",
+  dates: "18-19 Abril 2026",
+  awardsDate: "Domingo 19 Abril 2026",
+  location: "Campus Montepríncipe, CEU Madrid",
   primaryCTAs: {
     studentRegistrationUrl: "",
     companyContactUrl: "mailto:impactlab@ceu.es",
@@ -17,33 +17,30 @@ export const siteContent = {
   },
   scheduleBlocks: [
     {
-      day: "Sabado",
-      date: "25 Abril",
+      day: "Sábado",
+      date: "18 Abril",
       label: "Kickoff y build",
       items: [
-        "09:00-09:30 Recepcion de participantes y empresas",
-        "09:30-10:30 Presentacion del evento y retos",
-        "10:30-14:00 Bloque de trabajo I",
+        "10:00-10:30 Recepción de participantes y empresas",
+        "10:30-11:30 Presentación del evento y retos",
+        "11:30-14:00 Bloque de trabajo I",
         "14:00-15:00 Comida + networking",
-        "15:00-19:00 Bloque de trabajo II",
-        "19:00-20:00 Cierre del dia + networking",
+        "15:00-20:00 Bloque de trabajo II + cierre en campus",
       ],
     },
     {
       day: "Domingo",
-      date: "26 Abril",
-      label: "Pitches y cierre",
+      date: "19 Abril",
+      label: "Cierre de entregas y pitches",
       items: [
-        "09:00-09:30 Llegada de participantes",
-        "09:30-12:30 Bloque de trabajo final",
-        "12:30 Hard freeze y cierre de entregas",
-        "13:00-14:00 Presentaciones de proyectos",
-        "14:00-15:00 Cierre en Aula Magna",
+        "10:00 Hard freeze y cierre de entregas",
+        "10:30-12:00 Presentaciones de proyectos",
+        "12:00-13:00 Cierre en Aula Magna",
       ],
     },
     {
-      day: "Martes",
-      date: "28 Abril",
+      day: "Domingo",
+      date: "19 Abril",
       label: "Awards institucionales",
       items: [
         "Acto oficial de 1h-1:30h",
@@ -53,33 +50,33 @@ export const siteContent = {
     },
   ],
   keyStats: [
-    { value: "50", label: "participantes seleccionados" },
-    { value: "48h", label: "desarrollo intensivo" },
-    { value: "1", label: "campus" },
+    { value: "75", label: "participantes seleccionados" },
+    { value: "24h", label: "desarrollo intensivo" },
+    { value: "5", label: "retos" },
     { value: "MVP", label: "prototipo funcional" },
   ],
   howItWorksSteps: [
-    "Aplica y seleccion",
-    "Formacion de equipos",
-    "Presentacion de retos",
+    "Aplica y selección",
+    "Formación de equipos",
+    "Presentación de retos",
     "Build intensivo",
     "Hard freeze",
     "Pitch + demo",
     "Awards",
   ],
   howItWorksDetails: [
-    "Seleccion de participantes del CEU, con foco en ingenieria, datos, economia y marketing. El cupo inicial es de 50 plazas y se da prioridad a perfiles que quieran una primera experiencia practica en entorno real.",
-    "Los equipos se asignan aleatoriamente en el kickoff, con un maximo de cinco personas. La mezcla de perfiles tecnicos y de negocio busca simular equipos reales y favorecer el aprendizaje transversal.",
+    "Selección de participantes del CEU, con foco en ingeniería, datos, economía y marketing. El cupo inicial es de 50 plazas y se da prioridad a perfiles que quieran una primera experiencia práctica en entorno real.",
+    "Los equipos se asignan aleatoriamente en el kickoff, con un máximo de cinco personas. La mezcla de perfiles técnicos y de negocio busca simular equipos reales y favorecer el aprendizaje transversal.",
     "Empresas colaboradoras presentan retos de su sector y cada equipo recibe uno asignado. El objetivo es resolver un problema real con un MVP funcional, conectado a necesidades de mercado.",
-    "Dos dias de trabajo intensivo con bloques definidos, espacios de networking y mentoring de representantes tecnicos y RRHH. El desarrollo sucede en aulas de trabajo con apoyo logistico y WiFi.",
-    "El domingo a las 12:30 se aplica el hard freeze: se detiene el codigo y no se permiten commits ni cambios en repositorios, APIs o bases de datos. Todo se entrega via repo publico.",
-    "Cada equipo presenta en vivo su prototipo con demo funcional y una sesion de preguntas. La presentacion se entrega en PDF dentro del repositorio y se valora claridad, viabilidad y ejecucion.",
+    "24 horas de trabajo intensivo con bloques definidos, espacios de networking y mentoring de representantes técnicos y RRHH. El desarrollo sucede en aulas de trabajo con apoyo logístico y WiFi.",
+    "El domingo a las 10:00 se aplica el hard freeze: se detiene el código y no se permiten commits ni cambios en repositorios, APIs o bases de datos. Todo se entrega vía repo público.",
+    "Cada equipo presenta en vivo su prototipo con demo funcional y una sesión de preguntas. La presentación se entrega en PDF dentro del repositorio y se valora claridad, viabilidad y ejecución.",
     "Cierre institucional el martes con entrega de premios junto a Vicerrectorado y empresas. Se reconoce el trabajo, se potencia la empleabilidad y se refuerza la visibilidad del evento.",
   ],
   rubric: [
-    { category: "Innovacion y valor de la idea", weight: 30 },
-    { category: "Dificultad tecnica y arquitectura", weight: 30 },
-    { category: "Adecuacion al reto y a la empresa", weight: 25 },
+    { category: "Innovación y valor de la idea", weight: 30 },
+    { category: "Dificultad técnica y arquitectura", weight: 30 },
+    { category: "Adecuación al reto y a la empresa", weight: 25 },
     { category: "Pitch, demo y Q&A", weight: 15 },
   ],
   rulebook: {
@@ -97,7 +94,7 @@ export const siteContent = {
       },
       {
         id: "conflictos",
-        title: "Conflicto de interes",
+        title: "Conflicto de interés",
         items: [
           {
             text:
@@ -125,7 +122,7 @@ export const siteContent = {
         id: "originalidad",
         title: "Originalidad",
         items: [
-          { text: "El codigo principal debe escribirse durante el hackathon." },
+          { text: "El código principal debe escribirse durante el hackathon." },
           {
             text:
               "Se permite usar frameworks, APIs y software open source como apoyo.",
@@ -137,9 +134,9 @@ export const siteContent = {
         id: "open-source",
         title: "Open source y repositorio",
         items: [
-          { text: "Repositorio GitHub publico obligatorio.", highlight: true },
+          { text: "Repositorio GitHub público obligatorio.", highlight: true },
           { text: "Licencia MIT obligatoria.", highlight: true },
-          { text: "Incluir pitch en PDF en la raiz del repo." },
+          { text: "Incluir pitch en PDF en la raíz del repo." },
         ],
       },
       {
@@ -157,9 +154,9 @@ export const siteContent = {
         id: "entrega",
         title: "Entrega",
         items: [
-          { text: "Entrega unica mediante repo publico." },
+          { text: "Entrega única mediante repo público." },
           {
-            text: `La hora limite de entrega es ${submissionDeadlineTime} del domingo.`,
+            text: `La hora límite de entrega es ${submissionDeadlineTime} del domingo.`,
           },
         ],
       },
@@ -175,39 +172,39 @@ export const siteContent = {
       },
       {
         id: "conducta",
-        title: "Codigo de conducta",
+        title: "Código de conducta",
         items: [
           { text: "Respeto absoluto a participantes, mentores y staff." },
-          { text: "Plagio, sabotaje o toxicidad conlleva descalificacion." },
+          { text: "Plagio, sabotaje o toxicidad conlleva descalificación." },
         ],
       },
     ],
   },
   faq: [
     {
-      question: "Quien puede participar?",
+      question: "¿Quién puede participar?",
       answer:
-        "Estudiantes seleccionados de perfiles tecnicos y de negocio, con cupo inicial de 50 plazas.",
+        "Estudiantes seleccionados de perfiles técnicos y de negocio, con cupo inicial de 75 plazas.",
     },
     {
-      question: "Necesito equipo previo?",
+      question: "¿Necesito equipo previo?",
       answer:
         "No. Los equipos se asignan aleatoriamente en el kickoff.",
     },
     {
-      question: "Puedo reutilizar codigo open source?",
+      question: "¿Puedo reutilizar código open source?",
       answer:
-        "Si, siempre que el repositorio sea publico y con licencia MIT.",
+        "Sí, siempre que el repositorio sea público y con licencia MIT.",
     },
     {
-      question: "Habra mentoring?",
+      question: "¿Habrá mentoring?",
       answer:
-        "Si, mentores de empresas acompanaran durante todo el build.",
+        "Sí, mentores de empresas acompañarán durante todo el build.",
     },
     {
-      question: "Como se evalua?",
+      question: "¿Cómo se evalúa?",
       answer:
-        "Aplicamos una rubrica ponderada centrada en impacto, innovacion, ejecucion y presentacion.",
+        "Aplicamos una rúbrica ponderada centrada en impacto, innovación, ejecución y presentación.",
     },
   ],
   sponsors: [
@@ -224,22 +221,22 @@ export const siteContent = {
     },
     {
       title: "FinTech Responsable",
-      description: "Herramientas para educacion financiera y transparencia.",
+      description: "Herramientas para educación financiera y transparencia.",
       roles: ["Data", "Backend", "UX", "Business"],
     },
     {
       title: "Salud Digital",
-      description: "Soluciones para bienestar y prevencion.",
+      description: "Soluciones para bienestar y prevención.",
       roles: ["Frontend", "Data", "UX", "Business"],
     },
     {
       title: "IA para Operaciones",
-      description: "Automatizacion y optimizacion de procesos.",
+      description: "Automatización y optimización de procesos.",
       roles: ["Backend", "Data", "Frontend"],
     },
     {
       title: "Sostenibilidad",
-      description: "Medicion y accion sobre impacto ambiental.",
+      description: "Medición y acción sobre impacto ambiental.",
       roles: ["Data", "UX", "Business"],
     },
   ],

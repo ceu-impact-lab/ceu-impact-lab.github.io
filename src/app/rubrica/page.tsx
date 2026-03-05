@@ -9,10 +9,10 @@ import { siteContent } from "@/content/site";
 export default function RubricaPage() {
   return (
     <Box>
-      <Section title="Rubrica" subtitle="Evaluacion">
+      <Section title="Rúbrica" subtitle="Evaluación">
         <Stack spacing={3}>
           <Typography color="text.secondary">
-            La evaluacion combina impacto, innovacion, ejecucion tecnica y presentacion.
+            La evaluación combina impacto, innovación, ejecución técnica y presentación.
           </Typography>
           {siteContent.rubric.map((item, index) => (
             <Card key={item.category} variant="outlined">

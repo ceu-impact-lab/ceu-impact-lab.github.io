@@ -33,7 +33,7 @@ export default function Home() {
                 {siteContent.eventName}
               </Typography>
               <Typography variant="h5" color="text.secondary">
-                Innovacion intensiva de 48h con equipos multidisciplinares y retos reales.
+                Innovación intensiva de 24h con equipos multidisciplinares y retos reales.
               </Typography>
               <Stack direction="row" spacing={2} flexWrap="wrap">
                 <Typography variant="subtitle1">{siteContent.dates}</Typography>
@@ -44,7 +44,7 @@ export default function Home() {
               <CTAButtons />
               {!hasRegistration ? (
                 <Typography variant="body2" color="text.secondary">
-                  Registro abierto proximamente. Actualiza el enlace en el contenido.
+                  Registro abierto próximamente. Actualiza el enlace en el contenido.
                 </Typography>
               ) : null}
             </Stack>
@@ -72,7 +72,7 @@ export default function Home() {
         </Grid>
       </Section>
 
-      <Section title="Numeros clave" subtitle="Impacto" id="numeros">
+      <Section title="Números clave" subtitle="Impacto" id="numeros">
         <Grid container spacing={3}>
           {siteContent.keyStats.map((stat) => (
             <Grid size={{ xs: 12, sm: 6, md: 3 }} key={stat.label}>
@@ -87,7 +87,7 @@ export default function Home() {
         </Grid>
       </Section>
 
-      <Section title="Como funciona" subtitle="Proceso" id="como-funciona">
+      <Section title="Cómo funciona" subtitle="Proceso" id="como-funciona">
         <HowItWorksInteractive
           steps={siteContent.howItWorksSteps}
           details={siteContent.howItWorksDetails}
@@ -104,7 +104,7 @@ export default function Home() {
         </Grid>
       </Section>
 
-      <Section title="Criterios de evaluacion" subtitle="Rubrica" id="rubrica">
+      <Section title="Criterios de evaluación" subtitle="Rúbrica" id="rubrica">
         <Stack spacing={2}>
           {siteContent.rubric.map((item, index) => (
             <Card key={item.category} variant="outlined">

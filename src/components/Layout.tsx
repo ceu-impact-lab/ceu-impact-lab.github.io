@@ -20,7 +20,7 @@ type LayoutProps = {
 
 const navItems = [
   { label: "Bases", href: "/bases" },
-  { label: "Inscripcion", href: "/inscripcion" },
+  { label: "Inscripción", href: "/inscripcion" },
   { label: "Empresas", href: "/empresas" },
 ];
 
@@ -120,7 +120,7 @@ export function Layout({ children }: LayoutProps) {
               <CTAButtons size="small" />
             </Box>
             <IconButton
-              aria-label={isMenuOpen ? "Cerrar menu" : "Abrir menu"}
+              aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
               onClick={() => setIsMenuOpen((prev) => !prev)}
               sx={{ display: { xs: "inline-flex", lg: "none" } }}
             >

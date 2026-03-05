@@ -8,7 +8,7 @@ import { siteContent } from "@/content/site";
 export default function ComoFuncionaPage() {
   return (
     <Box>
-      <Section title="Como funciona" subtitle="Proceso">
+      <Section title="Cómo funciona" subtitle="Proceso">
         <Stack spacing={4}>
           <Stepper alternativeLabel>
             {siteContent.howItWorksSteps.map((step) => (
@@ -23,7 +23,7 @@ export default function ComoFuncionaPage() {
                 <CardContent>
                   <Typography variant="h6">Retos reales</Typography>
                   <Typography color="text.secondary">
-                    Empresas proponen desafios alineados a negocio y tecnologia.
+                    Empresas proponen desafíos alineados a negocio y tecnología.
                   </Typography>
                 </CardContent>
               </Card>
@@ -33,7 +33,7 @@ export default function ComoFuncionaPage() {
                 <CardContent>
                   <Typography variant="h6">Equipos asignados</Typography>
                   <Typography color="text.secondary">
-                    Equipos aleatorios de hasta 5 personas, con perfiles tecnicos y de negocio.
+                    Equipos aleatorios de hasta 5 personas, con perfiles técnicos y de negocio.
                   </Typography>
                 </CardContent>
               </Card>
@@ -41,7 +41,7 @@ export default function ComoFuncionaPage() {
             <Grid size={{ xs: 12, md: 4 }}>
               <Card variant="outlined">
                 <CardContent>
-                  <Typography variant="h6">Mentoria y jurado</Typography>
+                  <Typography variant="h6">Mentoría y jurado</Typography>
                   <Typography color="text.secondary">
                     Mentores de empresa y jurado para evaluar prototipos funcionales.
                   </Typography>

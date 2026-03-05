@@ -12,6 +12,10 @@
   overflow: hidden;
   background: #000000;
   color: var(--slide-ink);
+  /* Center the canvas in the viewport using flexbox — no math, no offset */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .stage,
@@ -37,16 +41,16 @@
   display: none !important;
 }
 
-.deckWrapper {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform-origin: top left;
-}
+/* .deckWrapper removed — scale is applied directly on .deckCanvas via inline style */
 
 .deckCanvas {
   width: 1920px;
   height: 1080px;
+  /* flex-shrink: 0 prevents the parent flex container from collapsing the canvas */
+  flex-shrink: 0;
+  /* Scale is applied via inline style; transform-origin center keeps it centered after scaling */
+  transform-origin: center center;
+  will-change: transform;
   position: relative;
   overflow: hidden;
   background:

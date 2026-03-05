@@ -100,8 +100,10 @@ export function ClientSlides() {
 
     updateScale();
     window.addEventListener("resize", updateScale);
+    window.visualViewport?.addEventListener("resize", updateScale);
     return () => {
       window.removeEventListener("resize", updateScale);
+      window.visualViewport?.removeEventListener("resize", updateScale);
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);
       }
@@ -110,11 +112,7 @@ export function ClientSlides() {
 
   return (
     <main className={styles.stage} ref={stageRef}>
-      <div
-        className={styles.deckWrapper}
-        style={{ transform: `translate(-50%, -50%) scale(${scale})` }}
-      >
-        <div className={styles.deckCanvas}>
+        <div className={styles.deckCanvas} style={{ transform: `scale(${scale})` }}>
           {/* Add new slides as <section className={styles.slide}> inside this track. */}
           <div className={styles.track} style={{ transform: `translateX(-${activeSlide * 100}%)` }}>
           <section className={styles.slide} aria-label="Diapositiva 1: Portada">
@@ -640,7 +638,6 @@ export function ClientSlides() {
             </button>
           </div>
         </div>
-      </div>
     </main>
   );
 }

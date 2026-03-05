@@ -66,7 +66,7 @@ export const siteContent = {
   ],
   howItWorksDetails: [
     "Selección de participantes del CEU, con foco en ingeniería, datos, economía y marketing. El cupo inicial es de 50 plazas y se da prioridad a perfiles que quieran una primera experiencia práctica en entorno real.",
-    "Los equipos se asignan aleatoriamente en el kickoff, con un máximo de cinco personas. La mezcla de perfiles técnicos y de negocio busca simular equipos reales y favorecer el aprendizaje transversal.",
+    "La inscripción puede ser con equipo ya formado o individual. Si no tienes equipo, se te asignará uno al azar en el kickoff, con un máximo de cinco personas. La mezcla de perfiles técnicos y de negocio busca simular equipos reales y favorecer el aprendizaje transversal.",
     "Empresas colaboradoras presentan retos de su sector y cada equipo recibe uno asignado. El objetivo es resolver un problema real con un MVP funcional, conectado a necesidades de mercado.",
     "24 horas de trabajo intensivo con bloques definidos, espacios de networking y mentoring de representantes técnicos y RRHH. El desarrollo sucede en aulas de trabajo con apoyo logístico y WiFi.",
     "El domingo a las 10:00 se aplica el hard freeze: se detiene el código y no se permiten commits ni cambios en repositorios, APIs o bases de datos. Todo se entrega vía repo público.",
@@ -88,7 +88,11 @@ export const siteContent = {
         id: "elegibilidad",
         title: "Elegibilidad",
         items: [
-          { text: "Participantes asignados aleatoriamente en equipos de hasta 5." },
+          {
+            text:
+              "Inscripción individual o con equipo ya formado, con un máximo de 5 personas.",
+          },
+          { text: "Si no tienes equipo, se te asignará uno al azar." },
           { text: "Cada equipo recibe un reto asignado de una empresa patrocinadora." },
         ],
       },
@@ -189,7 +193,7 @@ export const siteContent = {
     {
       question: "¿Necesito equipo previo?",
       answer:
-        "No. Los equipos se asignan aleatoriamente en el kickoff.",
+        "No es obligatorio. Puedes inscribirte con tu equipo o individual; si no tienes, se te asignara uno al azar en el kickoff.",
     },
     {
       question: "¿Puedo reutilizar código open source?",

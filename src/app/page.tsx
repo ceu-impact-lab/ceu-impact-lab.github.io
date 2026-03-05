@@ -55,7 +55,8 @@ export default function Home() {
                 <Stack spacing={2}>
                   <Typography variant="h6">Lo esencial</Typography>
                   <Typography color="text.secondary">
-                    Equipos asignados al azar, retos de empresas y foco en empleabilidad.
+                    Inscripcion con equipo o individual, retos de empresas y foco en
+                    empleabilidad.
                   </Typography>
                   <Stack spacing={1}>
                     <Typography variant="body2" color="text.secondary">

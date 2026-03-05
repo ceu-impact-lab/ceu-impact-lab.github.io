@@ -10,7 +10,14 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import {
+  Suspense,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { useSearchParams } from "next/navigation";
 import { Section } from "@/components/ui/Section";
 import { siteContent } from "@/content/site";
@@ -69,7 +76,7 @@ function RulebookSectionContent({
   );
 }
 
-export default function BasesPage() {
+function BasesPageContent() {
   const [tabIndex, setTabIndex] = useState(0);
   const sections = siteContent.rulebook.sections;
   const searchParams = useSearchParams();
@@ -172,7 +179,8 @@ export default function BasesPage() {
                     <Box
                       key={section.id}
                       ref={(node) => {
-                        measureRefs.current[index] = node;
+                        measureRefs.current[index] =
+                          node instanceof HTMLDivElement ? node : null;
                       }}
                     >
                       <RulebookSectionContent
@@ -188,5 +196,13 @@ export default function BasesPage() {
         </Stack>
       </Section>
     </Box>
+  );
+}
+
+export default function BasesPage() {
+  return (
+    <Suspense fallback={null}>
+      <BasesPageContent />
+    </Suspense>
   );
 }

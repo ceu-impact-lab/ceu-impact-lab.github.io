@@ -29,6 +29,14 @@
   --s-ink-faint:      rgba(7, 8, 80, 0.1);
   --s-primary-tint:   rgba(0, 60, 163, 0.09);
   --s-primary-border: rgba(0, 60, 163, 0.24);
+
+  /* ── Deck type scale (PPT 1920×1080) ─ single source of truth ─── */
+  --ppt-title:    84px;   /* h1  ExtraLight 200 */
+  --ppt-subtitle: 44px;   /* h2  Regular 400   */
+  --ppt-heading:  32px;   /* h3  SemiBold 600  */
+  --ppt-body:     24px;   /* p   Regular 400   */
+  --ppt-caption:  20px;   /* sm  SemiBold 600  */
+  --ppt-fine:     16px;   /* xs  Regular 400   */
 }
 
 /* first .stage definition removed (was duplicate from edit conflict) */
@@ -168,6 +176,10 @@
   border: 1px solid var(--s-divider);
   background: transparent;
   transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+  /* button reset */
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .dotActive {
@@ -190,10 +202,11 @@
 .slideFrame {
   width: 100%;
   height: 100%;
-  padding: 64px 80px 72px;
+  /* Reduced safe-area: leaves 44px top/bottom, 64px sides — slides feel full */
+  padding: 44px 64px 48px;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  gap: 28px;
+  gap: 18px;
   position: relative;
 }
 
@@ -223,7 +236,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  font-size: 15px;
+  font-size: var(--ppt-fine);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 600;
@@ -231,7 +244,7 @@
 }
 
 .slideNumber {
-  font-size: 12px;
+  font-size: var(--ppt-fine);
   font-weight: 600;
   letter-spacing: 0.1em;
   color: var(--s-primary);
@@ -247,27 +260,40 @@
   /* Light bg — native logo colors */
 }
 
+/* ── Header logo (right side of section header) ────────────────── */
+.slideHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.headerLogo {
+  height: 28px;
+  width: auto;
+  opacity: 0.55;
+}
+
 /* ── Typography scale ────────────────────────────────────────────── */
 .slideTitle {
-  font-size: 68px;
+  font-size: var(--ppt-title);
   /* MUI h1/h2: fontWeight 200 ExtraLight */
   font-weight: 200;
-  line-height: 1.08;
+  line-height: 1.06;
   letter-spacing: -0.02em;
   color: var(--s-ink);
   margin: 0;
 }
 
 .slideSubtitle {
-  font-size: 32px;
+  font-size: var(--ppt-subtitle);
   font-weight: 400;
-  line-height: 1.3;
+  line-height: 1.25;
   color: var(--s-ink-muted);
-  margin: 12px 0 0;
+  margin: 10px 0 0;
 }
 
 .lead {
-  font-size: 22px;
+  font-size: var(--ppt-body);
   line-height: 1.5;
   color: var(--s-ink-muted);
 }
@@ -275,27 +301,31 @@
 /* ── Slide body & layout ─────────────────────────────────────────── */
 .slideBody {
   display: grid;
-  gap: 20px;
-  align-content: start;
+  gap: 14px;
+  /* Centre content in the 1fr row — avoids the "all top-left" look */
+  align-content: center;
   overflow: hidden;
 }
 
 .columns {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px;
+  gap: 16px;
+  align-items: stretch;
 }
 
 .col2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
+  gap: 16px;
+  align-items: stretch;
 }
 
 .col3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  gap: 16px;
+  align-items: stretch;
 }
 
 /* ── Cards ───────────────────────────────────────────────────────── */
@@ -304,14 +334,18 @@
   background: var(--s-glass);
   border: 1px solid var(--s-divider);
   border-radius: var(--s-r);
-  padding: 24px 28px;
-  display: grid;
-  gap: 14px;
+  padding: 20px 24px;
+  /* flex keeps heading flush against body with no giant gap */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
   backdrop-filter: var(--s-blur);
+  align-self: stretch;
 }
 
 .card strong {
-  font-size: 19px;
+  font-size: var(--ppt-heading);
   /* MUI subtitle/h3: fontWeight 600 */
   font-weight: 600;
   color: var(--s-ink);
@@ -320,8 +354,8 @@
 
 .card p,
 .card span {
-  font-size: 18px;
-  line-height: 1.5;
+  font-size: var(--ppt-body);
+  line-height: 1.45;
   color: var(--s-ink-muted);
 }
 
@@ -335,12 +369,12 @@
 /* ── List ────────────────────────────────────────────────────────── */
 .list {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   padding-left: 0;
   margin: 0;
   list-style: none;
-  font-size: 18px;
-  line-height: 1.45;
+  font-size: var(--ppt-body);
+  line-height: 1.35;
   color: var(--s-ink-muted);
 }
 
@@ -364,7 +398,7 @@
   margin: 0;
   list-style: none;
   counter-reset: ol-counter;
-  font-size: 18px;
+  font-size: var(--ppt-body);
   line-height: 1.45;
   color: var(--s-ink-muted);
 }
@@ -381,7 +415,52 @@
   left: 0;
   color: var(--s-primary);
   font-weight: 600;
-  font-size: 16px;
+  font-size: var(--ppt-caption);
+}
+
+/* ── 60 / 40 two-column split (slide 4) ─────────────────────────── */
+.split6040 {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.split6040Left {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.split6040Right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* 2×2 micro-grid for area/skill cards */
+.skillGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: stretch;
+}
+
+/* Full-width centred tag pill (slide 7 “fuera de scope”) */
+.tagFull {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 14px 20px;
+  border-radius: var(--s-r-chip);
+  border: 1px solid var(--s-primary-border);
+  background: var(--s-primary-tint);
+  color: var(--s-primary);
+  font-size: var(--ppt-body);
+  font-weight: 600;
+  line-height: 1.3;
+  width: 100%;
 }
 
 /* ── Tags / chips ────────────────────────────────────────────────── */
@@ -397,7 +476,7 @@
   border: 1px solid var(--s-primary-border);
   background: var(--s-primary-tint);
   color: var(--s-primary);
-  font-size: 16px;
+  font-size: var(--ppt-caption);
   font-weight: 600;
   letter-spacing: 0.02em;
 }
@@ -407,9 +486,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: var(--ppt-fine);
   color: var(--s-ink-dim);
-  padding-top: 14px;
+  padding-top: 12px;
   border-top: 1px solid var(--s-ink-faint);
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -420,7 +499,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: var(--ppt-caption);
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -429,7 +508,7 @@
   border: 1px solid var(--s-primary-border);
   padding: 6px 16px;
   border-radius: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .coverDivider {
@@ -437,26 +516,28 @@
   height: 3px;
   background: var(--s-primary);
   border-radius: 2px;
-  margin: 16px 0;
+  margin: 12px 0;
 }
 
 /* ── Infografía 1: Problem Map (slide 2) ─────────────────────────── */
 .problemGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 16px;
+  align-items: stretch;
 }
 
 .problemCard {
   background: var(--s-glass);
   border: 1px solid var(--s-divider);
   border-radius: var(--s-r);
-  padding: 24px;
+  padding: 20px 22px;
   display: grid;
-  gap: 10px;
+  gap: 8px;
   position: relative;
   overflow: hidden;
   backdrop-filter: var(--s-blur);
+  align-self: stretch;
 }
 
 .problemCard::before {
@@ -473,25 +554,29 @@
 .problemIcon {
   width: 44px;
   height: 44px;
-  border-radius: var(--s-r-sm);
   display: grid;
   place-items: center;
   flex-shrink: 0;
+  /* C) Glyph-only: no container fill on slide 2 */
+  background: none;
+  border: none;
+  border-radius: 0;
 }
 
-.problemIconRed    { background: var(--s-primary-tint); }
-.problemIconAmber  { background: rgba(24, 143, 241, 0.12); }
-.problemIconOrange { background: rgba(82, 160, 149, 0.15); }
+/* No tint backgrounds — icon colour comes from the SVG stroke attribute */
+.problemIconRed    { background: none; }
+.problemIconAmber  { background: none; }
+.problemIconOrange { background: none; }
 
 .problemTitle {
-  font-size: 18px;
+  font-size: var(--ppt-heading);
   font-weight: 600;
   color: var(--s-ink);
   margin: 0;
 }
 
 .problemDesc {
-  font-size: 16px;
+  font-size: var(--ppt-body);
   line-height: 1.45;
   color: var(--s-ink-muted);
   margin: 0;
@@ -500,20 +585,20 @@
 .impactRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 14px;
 }
 
 .impactCard {
   background: var(--s-primary-tint);
   border: 1px solid var(--s-primary-border);
   border-radius: var(--s-r);
-  padding: 18px 22px;
+  padding: 16px 20px;
   display: grid;
   gap: 4px;
 }
 
 .impactLabel {
-  font-size: 12px;
+  font-size: var(--ppt-fine);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -521,7 +606,7 @@
 }
 
 .impactDesc {
-  font-size: 17px;
+  font-size: var(--ppt-body);
   font-weight: 600;
   color: var(--s-ink);
   line-height: 1.35;
@@ -561,14 +646,14 @@
 }
 
 .flowNodeLabel {
-  font-size: 15px;
+  font-size: var(--ppt-caption);
   font-weight: 600;
   color: var(--s-ink);
   line-height: 1.2;
 }
 
 .flowNodeSub {
-  font-size: 13px;
+  font-size: var(--ppt-fine);
   color: var(--s-ink-muted);
   line-height: 1.3;
 }
@@ -599,13 +684,15 @@
 
 .evalItem {
   display: grid;
-  grid-template-columns: 260px 1fr 56px;
+  /* wider last column so % never clips */
+  grid-template-columns: 260px 1fr 80px;
   align-items: center;
   gap: 20px;
+  overflow: visible;
 }
 
 .evalLabel {
-  font-size: 17px;
+  font-size: var(--ppt-body);
   font-weight: 600;
   color: var(--s-ink);
   text-align: right;
@@ -625,10 +712,13 @@
 }
 
 .evalPct {
-  font-size: 19px;
+  font-size: var(--ppt-heading);
   font-weight: 800;
   text-align: right;
   font-variant-numeric: tabular-nums;
+  overflow: visible;
+  white-space: nowrap;
+  padding-right: 4px;
 }
 
 /* ── Infografía 4: KPI cards (slide 12) ──────────────────────────── */
@@ -677,13 +767,13 @@
 .kpiRed .kpiValue   { color: var(--s-purple); }
 
 .kpiLabel {
-  font-size: 16px;
+  font-size: var(--ppt-caption);
   font-weight: 600;
   color: var(--s-ink);
 }
 
 .kpiSub {
-  font-size: 13px;
+  font-size: var(--ppt-fine);
   color: var(--s-ink-muted);
   line-height: 1.3;
 }
@@ -726,6 +816,64 @@
   color: var(--s-ink-muted);
 }
 
+/* ── Mini table (slide 6, card "Datos de entrada") ───────────────── */
+.miniTable {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+}
+
+.miniTableRow {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.miniTableHead {
+  background: rgba(0,60,163,0.12);
+  font-weight: 600;
+  color: var(--s-primary);
+}
+
+.miniTableRow:not(.miniTableHead) {
+  color: var(--s-ink-muted);
+  border-bottom: 1px solid var(--s-ink-faint);
+}
+
+/* ── Mini recommendations (slide 6, card "Qué te dice") ─────────── */
+.miniRec {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: var(--s-r-chip);
+  border: 1px solid var(--s-divider);
+  background: rgba(7,8,80,0.04);
+  font-size: 14px;
+  color: var(--s-ink-muted);
+  line-height: 1.3;
+}
+
+.miniRecIcon {
+  font-size: 16px;
+  font-weight: 800;
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+  color: var(--s-primary);
+}
+
+/* ── Column stack: 3-column row for "Fuera de alcance" pills ────── */
+.colStack {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+
 /* ── Impact row (slide 12) ───────────────────────────────────────── */
 .iconRow {
   display: grid;
@@ -742,16 +890,17 @@
   display: grid;
   gap: 8px;
   text-align: center;
+  align-self: stretch;
 }
 
 .iconCard strong {
-  font-size: 16px;
+  font-size: var(--ppt-caption);
   font-weight: 600;
   color: var(--s-ink);
 }
 
 .iconCard span {
-  font-size: 13px;
+  font-size: var(--ppt-fine);
   color: var(--s-ink-muted);
 }
 
@@ -770,3 +919,73 @@
   letter-spacing: 0.05em;
 }
 
+/* ── PDF download button ──────────────────────────────────── */
+.pdfBtn {
+  position: absolute;
+  top: 20px;
+  right: 80px;
+  z-index: 20;
+  padding: 8px 18px;
+  border-radius: var(--s-r-chip);
+  border: 1px solid var(--s-primary-border);
+  background: var(--s-glass);
+  backdrop-filter: var(--s-blur);
+  color: var(--s-primary);
+  font-family: var(--font-poppins), Verdana, sans-serif;
+  font-size: var(--ppt-fine);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+  white-space: nowrap;
+}
+.pdfBtn:hover {
+  background: var(--s-primary-tint);
+  border-color: var(--s-primary);
+}
+
+/* ── Print / PDF export ──────────────────────────────────── */
+@media print {
+  /* Hide all interactive UI */
+  .controls,
+  .pdfBtn {
+    display: none !important;
+  }
+
+  /* Unfix the stage so the page can flow */
+  .stage {
+    position: static !important;
+    inset: auto !important;
+    overflow: visible !important;
+    width: auto !important;
+    height: auto !important;
+    display: block !important;
+    background: transparent !important;
+  }
+
+  /* Scale down 1920px canvas to fit A4 landscape (~1056px visual width).    */
+  /* !important overrides the inline style={{ transform: scale(n) }} from JS. */
+  .deckCanvas {
+    transform: scale(0.55) !important;
+    transform-origin: top left !important;
+    width: 1920px !important;
+    height: 1080px !important;
+  }
+
+  /* Track: stack slides vertically (React clears translateX via isPrinting). */
+  .track {
+    transition: none !important;
+  }
+
+  /* Each slide = one landscape print page */
+  .slide {
+    flex: 0 0 1080px !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+  }
+}
+
+@page {
+  size: A4 landscape;
+  margin: 0;
+}

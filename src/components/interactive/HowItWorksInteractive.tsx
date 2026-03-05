@@ -15,12 +15,31 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useInView } from "@/components/useInView";
+import { useInView } from "@/hooks/useInView";
 
 type HowItWorksInteractiveProps = {
   steps: string[];
   details: string[];
 };
+
+// Connector styling: tweak duration to change line fill speed.
+const AnimatedConnector = styled(StepConnector)(({ theme }) => ({
+  [`& .MuiStepConnector-line`]: {
+    border: 0,
+    height: 2,
+    borderRadius: 2,
+    backgroundColor: theme.palette.divider,
+    backgroundImage: `linear-gradient(${theme.palette.primary.main}, ${theme.palette.primary.main})`,
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "left center",
+    backgroundSize: "0% 100%",
+    transition: "background-size 900ms ease, background-color 900ms ease",
+  },
+  [`&.Mui-active .MuiStepConnector-line, &.Mui-completed .MuiStepConnector-line`]: {
+    backgroundColor: theme.palette.primary.main,
+    backgroundSize: "100% 100%",
+  },
+}));
 
 export function HowItWorksInteractive({ steps, details }: HowItWorksInteractiveProps) {
   // Intersection trigger to reset the section when it comes into view.
@@ -36,32 +55,15 @@ export function HowItWorksInteractive({ steps, details }: HowItWorksInteractiveP
   useEffect(() => {
     // Ensure the first step is active when the section enters view.
     if (inView && !hasEntered.current) {
-      setActiveStep(0);
       hasEntered.current = true;
+      const frame = window.requestAnimationFrame(() => setActiveStep(0));
+      return () => window.cancelAnimationFrame(frame);
     }
     if (!inView) {
       hasEntered.current = false;
     }
+    return undefined;
   }, [inView]);
-
-  // Connector styling: tweak duration to change line fill speed.
-  const AnimatedConnector = styled(StepConnector)(({ theme }) => ({
-    [`& .MuiStepConnector-line`]: {
-      border: 0,
-      height: 2,
-      borderRadius: 2,
-      backgroundColor: theme.palette.divider,
-      backgroundImage: `linear-gradient(${theme.palette.primary.main}, ${theme.palette.primary.main})`,
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "left center",
-      backgroundSize: "0% 100%",
-      transition: "background-size 900ms ease, background-color 900ms ease",
-    },
-    [`&.Mui-active .MuiStepConnector-line, &.Mui-completed .MuiStepConnector-line`]: {
-      backgroundColor: theme.palette.primary.main,
-      backgroundSize: "100% 100%",
-    },
-  }));
 
   return (
     <Box

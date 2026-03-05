@@ -3,7 +3,7 @@
 import { Box, Button, Card, CardContent, List, ListItem, ListItemIcon, ListItemText, Stack, Typography } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import Link from "next/link";
-import { Section } from "@/components/Section";
+import { Section } from "@/components/ui/Section";
 import { siteContent } from "@/content/site";
 
 export default function InscripcionPage() {

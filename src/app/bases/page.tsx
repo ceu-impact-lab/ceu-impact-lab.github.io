@@ -10,10 +10,10 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import { useEffect, useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { useSearchParams } from "next/navigation";
-import { Section } from "@/components/Section";
-import { CTAButtons } from "@/components/CTAButtons";
+import { Section } from "@/components/ui/Section";
+import { CTAButtons } from "@/components/ui/CTAButtons";
 import { siteContent } from "@/content/site";
 
 type RulebookPanelProps = {
@@ -39,17 +39,19 @@ export default function BasesPage() {
   const [tabIndex, setTabIndex] = useState(0);
   const sections = siteContent.rulebook.sections;
   const searchParams = useSearchParams();
+  const [hasUserSelected, setHasUserSelected] = useState(false);
 
-  useEffect(() => {
+  const urlTabIndex = useMemo(() => {
     const tabId = searchParams.get("tab");
     if (!tabId) {
-      return;
+      return null;
     }
     const nextIndex = sections.findIndex((section) => section.id === tabId);
-    if (nextIndex !== -1) {
-      setTabIndex(nextIndex);
-    }
+    return nextIndex === -1 ? null : nextIndex;
   }, [searchParams, sections]);
+
+  const activeTabIndex =
+    hasUserSelected || urlTabIndex === null ? tabIndex : urlTabIndex;
 
   return (
     <Box>
@@ -63,8 +65,11 @@ export default function BasesPage() {
               <Tabs
                 orientation="vertical"
                 variant="scrollable"
-                value={tabIndex}
-                onChange={(_event, value) => setTabIndex(value)}
+                value={activeTabIndex}
+                onChange={(_event, value) => {
+                  setHasUserSelected(true);
+                  setTabIndex(value);
+                }}
                 aria-label="Indice del reglamento"
                 sx={{
                   borderRight: 1,
@@ -88,7 +93,11 @@ export default function BasesPage() {
             </Grid>
             <Grid size={{ xs: 12, md: 8 }}>
               {sections.map((section, index) => (
-                <RulebookPanel key={section.id} value={tabIndex} index={index}>
+                <RulebookPanel
+                  key={section.id}
+                  value={activeTabIndex}
+                  index={index}
+                >
                   <Card variant="outlined">
                     <CardContent>
                       <Stack spacing={2}>

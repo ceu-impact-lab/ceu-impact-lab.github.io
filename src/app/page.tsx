@@ -17,11 +17,11 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
 import { useState } from "react";
-import { Section } from "@/components/Section";
-import { CTAButtons } from "@/components/CTAButtons";
-import { ScheduleBlock } from "@/components/ScheduleBlock";
-import { AnimatedLinearProgress } from "@/components/AnimatedLinearProgress";
-import { HowItWorksInteractive } from "@/components/HowItWorksInteractive";
+import { Section } from "@/components/ui/Section";
+import { CTAButtons } from "@/components/ui/CTAButtons";
+import { ScheduleBlock } from "@/components/ui/ScheduleBlock";
+import { AnimatedLinearProgress } from "@/components/ui/AnimatedLinearProgress";
+import { HowItWorksInteractive } from "@/components/interactive/HowItWorksInteractive";
 import { siteContent } from "@/content/site";
 
 export default function Home() {

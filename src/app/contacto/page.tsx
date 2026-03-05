@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Button, Card, CardContent, Stack, TextField, Typography } from "@mui/material";
-import { Section } from "@/components/Section";
+import { Section } from "@/components/ui/Section";
 
 export default function ContactoPage() {
   return (

@@ -2,7 +2,7 @@
 
 import { LinearProgress } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
-import { useInView } from "@/components/useInView";
+import { useInView } from "@/hooks/useInView";
 
 type AnimatedLinearProgressProps = {
 	value: number;
@@ -30,11 +30,7 @@ export function AnimatedLinearProgress({
 	}, []);
 
 	useEffect(() => {
-		if (!inView) {
-			return;
-		}
-		if (prefersReducedMotion) {
-			setProgress(target);
+		if (!inView || prefersReducedMotion) {
 			return;
 		}
 
@@ -69,11 +65,13 @@ export function AnimatedLinearProgress({
 		};
 	}, [inView, target, delayMs, prefersReducedMotion]);
 
+	const displayValue = prefersReducedMotion ? target : progress;
+
 	return (
 		<div ref={ref}>
 			<LinearProgress
 				variant="determinate"
-				value={progress}
+				value={displayValue}
 				sx={{ height: 8, borderRadius: 999 }}
 			/>
 		</div>

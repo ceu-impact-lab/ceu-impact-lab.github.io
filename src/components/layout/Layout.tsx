@@ -8,11 +8,11 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { siteContent } from "@/content/site";
-import { CTAButtons } from "@/components/CTAButtons";
-import { AnimatedBackground } from "@/components/AnimatedBackground";
-import { CursorDot } from "@/components/CursorDot";
-import logo from "../../img/CEU_Impact_Lab-Logo.png";
-import logoMarginless from "../../img/CEU_Impact_Lab-Logo-Marginless.png";
+import { CTAButtons } from "@/components/ui/CTAButtons";
+import { AnimatedBackground } from "@/components/layout/AnimatedBackground";
+import { CursorDot } from "@/components/layout/CursorDot";
+import logo from "../../../img/CEU_Impact_Lab-Logo.png";
+import logoMarginless from "../../../img/CEU_Impact_Lab-Logo-Marginless.png";
 
 type LayoutProps = {
   children: ReactNode;

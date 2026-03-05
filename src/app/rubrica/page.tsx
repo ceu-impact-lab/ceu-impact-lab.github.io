@@ -14,9 +14,9 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
-import { Section } from "@/components/Section";
-import { CTAButtons } from "@/components/CTAButtons";
-import { AnimatedLinearProgress } from "@/components/AnimatedLinearProgress";
+import { Section } from "@/components/ui/Section";
+import { CTAButtons } from "@/components/ui/CTAButtons";
+import { AnimatedLinearProgress } from "@/components/ui/AnimatedLinearProgress";
 import { siteContent } from "@/content/site";
 
 export default function RubricaPage() {

@@ -1,9 +1,9 @@
 "use client";
 
 import { Box, Grid, Stack, Typography } from "@mui/material";
-import { Section } from "@/components/Section";
-import { ScheduleBlock } from "@/components/ScheduleBlock";
-import { CTAButtons } from "@/components/CTAButtons";
+import { Section } from "@/components/ui/Section";
+import { ScheduleBlock } from "@/components/ui/ScheduleBlock";
+import { CTAButtons } from "@/components/ui/CTAButtons";
 import { siteContent } from "@/content/site";
 
 export default function AgendaPage() {

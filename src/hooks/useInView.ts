@@ -14,12 +14,13 @@ export function useInView<T extends HTMLElement>({
   once = true,
 }: UseInViewOptions = {}) {
   const ref = useRef<T | null>(null);
-  const [inView, setInView] = useState(false);
+  const initialInView =
+    typeof window === "undefined" || typeof IntersectionObserver === "undefined";
+  const [inView, setInView] = useState(initialInView);
 
   useEffect(() => {
     const node = ref.current;
     if (!node || typeof IntersectionObserver === "undefined") {
-      setInView(true);
       return;
     }
 

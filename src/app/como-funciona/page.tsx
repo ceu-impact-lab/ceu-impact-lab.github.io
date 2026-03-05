@@ -1,8 +1,8 @@
 "use client";
 
 import { Box, Card, CardContent, Grid, Stack, Step, StepLabel, Stepper, Typography } from "@mui/material";
-import { Section } from "@/components/Section";
-import { CTAButtons } from "@/components/CTAButtons";
+import { Section } from "@/components/ui/Section";
+import { CTAButtons } from "@/components/ui/CTAButtons";
 import { siteContent } from "@/content/site";
 
 export default function ComoFuncionaPage() {

@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { siteContent } from "@/content/site";
 import { ThemeRegistry } from "@/theme/ThemeRegistry";
-import { Layout } from "@/components/Layout";
+import { Layout } from "@/components/layout/Layout";
 
 const poppins = localFont({
   variable: "--font-poppins",

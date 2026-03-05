@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, Chip, Stack, Typography } from "@mui/material";
-import { useInView } from "@/components/useInView";
+import { useInView } from "@/hooks/useInView";
 
 type ScheduleBlockProps = {
   day: string;

@@ -13,6 +13,7 @@ export function CTAButtons({ direction = "row", size = "large" }: CTAButtonsProp
   const { studentRegistrationUrl, companyContactUrl } =
     siteContent.primaryCTAs;
   const hasRegistration = Boolean(studentRegistrationUrl);
+  const hasCompanyContact = false;
 
   return (
     <Stack direction={{ xs: "column", sm: direction }} spacing={2}>
@@ -32,6 +33,7 @@ export function CTAButtons({ direction = "row", size = "large" }: CTAButtonsProp
         size={size}
         variant="outlined"
         color="primary"
+        disabled={!hasCompanyContact}
       >
         Quiero colaborar (Empresas)
       </Button>

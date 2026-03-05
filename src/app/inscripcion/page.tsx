@@ -33,7 +33,7 @@ export default function InscripcionPage() {
                 </Button>
                 {!hasRegistration ? (
                   <Typography variant="body2" color="text.secondary">
-                    Registro abierto próximamente. Actualiza el enlace en el contenido.
+                    Registro abierto próximamente.
                   </Typography>
                 ) : null}
               </Stack>

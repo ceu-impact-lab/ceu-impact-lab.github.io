@@ -4,8 +4,8 @@ const pitchDuration = "X/Y minutos";
 
 export const siteContent = {
   eventName: "CEU Impact Lab",
-  dates: "18-19 Abril 2026",
-  awardsDate: "Domingo 19 Abril 2026",
+  dates: "18-19 abril 2026",
+  awardsDate: "Domingo 19 abril 2026",
   location: "Campus Montepríncipe, CEU Madrid",
   primaryCTAs: {
     studentRegistrationUrl: "",
@@ -18,7 +18,7 @@ export const siteContent = {
   scheduleBlocks: [
     {
       day: "Sábado",
-      date: "18 Abril",
+      date: "18 abril",
       label: "Kickoff y build",
       items: [
         "10:00-10:30 Recepción de participantes y empresas",
@@ -30,7 +30,7 @@ export const siteContent = {
     },
     {
       day: "Domingo",
-      date: "19 Abril",
+      date: "19 abril",
       label: "Cierre de entregas y pitches",
       items: [
         "10:00 Hard freeze y cierre de entregas",
@@ -40,7 +40,7 @@ export const siteContent = {
     },
     {
       day: "Domingo",
-      date: "19 Abril",
+      date: "19 abril",
       label: "Awards institucionales",
       items: [
         "Acto oficial de 1h-1:30h",

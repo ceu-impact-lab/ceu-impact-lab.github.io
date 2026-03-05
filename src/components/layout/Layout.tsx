@@ -19,9 +19,10 @@ type LayoutProps = {
 };
 
 const navItems = [
+  { label: "Cómo funciona", href: "/#como-funciona" },
+  { label: "Agenda", href: "/#agenda" },
+  { label: "Rúbrica", href: "/#rubrica" },
   { label: "Bases", href: "/bases" },
-  { label: "Inscripción", href: "/inscripcion" },
-  { label: "Empresas", href: "/empresas" },
 ];
 
 export function Layout({ children }: LayoutProps) {

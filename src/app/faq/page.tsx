@@ -3,7 +3,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { Section } from "@/components/ui/Section";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
-import { CTAButtons } from "@/components/ui/CTAButtons";
 import { siteContent } from "@/content/site";
 
 export default function FAQPage() {
@@ -15,7 +14,6 @@ export default function FAQPage() {
             Si no encuentras tu duda, contáctanos y te ayudamos.
           </Typography>
           <FAQAccordion items={siteContent.faq} />
-          <CTAButtons />
         </Stack>
       </Section>
     </Box>

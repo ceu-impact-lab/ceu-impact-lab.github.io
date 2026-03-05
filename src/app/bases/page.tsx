@@ -38,7 +38,10 @@ type RulebookSectionProps = {
   section: (typeof siteContent.rulebook.sections)[number];
 };
 
-function RulebookSectionContent({ section }: RulebookSectionProps) {
+function RulebookSectionContent({
+  section,
+  highlight,
+}: RulebookSectionProps & { highlight?: boolean }) {
   return (
     <Card variant="outlined">
       <CardContent>
@@ -51,8 +54,10 @@ function RulebookSectionContent({ section }: RulebookSectionProps) {
                 p: 2,
                 borderRadius: 2,
                 border: "1px solid",
-                borderColor: "divider",
-                backgroundColor: "transparent",
+                borderColor:
+                  highlight && item.highlight ? "primary.main" : "divider",
+                backgroundColor:
+                  highlight && item.highlight ? "action.hover" : "transparent",
               }}
             >
               <Typography color="text.secondary">{item.text}</Typography>
@@ -70,6 +75,7 @@ export default function BasesPage() {
   const searchParams = useSearchParams();
   const [maxPanelHeight, setMaxPanelHeight] = useState(0);
   const measureRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const highlightActive = searchParams.get("highlight") === "1";
 
   useEffect(() => {
     const tabId = searchParams.get("tab");
@@ -143,7 +149,10 @@ export default function BasesPage() {
                       value={tabIndex}
                       index={index}
                     >
-                      <RulebookSectionContent section={section} />
+                      <RulebookSectionContent
+                        section={section}
+                        highlight={highlightActive && index === tabIndex}
+                      />
                     </RulebookPanel>
                   ))}
                 </Box>
@@ -166,7 +175,10 @@ export default function BasesPage() {
                         measureRefs.current[index] = node;
                       }}
                     >
-                      <RulebookSectionContent section={section} />
+                      <RulebookSectionContent
+                        section={section}
+                        highlight={highlightActive && index === tabIndex}
+                      />
                     </Box>
                   ))}
                 </Box>

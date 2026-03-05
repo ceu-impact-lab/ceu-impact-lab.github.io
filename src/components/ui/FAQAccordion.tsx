@@ -4,9 +4,11 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Link as MuiLink,
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import type { ReactNode } from "react";
 
 type FAQItem = {
   question: string;
@@ -18,6 +20,41 @@ type FAQAccordionProps = {
 };
 
 export function FAQAccordion({ items }: FAQAccordionProps) {
+  const renderAnswer = (answer: string): ReactNode[] => {
+    const nodes: ReactNode[] = [];
+    const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    let lastIndex = 0;
+    let match: RegExpExecArray | null;
+
+    while ((match = regex.exec(answer)) !== null) {
+      const [full, text, href] = match;
+      const start = match.index;
+      if (start > lastIndex) {
+        nodes.push(answer.slice(lastIndex, start));
+      }
+      const isExternal = /^https?:\/\//i.test(href);
+      nodes.push(
+        <MuiLink
+          key={`${href}-${start}`}
+          href={href}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noreferrer" : undefined}
+          color="inherit"
+          underline="always"
+        >
+          {text}
+        </MuiLink>
+      );
+      lastIndex = start + full.length;
+    }
+
+    if (lastIndex < answer.length) {
+      nodes.push(answer.slice(lastIndex));
+    }
+
+    return nodes;
+  };
+
   return (
     <div>
       {items.map((item) => (
@@ -26,7 +63,9 @@ export function FAQAccordion({ items }: FAQAccordionProps) {
             <Typography variant="subtitle1">{item.question}</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography color="text.secondary">{item.answer}</Typography>
+            <Typography color="text.secondary" component="span">
+              {renderAnswer(item.answer)}
+            </Typography>
           </AccordionDetails>
         </Accordion>
       ))}

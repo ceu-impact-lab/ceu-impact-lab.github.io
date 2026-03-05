@@ -328,17 +328,47 @@ export const siteContent = {
     {
       question: "¿Puedo reutilizar código open source?",
       answer:
-        "Sí, siempre que el repositorio sea público y con licencia MIT.",
+        "Si, siempre que el repositorio sea publico y con licencia MIT, y que la logica principal sea creada por el equipo durante el hackathon. Consulta las [bases oficiales](/bases?tab=proyecto&highlight=1).",
     },
     {
       question: "¿Habrá mentoring?",
       answer:
-        "Sí, mentores de empresas acompañarán durante todo el build.",
+        "Si, mentores de empresas acompanaran durante todo el build.",
     },
     {
       question: "¿Cómo se evalúa?",
       answer:
-        "Aplicamos una rúbrica ponderada centrada en impacto, innovación, ejecución y presentación.",
+        "Aplicamos una rubrica ponderada centrada en adecuacion al reto, arquitectura, implementacion y pitch. Puedes revisar la seccion de [rubrica](/#rubrica).",
+    },
+    {
+      question: "¿Cuál es el formato del pitch y la demo?",
+      answer:
+        "El pitch es en directo, con demo funcional y Q&A, dentro de un tiempo estricto. No se permiten demos pregrabadas. Ver detalles en [pitch y demo](/bases?tab=pitch&highlight=1).",
+    },
+    {
+      question: "¿Qué ocurre si el prototipo falla en la demo?",
+      answer:
+        "Se espera una demo real; los fallos tecnicos forman parte del proceso. En la categoria de implementacion, un prototipo que no funcione limita la puntuacion maxima. Revisa la [rubrica](/#rubrica) para criterios completos.",
+    },
+    {
+      question: "¿Cómo y cuándo se entrega el proyecto?",
+      answer:
+        "La entrega es por repositorio publico en GitHub y con hard freeze estricto en la hora limite. El pitch deck debe subirse en PDF a la raiz del repo. Consulta [entrega y hard freeze](/bases?tab=entrega&highlight=1).",
+    },
+    {
+      question: "¿Se permite ayuda externa o revisiones remotas?",
+      answer:
+        "No. Todo el desarrollo debe realizarlo el equipo registrado durante el evento. La asistencia externa implica descalificacion inmediata. Mas info en [elegibilidad](/bases?tab=elegibilidad&highlight=1).",
+    },
+    {
+      question: "¿Qué licencia debe tener el proyecto?",
+      answer:
+        "La licencia obligatoria es MIT y el proyecto debe publicarse como open source. Consulta [propiedad intelectual y licencias](/bases?tab=propiedad&highlight=1).",
+    },
+    {
+      question: "¿Qué pasa si se incumplen las normas?",
+      answer:
+        "El comite puede penalizar o descalificar por plagio, sabotaje o conductas inapropiadas. Ver [codigo de conducta](/bases?tab=conducta&highlight=1).",
     },
   ],
   sponsors: [

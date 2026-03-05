@@ -73,11 +73,114 @@ export const siteContent = {
     "Cada equipo presenta en vivo su prototipo con demo funcional y una sesión de preguntas. La presentación se entrega en PDF dentro del repositorio y se valora claridad, viabilidad y ejecución.",
     "Cierre institucional el martes con entrega de premios junto a Vicerrectorado y empresas. Se reconoce el trabajo, se potencia la empleabilidad y se refuerza la visibilidad del evento.",
   ],
+  rubricIntroTitle: "Rúbrica Oficial de Evaluación del Jurado (Sobre 100 Puntos)",
+  rubricIntroText:
+    "Instrucciones para el Jurado: Evalúe cada proyecto asignando una puntuación en las siguientes cuatro categorías. La puntuación máxima posible es de 100 puntos. Se busca un equilibrio entre la excelencia técnica, la viabilidad real de la idea y la capacidad de comunicación del equipo.",
   rubric: [
-    { category: "Innovación y valor de la idea", weight: 30 },
-    { category: "Dificultad técnica y arquitectura", weight: 30 },
-    { category: "Adecuación al reto y a la empresa", weight: 25 },
-    { category: "Pitch, demo y Q&A", weight: 15 },
+    {
+      category: "Innovación y Valor de la Idea",
+      maxPoints: 30,
+      description:
+        "Se evalúa la originalidad de la solución propuesta y si realmente resuelve el \"pain point\" (problema) planteado de forma inteligente.",
+      levels: [
+        {
+          range: "0 - 10 pts",
+          label: "Pobre",
+          text:
+            "La idea es un clon de algo que ya existe o no resuelve el problema central del reto.",
+        },
+        {
+          range: "11 - 20 pts",
+          label: "Bueno",
+          text:
+            "La idea es sólida y útil, aunque algo conservadora o predecible.",
+        },
+        {
+          range: "21 - 30 pts",
+          label: "Excelente",
+          text:
+            "Solución altamente creativa, \"fuera de la caja\". Aporta un valor diferencial altísimo que a la empresa no se le había ocurrido.",
+        },
+      ],
+    },
+    {
+      category: "Dificultad Técnica y Arquitectura",
+      maxPoints: 30,
+      description:
+        "El código importa. Se evalúa la complejidad del desarrollo, las tecnologías elegidas y si el sistema está pensado para escalar, no solo para sobrevivir a la demo.",
+      levels: [
+        {
+          range: "0 - 10 pts",
+          label: "Pobre",
+          text:
+            "Desarrollo muy superficial. Casi todo es frontend sin lógica detrás, o la arquitectura elegida no tiene ningún sentido para el problema.",
+        },
+        {
+          range: "11 - 20 pts",
+          label: "Bueno",
+          text:
+            "El prototipo tiene una base técnica decente, uso correcto de APIs y bases de datos, pero la arquitectura podría sufrir si se escala a miles de usuarios.",
+        },
+        {
+          range: "21 - 30 pts",
+          label: "Excelente",
+          text:
+            "Código limpio, stack tecnológico perfectamente justificado. Han montado una arquitectura robusta (backend, frontend, BD, integración de terceros) digna de un proyecto real.",
+        },
+      ],
+    },
+    {
+      category: "Adecuación al Reto y a la Empresa",
+      maxPoints: 25,
+      description:
+        "¿Han escuchado lo que pedía el patrocinador? Se evalúa si la solución se alinea con los valores de la empresa y si sería viable comercialmente.",
+      levels: [
+        {
+          range: "0 - 8 pts",
+          label: "Pobre",
+          text:
+            "El equipo ha hecho \"lo que le apetecía\" ignorando gran parte de los requisitos o la cultura de la empresa patrocinadora.",
+        },
+        {
+          range: "9 - 17 pts",
+          label: "Bueno",
+          text:
+            "Resuelve el reto de la empresa, pero requeriría bastantes adaptaciones para ser viable económicamente o encajar en su modelo de negocio.",
+        },
+        {
+          range: "18 - 25 pts",
+          label: "Excelente",
+          text:
+            "Encaje perfecto. La empresa podría coger este prototipo mañana mismo, inyectarle presupuesto y tendría todo el sentido comercial y estratégico del mundo.",
+        },
+      ],
+    },
+    {
+      category: "Pitch, Demo en Directo y Q&A",
+      maxPoints: 15,
+      description:
+        "Saber venderlo es vital. Se evalúa la claridad de la presentación, que la demo técnica funcione y cómo defienden el proyecto ante las preguntas.",
+      levels: [
+        {
+          range: "0 - 5 pts",
+          label: "Pobre",
+          text:
+            "Pitch desorganizado, se han pasado de tiempo o el prototipo ha crasheado de forma catastrófica durante la demo. Respuestas muy flojas en el Q&A.",
+        },
+        {
+          range: "6 - 10 pts",
+          label: "Bueno",
+          text:
+            "Presentación clara. La demo ha funcionado (con algún bug menor aceptable). Han sabido responder a las preguntas del jurado con coherencia.",
+        },
+        {
+          range: "11 - 15 pts",
+          label: "Excelente",
+          text:
+            "Pitch nivel startup buscando inversión. Control perfecto del tiempo, demo fluida demostrando las core features y defensa brillante y segura durante las preguntas del jurado.",
+        },
+      ],
+    },
   ],
   rulebook: {
     submissionDeadlineTime,

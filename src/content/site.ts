@@ -191,100 +191,113 @@ export const siteContent = {
     sections: [
       {
         id: "elegibilidad",
-        title: "Elegibilidad",
+        title: "Elegibilidad y participación",
         items: [
           {
             text:
-              "Inscripción individual o con equipo ya formado, con un máximo de 5 personas.",
+              "Formación y asignación de equipos: los participantes podrán inscribirse en equipos cerrados de cinco (5) personas o de forma individual, en cuyo caso la organización se encargará de agruparlos para conformar los equipos restantes. Una vez establecidos los grupos, cada equipo tendrá la oportunidad de elegir a qué empresa patrocinadora desea enfrentarse, aunque el reto específico y detallado no se desvelará hasta el día del evento.",
           },
-          { text: "Si no tienes equipo, se te asignará uno al azar." },
-          { text: "Cada equipo recibe un reto asignado de una empresa patrocinadora." },
-        ],
-      },
-      {
-        id: "conflictos",
-        title: "Conflicto de interés",
-        items: [
           {
             text:
-              "Organizadores, voluntarios, jurado y mentores de empresa no pueden competir.",
+              "Conflicto de intereses: queda estrictamente prohibida la participación de cualquier persona vinculada a la organización del evento, incluyendo organizadores principales, voluntarios, miembros del jurado y mentores de las empresas.",
           },
-        ],
-      },
-      {
-        id: "asistencia",
-        title: "Asistencia externa",
-        items: [
-          { text: "Prohibida toda asistencia externa al equipo.", highlight: true },
-          { text: "No se permiten revisiones remotas ni trabajo subcontratado." },
-        ],
-      },
-      {
-        id: "entregable",
-        title: "Entregable funcional",
-        items: [
-          { text: "Se requiere un prototipo funcional (MVP) operativo." },
-          { text: "La demo debe ser en vivo, no grabada.", highlight: true },
-        ],
-      },
-      {
-        id: "originalidad",
-        title: "Originalidad",
-        items: [
-          { text: "El código principal debe escribirse durante el hackathon." },
           {
             text:
-              "Se permite usar frameworks, APIs y software open source como apoyo.",
+              "Prohibición de asistencia externa (la regla \"Sin Autores Fantasma\"): todo el desarrollo del proyecto, incluyendo programación, diseño UI/UX, depuración de errores y creación de recursos, debe ser ejecutado exclusivamente por los miembros registrados del equipo durante el periodo oficial del hackathon. El uso de colaboradores externos, revisiones de código a distancia, soporte algorítmico no autorizado o trabajo subcontratado está terminantemente prohibido y supondrá la descalificación inmediata.",
             highlight: true,
           },
         ],
       },
       {
-        id: "open-source",
-        title: "Open source y repositorio",
-        items: [
-          { text: "Repositorio GitHub público obligatorio.", highlight: true },
-          { text: "Licencia MIT obligatoria.", highlight: true },
-          { text: "Incluir pitch en PDF en la raíz del repo." },
-        ],
-      },
-      {
-        id: "freeze",
-        title: "Hard freeze",
+        id: "proyecto",
+        title: "Proyecto y desarrollo",
         items: [
           {
-            text: `Hard freeze a las ${hardFreezeTime} del domingo.`,
+            text:
+              "Prototipo funcional: el objetivo principal es la entrega de un prototipo funcional. Aunque no se exige un acabado perfecto o listo para salir al mercado, la mecánica principal o la solución propuesta debe ser plenamente operativa.",
+          },
+          {
+            text:
+              "Originalidad del código: todo el código principal (core) debe escribirse durante el fin de semana del hackathon. Queda expresamente prohibido presentar proyectos ya existentes, utilizar el trabajo de otra persona o alterar meramente la estética de un repositorio existente (\"hacer un fork y cambiarle el color\").",
             highlight: true,
           },
-          { text: "No se aceptan commits ni cambios posteriores (repos, APIs, BD)." },
+          {
+            text:
+              "Herramientas de terceros y código abierto: se permite y fomenta el uso de frameworks, APIs y fragmentos de Software Libre y de Código Abierto (FOSS) para complementar los proyectos (por ejemplo, librerías OCR, bibliotecas de componentes de interfaz o APIs de mapas). Sin embargo, la lógica principal y la integración de la arquitectura deben ser creadas íntegramente por el equipo participante.",
+          },
         ],
       },
       {
         id: "entrega",
-        title: "Entrega",
+        title: "Entrega y hard freeze",
         items: [
-          { text: "Entrega única mediante repo público." },
           {
-            text: `La hora límite de entrega es ${submissionDeadlineTime} del domingo.`,
+            text:
+              "Requisito del repositorio: todos los equipos deben entregar su proyecto final a través de un repositorio público de GitHub.",
+            highlight: true,
+          },
+          {
+            text:
+              `Política de "bloqueo total" (hard freeze): la fecha y hora límite de entrega (domingo a las ${submissionDeadlineTime} h) es inamovible. Al llegar a este límite, todo el desarrollo debe detenerse por completo. El bloqueo se aplica a todos los niveles: queda estrictamente prohibido hacer commits en los repositorios, alterar servidores backend, modificar bases de datos en la nube (ej. Firebase), cambiar APIs externas en caliente o subir actualizaciones al código frontend ya desplegado. Cualquier modificación posterior detectada antes o durante la presentación conllevará penalizaciones graves o la descalificación directa.`,
+            highlight: true,
+          },
+          {
+            text:
+              "Entrega del pitch deck: las presentaciones pueden diseñarse con cualquier software (ej. Canva, Google Slides, Figma). No obstante, la presentación final debe exportarse en PDF y subirse directamente a la carpeta raíz (root) del repositorio. No se aceptarán archivos PPTX ni enlaces web en directo.",
           },
         ],
       },
       {
         id: "pitch",
-        title: "Pitch",
+        title: "Pitch y demo en directo",
         items: [
           {
-            text: `Pitch de ${pitchDuration} + demo en vivo + Q&A.`,
+            text:
+              `Formato de la presentación: las presentaciones tienen un límite estricto de ${pitchDuration} para el pitch y la demostración del prototipo, seguidos de una sesión de preguntas y respuestas. Los límites de tiempo se aplicarán a rajatabla; se cortará el micrófono al agotarse el tiempo asignado.`,
+          },
+          {
+            text:
+              "Requisito de demostración en directo: los prototipos deben demostrarse en vivo. Los presentadores tendrán que navegar activamente por la aplicación y ejecutar el código durante el pitch. Quedan estrictamente prohibidas las demostraciones pregrabadas (ej. vídeos MP4) que simulen el funcionamiento. Los fallos técnicos durante la demo en directo se asumen como parte normal del proceso; el jurado espera evaluar software real, no humo (vaporware).",
             highlight: true,
           },
         ],
       },
       {
-        id: "conducta",
-        title: "Código de conducta",
+        id: "propiedad",
+        title: "Propiedad intelectual y licencias",
         items: [
-          { text: "Respeto absoluto a participantes, mentores y staff." },
-          { text: "Plagio, sabotaje o toxicidad conlleva descalificación." },
+          {
+            text:
+              "Mandato de código abierto: para fomentar la innovación, evitar disputas entre los miembros del equipo y esquivar trampas legales complejas, todo el código y las soluciones presentadas en este hackathon deberán publicarse como Software de Código Abierto (OSS).",
+            highlight: true,
+          },
+          {
+            text:
+              "La Licencia MIT: al enviar un proyecto a este hackathon, los equipos aceptan por defecto licenciar su repositorio bajo la Licencia MIT. Esto garantiza que los creadores conservan sus respectivos derechos de autor, al tiempo que otorgan al público (incluidas las empresas patrocinadoras, otros estudiantes y el público en general) el derecho sin restricciones a usar, modificar y distribuir el código.",
+          },
+        ],
+      },
+      {
+        id: "conducta",
+        title: "Código de conducta y régimen disciplinario",
+        items: [
+          {
+            text:
+              "El comité organizador se reserva el derecho absoluto e inapelable de penalizar o descalificar a cualquier individuo o equipo que sea sorprendido incurriendo en lo siguiente:",
+          },
+          {
+            text:
+              "Competencia desleal: plagio, presentación de código principal preescrito, vulneración de la política de \"bloqueo total\" o sabotaje del hardware o software de otros equipos.",
+            highlight: true,
+          },
+          {
+            text:
+              "Toxicidad: acoso, discriminación o cualquier forma de comportamiento irrespetuoso hacia otros participantes, mentores, organizadores o personal del recinto.",
+          },
+          {
+            text:
+              "Incumplimiento de las normas: no respetar los formatos de entrega o cualquier intento deliberado de eludir la normativa aquí establecida.",
+          },
         ],
       },
     ],

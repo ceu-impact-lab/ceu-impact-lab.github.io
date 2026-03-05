@@ -200,6 +200,45 @@ export default function Home() {
         </Dialog>
       </Section>
 
+      <Section title="Bases oficiales" subtitle="Resumen" id="bases">
+        <Box
+          sx={{
+            columnCount: { xs: 1, md: 2 },
+            columnGap: 1,
+          }}
+        >
+          {siteContent.rulebook.sections.map((section, index) => (
+            <Card
+              key={section.id}
+              variant="outlined"
+              sx={{
+                mb: 1,
+                display: "inline-block",
+                width: "100%",
+              }}
+            >
+              <CardContent sx={{ pb: 2 }}>
+                <Stack spacing={1.5}>
+                  <Typography variant="subtitle1">
+                    {index + 1}. {section.title}
+                  </Typography>
+                  <Typography color="text.secondary">
+                    {section.items[0]?.text}
+                  </Typography>
+                  <Button
+                    component={Link}
+                    href={`/bases?tab=${section.id}`}
+                    variant="outlined"
+                  >
+                    Ver detalle
+                  </Button>
+                </Stack>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
+      </Section>
+
       <Section title="Empresas aliadas" subtitle="Sponsors" id="sponsors">
         <Grid container spacing={2}>
           {siteContent.sponsors.map((sponsor) => (

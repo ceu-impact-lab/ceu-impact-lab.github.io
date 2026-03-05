@@ -29,6 +29,13 @@ export default function Home() {
   const [openRubricIndex, setOpenRubricIndex] = useState<number | null>(null);
   const activeRubricItem =
     openRubricIndex === null ? null : siteContent.rubric[openRubricIndex];
+  const hoverCardSx = {
+    transition: "transform 500ms ease, box-shadow 200ms ease",
+    "&:hover": {
+      transform: "translateY(-4px)",
+      boxShadow: 4,
+    },
+  };
 
   return (
     <Box>
@@ -60,7 +67,7 @@ export default function Home() {
             </Stack>
           </Grid>
           <Grid size={{ xs: 12, md: 5 }}>
-            <Card variant="outlined" sx={{ p: 2 }}>
+            <Card variant="outlined" sx={{ p: 2, ...hoverCardSx }}>
               <CardContent>
                 <Stack spacing={2}>
                   <Typography variant="h6">Lo esencial</Typography>
@@ -87,7 +94,7 @@ export default function Home() {
         <Grid container spacing={3}>
           {siteContent.keyStats.map((stat) => (
             <Grid size={{ xs: 12, sm: 6, md: 3 }} key={stat.label}>
-              <Card variant="outlined" sx={{ height: "100%" }}>
+              <Card variant="outlined" sx={{ height: "100%", ...hoverCardSx }}>
                 <CardContent>
                   <Typography variant="h4">{stat.value}</Typography>
                   <Typography color="text.secondary">{stat.label}</Typography>
@@ -118,7 +125,7 @@ export default function Home() {
       <Section title="Criterios de evaluación" subtitle="Rúbrica" id="rubrica">
         <Stack spacing={2}>
           {siteContent.rubric.map((item, index) => (
-            <Card key={item.category} variant="outlined">
+            <Card key={item.category} variant="outlined" sx={hoverCardSx}>
               <CardActionArea onClick={() => setOpenRubricIndex(index)}>
                 <CardContent>
                   <Stack spacing={1}>
@@ -215,6 +222,7 @@ export default function Home() {
                 mb: 1,
                 display: "inline-block",
                 width: "100%",
+                ...hoverCardSx,
               }}
             >
               <CardActionArea component={Link} href={`/bases?tab=${section.id}`}>
@@ -240,7 +248,7 @@ export default function Home() {
             <Grid size={{ xs: 6, md: 3 }} key={sponsor.name}>
               <Card
                 variant="outlined"
-                sx={{ height: 110, display: "grid", placeItems: "center" }}
+                sx={{ height: 110, display: "grid", placeItems: "center", ...hoverCardSx }}
               >
                 <Typography color="text.secondary">{sponsor.name}</Typography>
               </Card>
@@ -252,7 +260,7 @@ export default function Home() {
       <Section title="Preguntas frecuentes" subtitle="FAQ" id="faq">
         <Stack spacing={2}>
           {siteContent.faq.slice(0, 4).map((item) => (
-            <Card key={item.question} variant="outlined">
+            <Card key={item.question} variant="outlined" sx={hoverCardSx}>
               <CardContent>
                 <Typography variant="subtitle1">{item.question}</Typography>
                 <Typography color="text.secondary">{item.answer}</Typography>

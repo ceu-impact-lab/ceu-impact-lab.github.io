@@ -24,10 +24,10 @@
   --s-r:              16px;
   --s-r-chip:         8px;
   /* --- Derived alpha helpers */
-  --s-ink-muted:      rgba(7, 8, 80, 0.58);
-  --s-ink-dim:        rgba(7, 8, 80, 0.38);
+  --s-ink-muted:      rgba(7, 8, 80, 0.74);
+  --s-ink-dim:        rgba(7, 8, 80, 0.52);
   --s-ink-faint:      rgba(7, 8, 80, 0.1);
-  --s-ink-soft:       rgba(7, 8, 80, 0.82);
+  --s-ink-soft:       rgba(7, 8, 80, 0.88);
   --s-primary-tint:   rgba(0, 60, 163, 0.09);
   --s-primary-border: rgba(0, 60, 163, 0.24);
 

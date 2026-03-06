@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import type { ReactNode } from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Children, useEffect, useMemo, useRef, useState } from "react";
 import { siteContent } from "@/content/site";
 import styles from "./slides.module.css";
 import logo from "../../../../../img/CEU_Impact_Lab-Logo-Marginless.png";
@@ -28,6 +29,8 @@ export function ClientSlides() {
   const stageRef = useRef<HTMLElement | null>(null);
   const canvasRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const searchParams = useSearchParams();
+  const isExport = searchParams.get("export") === "1";
 
   const visibleDots = (() => {
     if (totalSlides <= visibleDotCount) {
@@ -43,6 +46,9 @@ export function ClientSlides() {
   })();
 
   useEffect(() => {
+    if (isExport) {
+      return;
+    }
     const handleKey = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
       if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)) {
@@ -67,9 +73,12 @@ export function ClientSlides() {
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [totalSlides]);
+  }, [isExport, totalSlides]);
 
   useEffect(() => {
+    if (isExport) {
+      return;
+    }
     // Base canvas size (PPT-style): keep all slide layout values aligned to this.
     const baseWidth = 1920;
     const baseHeight = 1080;
@@ -102,79 +111,58 @@ export function ClientSlides() {
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, []);
-
-  /**
-   * preparePrint — fuerza el estado de impresión directamente en el DOM
-   * antes de que el navegador capture la página para PDF/impresora.
-   * Es síncrono y no depende del ciclo de render de React.
-   */
-  const preparePrint = useCallback(() => {
-    // Quita el transform scale del canvas (el !important de @media print
-    // ya lo hace en CSS, pero esto actúa como red de seguridad síncrona)
-    if (canvasRef.current) {
-      canvasRef.current.style.setProperty("transform", "none");
-      canvasRef.current.style.setProperty("overflow", "visible");
-    }
-    // Apila todas las slides verticalmente eliminando el translateX
-    if (trackRef.current) {
-      trackRef.current.style.setProperty("transform", "none");
-      trackRef.current.style.setProperty("display", "block");
-      trackRef.current.style.setProperty("height", "auto");
-      trackRef.current.style.setProperty("overflow", "visible");
-    }
-    // Libera el stage de position:fixed para que el navegador pagine el flujo
-    if (stageRef.current) {
-      stageRef.current.style.setProperty("position", "static");
-      stageRef.current.style.setProperty("overflow", "visible");
-      stageRef.current.style.setProperty("width", "1920px");
-      stageRef.current.style.setProperty("height", "auto");
-    }
-  }, []);
-
-  /**
-   * restoreAfterPrint — devuelve el DOM al estado interactivo normal.
-   * Al eliminar las propiedades inline, React re-aplica sus estilos en el
-   * siguiente render (p. ej. transform: scale(n) en el canvas).
-   */
-  const restoreAfterPrint = useCallback(() => {
-    if (canvasRef.current) {
-      canvasRef.current.style.removeProperty("transform");
-      canvasRef.current.style.removeProperty("overflow");
-    }
-    if (trackRef.current) {
-      trackRef.current.style.removeProperty("transform");
-      trackRef.current.style.removeProperty("display");
-      trackRef.current.style.removeProperty("height");
-      trackRef.current.style.removeProperty("overflow");
-    }
-    if (stageRef.current) {
-      stageRef.current.style.removeProperty("position");
-      stageRef.current.style.removeProperty("overflow");
-      stageRef.current.style.removeProperty("width");
-      stageRef.current.style.removeProperty("height");
-    }
-  }, []);
+  }, [isExport]);
 
   useEffect(() => {
-    window.addEventListener("beforeprint", preparePrint);
-    window.addEventListener("afterprint",  restoreAfterPrint);
-    return () => {
-      window.removeEventListener("beforeprint", preparePrint);
-      window.removeEventListener("afterprint",  restoreAfterPrint);
-    };
-  }, [preparePrint, restoreAfterPrint]);
+    if (!isExport) {
+      return;
+    }
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtmlOverflow = html.style.overflow;
+    const prevBodyOverflow = body.style.overflow;
+    const prevHtmlHeight = html.style.height;
+    const prevBodyHeight = body.style.height;
 
-  return (
-    <main className={styles.stage} ref={stageRef}>
-        <div className={styles.deckCanvas} ref={canvasRef} style={{ transform: `scale(${scale})` }}>
-          {/* Add new slides as <section className={styles.slide}> inside this track. */}
-          <div
-            className={styles.track}
-            ref={trackRef}
-            style={{ transform: `translateX(-${activeSlide * 100}%)` }}
-          >
-          <section className={styles.slide} aria-label="Diapositiva 1: Portada">
+    html.style.overflow = "visible";
+    body.style.overflow = "visible";
+    html.style.height = "auto";
+    body.style.height = "auto";
+
+    return () => {
+      html.style.overflow = prevHtmlOverflow;
+      body.style.overflow = prevBodyOverflow;
+      html.style.height = prevHtmlHeight;
+      body.style.height = prevBodyHeight;
+    };
+  }, [isExport]);
+
+  useEffect(() => {
+    if (!isExport) {
+      return;
+    }
+    let cancelled = false;
+    const markReady = async () => {
+      try {
+        if (document.fonts?.ready) {
+          await document.fonts.ready;
+        }
+      } catch {
+        // Ignore font readiness failures.
+      }
+      if (!cancelled) {
+        (window as Window & { __EXPORT_READY__?: boolean }).__EXPORT_READY__ = true;
+      }
+    };
+    void markReady();
+    return () => {
+      cancelled = true;
+    };
+  }, [isExport]);
+
+  const slides = (
+    <>
+      <section key="slide-1" className={styles.slide} aria-label="Diapositiva 1: Portada">
             <SlideFrame>
               <header className={styles.slideHeader}>
                 <div className={styles.slideMeta}>
@@ -217,71 +205,71 @@ export function ClientSlides() {
                 <span>Presentación de retos · CEU Impact Lab</span>
               </footer>
             </SlideFrame>
-          </section>
+      </section>
 
-          <section className={styles.slide} aria-label="Diapositiva 2: Enunciado del reto">
-            <SlideFrame>
-              <header className={styles.slideHeader}>
-                <div className={styles.slideMeta}><span>Enunciado del reto</span></div>
-                <div className={styles.slideHeaderRight}>
-                  <Image src={logo} alt="" className={styles.headerLogo} aria-hidden="true" />
-                  <span className={styles.slideNumber}>02 / 12</span>
+      <section key="slide-2" className={styles.slide} aria-label="Diapositiva 2: Enunciado del reto">
+        <SlideFrame>
+          <header className={styles.slideHeader}>
+            <div className={styles.slideMeta}><span>Enunciado del reto</span></div>
+            <div className={styles.slideHeaderRight}>
+              <Image src={logo} alt="" className={styles.headerLogo} aria-hidden="true" />
+              <span className={styles.slideNumber}>02 / 12</span>
+            </div>
+          </header>
+          <div className={styles.slideBody}>
+            <p className={styles.lead}>
+              Las pymes gestionan el inventario con hojas de cálculo. El resultado: tres problemas que se repiten y cuestan dinero.
+            </p>
+            {/* Infografía: mapa del problema */}
+            <div className={styles.problemGrid}>
+              <div className={`${styles.problemCard} ${styles.problemCardRed}`}>
+                <div className={`${styles.problemIcon} ${styles.problemIconRed}`}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#003CA3" strokeWidth="2" strokeLinecap="round">
+                    <path d="M3 3h18v4H3zM3 10h18v4H3zM3 17h18v4H3z" />
+                  </svg>
                 </div>
-              </header>
-              <div className={styles.slideBody}>
-                <p className={styles.lead}>
-                  Las pymes gestionan el inventario con hojas de cálculo. El resultado: tres problemas que se repiten y cuestan dinero.
-                </p>
-                {/* Infografía: mapa del problema */}
-                <div className={styles.problemGrid}>
-                  <div className={`${styles.problemCard} ${styles.problemCardRed}`}>
-                    <div className={`${styles.problemIcon} ${styles.problemIconRed}`}>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="#003CA3" strokeWidth="2" strokeLinecap="round">
-                        <path d="M3 3h18v4H3zM3 10h18v4H3zM3 17h18v4H3z" />
-                      </svg>
-                    </div>
-                    <p className={styles.problemTitle}>Exceso de stock</p>
-                    <p className={styles.problemDesc}>Capital parado en productos de baja rotación. Espacio y coste financiero sin retorno.</p>
-                  </div>
-                  <div className={`${styles.problemCard} ${styles.problemCardAmber}`}>
-                    <div className={`${styles.problemIcon} ${styles.problemIconAmber}`}>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="#188FF1" strokeWidth="2" strokeLinecap="round">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
-                      </svg>
-                    </div>
-                    <p className={styles.problemTitle}>Ventas irregulares</p>
-                    <p className={styles.problemDesc}>Picos de demanda que no se ven venir. Se compra por intuición, no por datos.</p>
-                  </div>
-                  <div className={`${styles.problemCard} ${styles.problemCardOrange}`}>
-                    <div className={`${styles.problemIcon} ${styles.problemIconOrange}`}>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="#52A095" strokeWidth="2" strokeLinecap="round">
-                        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-                        <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
-                      </svg>
-                    </div>
-                    <p className={styles.problemTitle}>Rotura de stock</p>
-                    <p className={styles.problemDesc}>Productos muy vendidos sin reponer a tiempo. Venta perdida y cliente insatisfecho.</p>
-                  </div>
-                </div>
-                <div className={styles.impactRow}>
-                  <div className={styles.impactCard}>
-                    <span className={styles.impactLabel}>Impacto real</span>
-                    <span className={styles.impactDesc}>Pérdidas evitables en cada ciclo de compras</span>
-                  </div>
-                  <div className={styles.impactCard}>
-                    <span className={styles.impactLabel}>Por qué pasa</span>
-                    <span className={styles.impactDesc}>Nadie ha puesto una herramienta que lea los datos por ellos</span>
-                  </div>
-                </div>
+                <p className={styles.problemTitle}>Exceso de stock</p>
+                <p className={styles.problemDesc}>Capital parado en productos de baja rotación. Espacio y coste financiero sin retorno.</p>
               </div>
-              <footer className={styles.slideFooter}>
-                <span>Reto 00</span>
-                <span>IA para Operaciones</span>
-              </footer>
-            </SlideFrame>
-          </section>
+              <div className={`${styles.problemCard} ${styles.problemCardAmber}`}>
+                <div className={`${styles.problemIcon} ${styles.problemIconAmber}`}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#188FF1" strokeWidth="2" strokeLinecap="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
+                  </svg>
+                </div>
+                <p className={styles.problemTitle}>Ventas irregulares</p>
+                <p className={styles.problemDesc}>Picos de demanda que no se ven venir. Se compra por intuición, no por datos.</p>
+              </div>
+              <div className={`${styles.problemCard} ${styles.problemCardOrange}`}>
+                <div className={`${styles.problemIcon} ${styles.problemIconOrange}`}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#52A095" strokeWidth="2" strokeLinecap="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                    <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+                  </svg>
+                </div>
+                <p className={styles.problemTitle}>Rotura de stock</p>
+                <p className={styles.problemDesc}>Productos muy vendidos sin reponer a tiempo. Venta perdida y cliente insatisfecho.</p>
+              </div>
+            </div>
+            <div className={styles.impactRow}>
+              <div className={styles.impactCard}>
+                <span className={styles.impactLabel}>Impacto real</span>
+                <span className={styles.impactDesc}>Pérdidas evitables en cada ciclo de compras</span>
+              </div>
+              <div className={styles.impactCard}>
+                <span className={styles.impactLabel}>Por qué pasa</span>
+                <span className={styles.impactDesc}>Nadie ha puesto una herramienta que lea los datos por ellos</span>
+              </div>
+            </div>
+          </div>
+          <footer className={styles.slideFooter}>
+            <span>Reto 00</span>
+            <span>IA para Operaciones</span>
+          </footer>
+        </SlideFrame>
+      </section>
 
-          <section className={styles.slide} aria-label="Diapositiva 3: Contexto del reto">
+          <section key="slide-3" className={styles.slide} aria-label="Diapositiva 3: Contexto del reto">
             <SlideFrame>
               <header className={styles.slideHeader}>
                 <div className={styles.slideMeta}>
@@ -330,7 +318,7 @@ export function ClientSlides() {
             </SlideFrame>
           </section>
 
-          <section className={styles.slide} aria-label="Diapositiva 4: Objetivo del reto">
+          <section key="slide-4" className={styles.slide} aria-label="Diapositiva 4: Objetivo del reto">
             <SlideFrame>
               <header className={styles.slideHeader}>
                 <div className={styles.slideMeta}>
@@ -410,7 +398,7 @@ export function ClientSlides() {
             </SlideFrame>
           </section>
 
-          <section className={styles.slide} aria-label="Diapositiva 5: Meta del reto">
+          <section key="slide-5" className={styles.slide} aria-label="Diapositiva 5: Meta del reto">
             <SlideFrame>
               <header className={styles.slideHeader}>
                 <div className={styles.slideMeta}>
@@ -453,7 +441,7 @@ export function ClientSlides() {
             </SlideFrame>
           </section>
 
-          <section className={styles.slide} aria-label="Diapositiva 6: Requisitos funcionales">
+          <section key="slide-6" className={styles.slide} aria-label="Diapositiva 6: Requisitos funcionales">
             <SlideFrame>
               <header className={styles.slideHeader}>
                 <div className={styles.slideMeta}>
@@ -547,7 +535,7 @@ export function ClientSlides() {
             </SlideFrame>
           </section>
 
-          <section className={styles.slide} aria-label="Diapositiva 7: Reglas del reto">
+          <section key="slide-7" className={styles.slide} aria-label="Diapositiva 7: Reglas del reto">
             <SlideFrame>
               <header className={styles.slideHeader}>
                 <div className={styles.slideMeta}>
@@ -601,7 +589,7 @@ export function ClientSlides() {
             </SlideFrame>
           </section>
 
-          <section className={styles.slide} aria-label="Diapositiva 8: Entrada y salida">
+          <section key="slide-8" className={styles.slide} aria-label="Diapositiva 8: Entrada y salida">
             <SlideFrame>
               <header className={styles.slideHeader}>
                 <div className={styles.slideMeta}><span>Arquitectura del sistema</span></div>
@@ -724,7 +712,7 @@ export function ClientSlides() {
             </SlideFrame>
           </section>
 
-          <section className={styles.slide} aria-label="Diapositiva 9: Criterios de evaluación">
+          <section key="slide-9" className={styles.slide} aria-label="Diapositiva 9: Criterios de evaluación">
             <SlideFrame>
               <header className={styles.slideHeader}>
                 <div className={styles.slideMeta}><span>Criterios de evaluación</span></div>
@@ -769,7 +757,7 @@ export function ClientSlides() {
             </SlideFrame>
           </section>
 
-          <section className={styles.slide} aria-label="Diapositiva 10: Entregables">
+          <section key="slide-10" className={styles.slide} aria-label="Diapositiva 10: Entregables">
             <SlideFrame>
               <header className={styles.slideHeader}>
                 <div className={styles.slideMeta}>
@@ -823,7 +811,7 @@ export function ClientSlides() {
             </SlideFrame>
           </section>
 
-          <section className={styles.slide} aria-label="Diapositiva 11: Formato del pitch final">
+          <section key="slide-11" className={styles.slide} aria-label="Diapositiva 11: Formato del pitch final">
             <SlideFrame>
               <header className={styles.slideHeader}>
                 <div className={styles.slideMeta}>
@@ -873,7 +861,7 @@ export function ClientSlides() {
             </SlideFrame>
           </section>
 
-          <section className={styles.slide} aria-label="Diapositiva 12: Impacto potencial">
+          <section key="slide-12" className={styles.slide} aria-label="Diapositiva 12: Impacto potencial">
             <SlideFrame>
               <header className={styles.slideHeader}>
                 <div className={styles.slideMeta}><span>Impacto potencial</span></div>
@@ -928,6 +916,47 @@ export function ClientSlides() {
               </footer>
             </SlideFrame>
           </section>
+    </>
+  );
+
+  const slideNodes = Children.toArray(
+    (slides as React.ReactElement<{ children: ReactNode }>).props.children
+  );
+  const exportDeckClassName = useMemo(() => {
+    if (!isExport || typeof document === "undefined") {
+      return styles.exportDeck;
+    }
+    const htmlClasses = document.documentElement.className;
+    const bodyClasses = document.body.className;
+    return `${styles.exportDeck} ${htmlClasses} ${bodyClasses}`.trim();
+  }, [isExport]);
+
+  if (isExport) {
+    return (
+      <main id="exportDeck" className={exportDeckClassName}>
+        {slideNodes.map((slide, index) => (
+          <section className={styles.exportPage} key={`export-${index}`}>
+            <div className={styles.exportCanvas}>{slide}</div>
+          </section>
+        ))}
+      </main>
+    );
+  }
+
+  return (
+    <main className={styles.stage} ref={stageRef}>
+        <div
+          className={styles.deckCanvas}
+          ref={canvasRef}
+          style={{ transform: `scale(${scale})` }}
+        >
+          {/* Add new slides as <section className={styles.slide}> inside this track. */}
+          <div
+            className={styles.track}
+            ref={trackRef}
+            style={{ transform: `translateX(-${activeSlide * 100}%)` }}
+          >
+            {slides}
           </div>
           <div className={styles.controls} aria-label="Controles de diapositivas">
             <button
@@ -963,14 +992,6 @@ export function ClientSlides() {
               <span className={styles.controlArrow} aria-hidden="true">
                 &gt;
               </span>
-            </button>
-            <button
-              type="button"
-              className={styles.pdfBtn}
-              onClick={() => { preparePrint(); window.print(); }}
-              aria-label="Descargar presentación como PDF"
-            >
-              PDF
             </button>
           </div>
         </div>

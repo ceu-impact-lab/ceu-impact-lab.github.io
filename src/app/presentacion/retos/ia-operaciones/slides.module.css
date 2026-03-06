@@ -27,6 +27,7 @@
   --s-ink-muted:      rgba(7, 8, 80, 0.58);
   --s-ink-dim:        rgba(7, 8, 80, 0.38);
   --s-ink-faint:      rgba(7, 8, 80, 0.1);
+  --s-ink-soft:       rgba(7, 8, 80, 0.82);
   --s-primary-tint:   rgba(0, 60, 163, 0.09);
   --s-primary-border: rgba(0, 60, 163, 0.24);
 
@@ -208,6 +209,11 @@
   grid-template-rows: auto 1fr auto;
   gap: 18px;
   position: relative;
+  color: var(--s-ink-soft);
+}
+
+.slideFrame :is(p, span, li, strong, em, b, small) {
+  color: var(--s-ink-soft) !important;
 }
 
 /* ── Corner logo ─────────────────────────────────────────────────── */
@@ -387,7 +393,7 @@
   content: "›";
   position: absolute;
   left: 4px;
-  color: var(--s-primary);
+  color: var(--s-ink-soft);
   font-weight: 600;
 }
 
@@ -413,7 +419,7 @@
   content: counter(ol-counter) ".";
   position: absolute;
   left: 0;
-  color: var(--s-primary);
+  color: var(--s-ink-soft);
   font-weight: 600;
   font-size: var(--ppt-caption);
 }
@@ -919,94 +925,244 @@
   letter-spacing: 0.05em;
 }
 
-/* ── PDF download button — inline chip inside .controls ── */
-.pdfBtn {
-  padding: 5px 13px;
-  border-radius: var(--s-r-chip);
-  border: 1px solid var(--s-primary-border);
-  background: var(--s-glass);
-  backdrop-filter: var(--s-blur);
-  color: var(--s-primary);
+/* ── Export mode (print-friendly) ────────────────────────────────── */
+.exportDeck {
+  width: 1920px;
+  margin: 0 auto;
+  padding: 24px 0 64px;
+  display: grid;
+  gap: 24px;
+  background: var(--s-bg);
   font-family: var(--font-poppins), Verdana, sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  opacity: 0.7;
-  transition: opacity 160ms ease, background 160ms ease, border-color 160ms ease;
-  white-space: nowrap;
-  line-height: 1;
-}
-.pdfBtn:hover {
-  opacity: 1;
-  background: var(--s-primary-tint);
-  border-color: var(--s-primary);
+  color: var(--s-ink);
 }
 
-/* ── Print / PDF export ──────────────────────────────────────────── */
-/*
- * Las slides están en el DOM con clase .slide y normalmente sólo una
- * está visible (el track usa translateX). Para imprimir hay que mostrar
- * todas temporalmente — lo hacen las reglas @media print de abajo junto
- * con la lógica imperativa preparePrint() / restoreAfterPrint() del TSX.
- */
+.exportPage {
+  width: 1920px;
+  height: 1080px;
+  margin: 0 auto;
+  break-after: page;
+  page-break-after: always;
+}
+
+.exportCanvas {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background:
+    radial-gradient(44% 44% at 20% 18%, rgba(24, 143, 241, 0.40) 0%, transparent 60%),
+    radial-gradient(38% 38% at 82% 28%, rgba(82, 160, 149, 0.40) 0%, transparent 60%),
+    radial-gradient(32% 32% at 28% 82%, rgba(117, 91, 119, 0.35) 0%, transparent 70%),
+    var(--s-bg);
+  border: 1px solid var(--s-divider);
+}
+
+.exportCanvas > .slide {
+  width: 100%;
+  height: 100%;
+}
+
 @media print {
-  /* 1. Ocultar UI de navegación */
-  .controls,
-  .pdfBtn {
-    display: none !important;
+  @page {
+    size: 1920px 1080px;
+    margin: 0;
   }
 
-  /* 2. Liberar el stage del position:fixed (era el culpable principal
-        de las páginas en blanco: el navegador sólo imprimía el primer
-        «frame» fijo y rellenaba el resto con blanco). */
-  .stage {
-    position: static !important;
-    inset: auto !important;
+  /* ── Force exact colours everywhere ── */
+  :global(html),
+  :global(body),
+  .exportDeck,
+  .exportDeck *,
+  .stage,
+  .stage *,
+  .deckCanvas,
+  .deckCanvas * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  :global(html),
+  :global(body) {
+    margin: 0 !important;
+    padding: 0 !important;
     overflow: visible !important;
-    width: 1920px !important;
     height: auto !important;
-    display: block !important;
+    width: auto !important;
+  }
+
+  /* ── Export mode ── */
+  .exportDeck {
+    margin: 0 !important;
+    padding: 0 !important;
     background: transparent !important;
   }
 
-  /* 3. Quitar la transformación de escala del canvas (el inline style
-        scale(n) queda anulado por !important) y liberar el overflow:hidden
-        que impedía ver las slides fuera del viewport. */
+  .exportPage {
+    margin: 0 !important;
+    break-after: page !important;
+    page-break-after: always !important;
+  }
+
+  .exportPage:last-child {
+    break-after: auto !important;
+    page-break-after: auto !important;
+  }
+
+  .exportCanvas {
+    margin: 0 !important;
+  }
+
+  /* ── Interactive mode: flatten carousel for print ── */
+  .stage {
+    position: static !important;
+    width: 1920px !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+    background: none !important;
+  }
+
   .deckCanvas {
     transform: none !important;
     width: 1920px !important;
     height: auto !important;
     overflow: visible !important;
+    border: none !important;
+    will-change: auto !important;
+    /* Keep the gradient background on each page */
+    background:
+      radial-gradient(44% 44% at 20% 18%, rgba(24, 143, 241, 0.40) 0%, transparent 60%),
+      radial-gradient(38% 38% at 82% 28%, rgba(82, 160, 149, 0.40) 0%, transparent 60%),
+      radial-gradient(32% 32% at 28% 82%, rgba(117, 91, 119, 0.35) 0%, transparent 70%),
+      var(--s-bg) !important;
   }
 
-  /* 4. El track pasa a flujo de bloque: todas las slides apiladas.
-        La JS de preparePrint() también fuerza esto por si los estilos
-        inline de React no se han aplicado todavía cuando dispara beforeprint. */
   .track {
     display: block !important;
     transform: none !important;
     width: 1920px !important;
     height: auto !important;
     transition: none !important;
+    will-change: auto !important;
+  }
+
+  .slide {
+    width: 1920px !important;
+    height: 1080px !important;
+    display: flex !important;
+    break-after: page !important;
+    page-break-after: always !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    /* Each slide gets its own background so page breaks don't lose it */
+    background:
+      radial-gradient(44% 44% at 20% 18%, rgba(24, 143, 241, 0.40) 0%, transparent 60%),
+      radial-gradient(38% 38% at 82% 28%, rgba(82, 160, 149, 0.40) 0%, transparent 60%),
+      radial-gradient(32% 32% at 28% 82%, rgba(117, 91, 119, 0.35) 0%, transparent 70%),
+      var(--s-bg) !important;
+  }
+
+  .slide:last-child {
+    break-after: auto !important;
+    page-break-after: auto !important;
+  }
+
+  /* ── Fix slideBody overflow clipping content in print ── */
+  .slideBody {
     overflow: visible !important;
   }
 
-  /* 5. Cada slide es una página apaisada exacta */
-  .slide {
-    display: block !important;
-    width: 1920px !important;
-    height: 1080px !important;
-    flex: none !important;
-    overflow: hidden !important;
-    page-break-after: always !important;
-    break-after: page !important;
-    page-break-inside: avoid !important;
+  /* ── Replace backdrop-filter glass with opaque backgrounds ──
+       backdrop-filter is ignored in print; without it the semi-transparent
+       glass background becomes almost invisible. Use a solid tint instead. */
+  .card,
+  .problemCard,
+  .kpiCard,
+  .flowNodeIcon,
+  .iconCard {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(218, 218, 218, 0.55) !important;
+    border: 1px solid var(--s-divider) !important;
   }
-}
 
-/* @page exactamente del tamaño del canvas: sin escalado, sin márgenes.
-   Cada slide encaja perfectamente en una página apaisada. */
-@page {
-  size: 1920px 1080px;
-  margin: 0;
+  /* Preserve accent top-border colours */
+  .cardAccent { border-top: 2px solid var(--s-primary) !important; }
+  .cardCyan   { border-top: 2px solid var(--s-teal-mid) !important; }
+  .cardAmber  { border-top: 2px solid var(--s-primary-light) !important; }
+  .cardRed    { border-top: 2px solid var(--s-purple) !important; }
+  .cardGreen  { border-top: 2px solid var(--s-primary-dark) !important; }
+
+  /* KPI / problem ::before top-bar must remain visible */
+  .kpiCard::before,
+  .problemCard::before {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Flow node icons — step-specific tints (opaque for print) */
+  .flowStep0 .flowNodeIcon { background: rgba(0, 60, 163, 0.18) !important;  border-color: rgba(0, 60, 163, 0.35) !important; }
+  .flowStep1 .flowNodeIcon { background: rgba(24, 143, 241, 0.18) !important; border-color: rgba(24, 143, 241, 0.35) !important; }
+  .flowStep2 .flowNodeIcon { background: rgba(82, 160, 149, 0.22) !important; border-color: rgba(82, 160, 149, 0.40) !important; }
+  .flowStep3 .flowNodeIcon { background: rgba(117, 91, 119, 0.22) !important; border-color: rgba(117, 91, 119, 0.40) !important; }
+  .flowStep4 .flowNodeIcon { background: rgba(7, 8, 80, 0.12) !important;     border-color: rgba(7, 8, 80, 0.25) !important; }
+
+  /* Impact cards — keep tinted background */
+  .impactCard {
+    background: rgba(0, 60, 163, 0.12) !important;
+    border: 1px solid rgba(0, 60, 163, 0.30) !important;
+  }
+
+  /* Mini-dashboard elements */
+  .miniAlert {
+    background: rgba(0, 60, 163, 0.12) !important;
+    border: 1px solid rgba(0, 60, 163, 0.30) !important;
+  }
+  .miniRec {
+    background: rgba(7, 8, 80, 0.06) !important;
+    border: 1px solid var(--s-divider) !important;
+  }
+  .miniTableHead {
+    background: rgba(0, 60, 163, 0.15) !important;
+  }
+
+  /* Chart bars gradient */
+  .chartBars span {
+    background: linear-gradient(180deg, var(--s-primary) 0%, rgba(0,60,163,0.35) 100%) !important;
+  }
+
+  /* Eval bar fills — keep their inline gradient via print-color-adjust */
+  .evalBarTrack {
+    background: rgba(7, 8, 80, 0.10) !important;
+  }
+
+  /* Tags / chips */
+  .tag, .tagFull, .coverTag {
+    background: rgba(0, 60, 163, 0.12) !important;
+    border: 1px solid rgba(0, 60, 163, 0.30) !important;
+  }
+
+  /* Slide number chip */
+  .slideNumber {
+    background: rgba(0, 60, 163, 0.12) !important;
+  }
+
+  /* Cover divider */
+  .coverDivider {
+    background: var(--s-primary) !important;
+  }
+
+  /* ── Ensure SVGs render ── */
+  .flowArrowSvg svg,
+  .problemIcon svg,
+  .flowNodeIcon svg {
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  /* ── Hide interactive controls ── */
+  .controls {
+    display: none !important;
+  }
 }

@@ -212,7 +212,7 @@
   color: var(--s-ink-soft);
 }
 
-.slideFrame :is(p, span, li, strong, em, b, small) {
+.slideFrame :is(p, span, li, strong, em, b, small):not(.kpiValue) {
   color: var(--s-ink-soft) !important;
 }
 

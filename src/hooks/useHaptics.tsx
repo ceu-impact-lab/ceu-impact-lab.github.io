@@ -11,8 +11,7 @@ const HapticsContext = createContext<HapticsContextValue>({
   boop: () => {},
 });
 
-/** Single crisp tap — mirrors Apple's Taptic "tick". */
-const BOOP = [{ duration: 10, intensity: 1 }];
+const BOOP_PATTERN = [{ duration: 35 }];
 
 export function HapticsProvider({ children }: { children: ReactNode }) {
   const hapticsRef = useRef<WebHaptics | null>(null);
@@ -27,7 +26,7 @@ export function HapticsProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const boop = useCallback(() => {
-    hapticsRef.current?.trigger(BOOP);
+    hapticsRef.current?.trigger(BOOP_PATTERN, { intensity: 1 });
   }, []);
 
   return (

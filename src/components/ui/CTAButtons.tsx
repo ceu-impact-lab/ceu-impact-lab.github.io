@@ -11,7 +11,7 @@ type CTAButtonsProps = {
 };
 
 export function CTAButtons({ direction = "row", size = "large" }: CTAButtonsProps) {
-  const { trigger } = useHaptics();
+  const { boop } = useHaptics();
   const { studentRegistrationUrl, companyContactUrl } =
     siteContent.primaryCTAs;
   const hasRegistration = Boolean(studentRegistrationUrl);
@@ -26,7 +26,7 @@ export function CTAButtons({ direction = "row", size = "large" }: CTAButtonsProp
         variant="contained"
         color="primary"
         disabled={!hasRegistration}
-        onClick={() => trigger("success")}
+        onClick={() => boop()}
       >
         Inscríbete (Estudiantes)
       </Button>
@@ -37,7 +37,7 @@ export function CTAButtons({ direction = "row", size = "large" }: CTAButtonsProp
         variant="outlined"
         color="primary"
         disabled={!hasCompanyContact}
-        onClick={() => trigger("nudge")}
+        onClick={() => boop()}
       >
         Quiero colaborar (Empresas)
       </Button>

@@ -21,7 +21,7 @@ type FAQAccordionProps = {
 };
 
 export function FAQAccordion({ items }: FAQAccordionProps) {
-  const { trigger } = useHaptics();
+  const { boop } = useHaptics();
   const renderAnswer = (answer: string): ReactNode[] => {
     const nodes: ReactNode[] = [];
     const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
@@ -60,7 +60,7 @@ export function FAQAccordion({ items }: FAQAccordionProps) {
   return (
     <div>
       {items.map((item) => (
-        <Accordion key={item.question} variant="outlined" disableGutters onChange={() => trigger("nudge")}>
+        <Accordion key={item.question} variant="outlined" disableGutters onChange={() => boop()}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle1">{item.question}</Typography>
           </AccordionSummary>

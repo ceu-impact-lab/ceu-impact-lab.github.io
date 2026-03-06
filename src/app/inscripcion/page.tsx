@@ -10,7 +10,7 @@ import { useHaptics } from "@/hooks/useHaptics";
 export default function InscripcionPage() {
   const registrationUrl = siteContent.primaryCTAs.studentRegistrationUrl;
   const hasRegistration = Boolean(registrationUrl);
-  const { trigger } = useHaptics();
+  const { boop } = useHaptics();
 
   return (
     <Box>
@@ -30,7 +30,7 @@ export default function InscripcionPage() {
                   variant="contained"
                   size="large"
                   disabled={!hasRegistration}
-                  onClick={() => trigger("success")}
+                  onClick={() => boop()}
                 >
                   Inscríbete (Estudiantes)
                 </Button>

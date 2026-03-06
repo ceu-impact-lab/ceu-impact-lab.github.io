@@ -5,7 +5,7 @@ import { Section } from "@/components/ui/Section";
 import { useHaptics } from "@/hooks/useHaptics";
 
 export default function ContactoPage() {
-  const { trigger } = useHaptics();
+  const { boop } = useHaptics();
   return (
     <Box>
       <Section title="Contacto" subtitle="Hablemos">
@@ -19,7 +19,7 @@ export default function ContactoPage() {
                 <TextField label="Nombre" fullWidth />
                 <TextField label="Email" type="email" fullWidth />
                 <TextField label="Mensaje" fullWidth multiline minRows={4} />
-                <Button variant="contained" size="large" onClick={() => trigger("success")}>
+                <Button variant="contained" size="large" onClick={() => boop()}>
                   Enviar mensaje
                 </Button>
               </Stack>

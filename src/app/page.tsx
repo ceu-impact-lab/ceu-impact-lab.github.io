@@ -29,7 +29,7 @@ import { useHaptics } from "@/hooks/useHaptics";
 export default function Home() {
   const hasRegistration = Boolean(siteContent.primaryCTAs.studentRegistrationUrl);
   const [openRubricIndex, setOpenRubricIndex] = useState<number | null>(null);
-  const { trigger } = useHaptics();
+  const { boop } = useHaptics();
   const activeRubricItem =
     openRubricIndex === null ? null : siteContent.rubric[openRubricIndex];
   const hoverCardSx = {
@@ -163,7 +163,7 @@ export default function Home() {
         <Stack spacing={2}>
           {siteContent.rubric.map((item, index) => (
             <Card key={item.category} variant="outlined" sx={hoverCardSx}>
-              <CardActionArea onClick={() => { trigger("nudge"); setOpenRubricIndex(index); }}>
+              <CardActionArea onClick={() => { boop(); setOpenRubricIndex(index); }}>
                 <CardContent>
                   <Stack spacing={1}>
                     <Stack direction="row" justifyContent="space-between">
@@ -208,7 +208,7 @@ export default function Home() {
                 {activeRubricItem.category}
                 <IconButton
                   aria-label="Cerrar"
-                  onClick={() => { trigger("nudge"); setOpenRubricIndex(null); }}
+                  onClick={() => { boop(); setOpenRubricIndex(null); }}
                   sx={{ position: "absolute", right: 12, top: 12 }}
                 >
                   <CloseIcon />
@@ -262,7 +262,7 @@ export default function Home() {
                 ...hoverCardSx,
               }}
             >
-              <CardActionArea component={Link} href={`/bases?tab=${section.id}`} onClick={() => trigger("nudge")}>
+              <CardActionArea component={Link} href={`/bases?tab=${section.id}`} onClick={() => boop()}>
                 <CardContent sx={{ pb: 2 }}>
                 <Stack spacing={1.5}>
                   <Typography variant="subtitle1">
@@ -310,7 +310,7 @@ export default function Home() {
             component={Link}
             href="/faq"
             variant="outlined"
-            onClick={() => trigger("nudge")}
+            onClick={() => boop()}
             sx={{
               boxShadow: "none",
               borderColor: "divider",

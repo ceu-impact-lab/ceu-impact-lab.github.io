@@ -32,7 +32,7 @@ export function ClientSlides() {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const searchParams = useSearchParams();
   const isExport = searchParams.get("export") === "1";
-  const { trigger } = useHaptics();
+  const { boop } = useHaptics();
 
   const visibleDots = (() => {
     if (totalSlides <= visibleDotCount) {
@@ -964,7 +964,7 @@ export function ClientSlides() {
             <button
               type="button"
               className={styles.controlButton}
-              onClick={() => { trigger("nudge"); setActiveSlide((prev) => Math.max(prev - 1, 0)); }}
+              onClick={() => { boop(); setActiveSlide((prev) => Math.max(prev - 1, 0)); }}
               aria-label="Diapositiva anterior"
               disabled={activeSlide === 0}
             >
@@ -978,7 +978,7 @@ export function ClientSlides() {
                   key={index}
                   type="button"
                   className={`${styles.dot} ${index === activeSlide ? styles.dotActive : ""}`}
-                  onClick={() => { trigger("nudge"); setActiveSlide(index); }}
+                  onClick={() => { boop(); setActiveSlide(index); }}
                   aria-label={`Ir a la diapositiva ${index + 1}`}
                   aria-pressed={index === activeSlide}
                 />
@@ -987,7 +987,7 @@ export function ClientSlides() {
             <button
               type="button"
               className={styles.controlButton}
-              onClick={() => { trigger("nudge"); setActiveSlide((prev) => Math.min(prev + 1, totalSlides - 1)); }}
+              onClick={() => { boop(); setActiveSlide((prev) => Math.min(prev + 1, totalSlides - 1)); }}
               aria-label="Diapositiva siguiente"
               disabled={activeSlide === totalSlides - 1}
             >

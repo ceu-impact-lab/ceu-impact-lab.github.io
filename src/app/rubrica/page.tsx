@@ -22,7 +22,7 @@ import { useHaptics } from "@/hooks/useHaptics";
 
 export default function RubricaPage() {
   const [openRubricIndex, setOpenRubricIndex] = useState<number | null>(null);
-  const { trigger } = useHaptics();
+  const { boop } = useHaptics();
   const activeRubricItem =
     openRubricIndex === null ? null : siteContent.rubric[openRubricIndex];
 
@@ -36,7 +36,7 @@ export default function RubricaPage() {
           </Typography>
           {siteContent.rubric.map((item, index) => (
             <Card key={item.category} variant="outlined">
-              <CardActionArea onClick={() => { trigger("nudge"); setOpenRubricIndex(index); }}>
+              <CardActionArea onClick={() => { boop(); setOpenRubricIndex(index); }}>
                 <CardContent>
                   <Stack spacing={1}>
                     <Stack direction="row" justifyContent="space-between">
@@ -80,7 +80,7 @@ export default function RubricaPage() {
                   {activeRubricItem.category}
                   <IconButton
                     aria-label="Cerrar"
-                    onClick={() => { trigger("nudge"); setOpenRubricIndex(null); }}
+                    onClick={() => { boop(); setOpenRubricIndex(null); }}
                     sx={{ position: "absolute", right: 12, top: 12 }}
                   >
                     <CloseIcon />

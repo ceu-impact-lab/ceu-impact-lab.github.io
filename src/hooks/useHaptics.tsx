@@ -1,15 +1,18 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, type ReactNode } from "react";
 import { WebHaptics } from "web-haptics";
 
 type HapticsContextValue = {
-  trigger: WebHaptics["trigger"];
+  boop: () => void;
 };
 
 const HapticsContext = createContext<HapticsContextValue>({
-  trigger: async () => {},
+  boop: () => {},
 });
+
+/** Single crisp tap — mirrors Apple's Taptic "tick". */
+const BOOP = [{ duration: 10, intensity: 1 }];
 
 export function HapticsProvider({ children }: { children: ReactNode }) {
   const hapticsRef = useRef<WebHaptics | null>(null);
@@ -23,15 +26,12 @@ export function HapticsProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const trigger: WebHaptics["trigger"] = (...args) => {
-    if (hapticsRef.current) {
-      return hapticsRef.current.trigger(...args);
-    }
-    return Promise.resolve();
-  };
+  const boop = useCallback(() => {
+    hapticsRef.current?.trigger(BOOP);
+  }, []);
 
   return (
-    <HapticsContext.Provider value={{ trigger }}>
+    <HapticsContext.Provider value={{ boop }}>
       {children}
     </HapticsContext.Provider>
   );

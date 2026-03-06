@@ -84,7 +84,7 @@ function BasesPageContent() {
   const [maxPanelHeight, setMaxPanelHeight] = useState(0);
   const measureRefs = useRef<Array<HTMLDivElement | null>>([]);
   const highlightActive = searchParams.get("highlight") === "1";
-  const { trigger } = useHaptics();
+  const { boop } = useHaptics();
 
   useEffect(() => {
     const tabId = searchParams.get("tab");
@@ -123,7 +123,7 @@ function BasesPageContent() {
                 orientation="vertical"
                 variant="scrollable"
                 value={tabIndex}
-                onChange={(_event, value) => { trigger("nudge"); setTabIndex(value); }}
+                onChange={(_event, value) => { boop(); setTabIndex(value); }}
                 aria-label="Indice del reglamento"
                 sx={{
                   borderRight: 1,

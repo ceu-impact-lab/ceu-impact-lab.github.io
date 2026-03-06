@@ -48,7 +48,7 @@ export function HowItWorksInteractive({ steps, details }: HowItWorksInteractiveP
   const [activeStep, setActiveStep] = useState(0);
   const hasEntered = useRef(false);
   const lastStep = steps.length - 1;
-  const { trigger } = useHaptics();
+  const { boop } = useHaptics();
 
   const clampStep = useMemo(() => {
     return Math.max(0, Math.min(activeStep, lastStep));
@@ -88,7 +88,7 @@ export function HowItWorksInteractive({ steps, details }: HowItWorksInteractiveP
           <Step key={step} completed={index < clampStep}>
             <StepButton
               onClick={() => {
-                trigger("nudge");
+                boop();
                 // Users can jump to any step; update the active marker immediately.
                 setActiveStep(index);
               }}

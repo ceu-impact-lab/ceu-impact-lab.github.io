@@ -1,40 +1,57 @@
 // ==UserScript==
 // @name         CEU Slides → PDF
 // @namespace    https://ceuimpactlab.es/
-// @version      1.0
-// @description  Captures each slide of the IA-Operaciones deck at 1920×1080 and assembles a high-res PDF.
+// @version      2.0
+// @description  Captures each slide of the IA-Operaciones deck at 1920×1080 and assembles a high-res PDF. Runs in TM sandbox to bypass CSP.
 // @match        *://localhost:*/presentacion/retos/ia-operaciones*
 // @match        *://ceuimpactlab.es/presentacion/retos/ia-operaciones*
 // @match        *://*.ceuimpactlab.es/presentacion/retos/ia-operaciones*
-// @grant        none
 // @require      https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js
-// @require      https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js
+// @grant        GM_registerMenuCommand
+// @grant        unsafeWindow
 // ==/UserScript==
 
 (function () {
   "use strict";
 
+  /* ── Libraries (loaded by TM sandbox via @require, CSP-proof) ── */
+  const h2c = window.html2canvas;
+  const jsPDF = window.jspdf?.jsPDF;
+
+  if (!h2c) throw new Error("[Deck→PDF] html2canvas not loaded.");
+  if (!jsPDF) throw new Error("[Deck→PDF] jsPDF not loaded.");
+
+  // Expose for console debugging: __h2c && __jsPDF
+  unsafeWindow.__h2c = h2c;
+  unsafeWindow.__jsPDF = jsPDF;
+
   /* ── Configuration ─────────────────────────────────────────────── */
   const TOTAL_SLIDES = 12;
-  const SLIDE_W = 1920;      // native design width
-  const SLIDE_H = 1080;      // native design height
-  const SCALE_FACTOR = 2;    // 2× for retina-quality output
+  const SLIDE_W = 1920;
+  const SLIDE_H = 1080;
+  const SCALE_FACTOR = 2;    // 2× for retina-quality
   const FILENAME = "ia-operaciones.pdf";
 
   /* ── Helpers ───────────────────────────────────────────────────── */
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-  /** Find DOM nodes by partial class-name match (CSS Modules hashes). */
-  function qsByClass(root, keyword) {
-    return root.querySelector(`[class*="${keyword}"]`);
+  /** Wait for two rAF ticks so the browser has actually painted. */
+  function waitForPaint() {
+    return new Promise((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(resolve));
+    });
   }
-  function qsAllByClass(root, keyword) {
-    return root.querySelectorAll(`[class*="${keyword}"]`);
+
+  /** Find a DOM node whose class attribute contains `keyword`. */
+  function qs(root, keyword) {
+    return root.querySelector(`[class*="${keyword}"]`);
   }
 
   /* ── Floating trigger button ───────────────────────────────────── */
   function injectButton() {
     const btn = document.createElement("button");
+    btn.id = "__deckPdfBtn";
     btn.textContent = "📥 Export PDF";
     Object.assign(btn.style, {
       position: "fixed",
@@ -60,42 +77,45 @@
 
   /* ── Main export flow ──────────────────────────────────────────── */
   async function runExport(btn) {
-    btn.disabled = true;
-    btn.textContent = "⏳ Capturing…";
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "⏳ Capturing…";
+    }
+    console.log("[Deck→PDF] Starting export…");
 
     try {
-      const stage = qsByClass(document, "stage");
-      const canvas = qsByClass(stage, "deckCanvas");
-      const track = qsByClass(canvas, "track");
-      const controls = qsByClass(canvas, "controls");
+      const stage = qs(document, "stage");
+      const canvas = qs(stage, "deckCanvas");
+      const track = qs(canvas, "track");
+      const controls = qs(canvas, "controls");
 
       if (!stage || !canvas || !track) {
-        alert("Could not find slide elements. Are you on the presentation page?");
-        btn.disabled = false;
-        btn.textContent = "📥 Export PDF";
-        return;
+        throw new Error("Could not find slide elements (.stage / .deckCanvas / .track).");
       }
 
-      /* ── Save original state ── */
-      const origStagePos = stage.style.position;
-      const origStageOverflow = stage.style.overflow;
-      const origStageWidth = stage.style.width;
-      const origStageHeight = stage.style.height;
-      const origStageInset = stage.style.inset;
-      const origStageDisplay = stage.style.display;
+      /* ── Save original inline styles ── */
+      const orig = {
+        stage: {
+          position: stage.style.position,
+          overflow: stage.style.overflow,
+          width: stage.style.width,
+          height: stage.style.height,
+          inset: stage.style.inset,
+          display: stage.style.display,
+        },
+        canvas: {
+          transform: canvas.style.transform,
+          overflow: canvas.style.overflow,
+          willChange: canvas.style.willChange,
+        },
+        track: {
+          transform: track.style.transform,
+          transition: track.style.transition,
+        },
+        controls: controls ? controls.style.display : "",
+      };
 
-      const origCanvasTransform = canvas.style.transform;
-      const origCanvasOverflow = canvas.style.overflow;
-      const origCanvasWillChange = canvas.style.willChange;
-
-      const origTrackTransform = track.style.transform;
-      const origTrackTransition = track.style.transition;
-      const origTrackDisplay = track.style.display;
-
-      const origControlsDisplay = controls ? controls.style.display : "";
-
-      /* ── Prepare stage for capture ── */
-      // Make stage static so html2canvas can measure it
+      /* ── Flatten layout for capture ── */
       stage.style.position = "relative";
       stage.style.overflow = "visible";
       stage.style.width = SLIDE_W + "px";
@@ -103,39 +123,42 @@
       stage.style.inset = "auto";
       stage.style.display = "block";
 
-      // Remove scale transform so we capture at native 1920×1080
       canvas.style.transform = "none";
       canvas.style.overflow = "hidden";
       canvas.style.willChange = "auto";
 
-      // Disable transition on track so slides snap instantly
       track.style.transition = "none";
 
-      // Hide controls
       if (controls) controls.style.display = "none";
 
-      // Wait for layout reflow
-      await sleep(200);
+      await sleep(300);
 
-      /* ── Capture each slide ── */
-      const captures = [];
+      /* ── Create PDF up front ── */
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "px",
+        format: [SLIDE_W, SLIDE_H],
+        compress: true,
+      });
 
+      /* ── Capture each slide and add to PDF immediately ── */
       for (let i = 0; i < TOTAL_SLIDES; i++) {
-        btn.textContent = `⏳ Slide ${i + 1}/${TOTAL_SLIDES}…`;
+        const label = `Slide ${i + 1}/${TOTAL_SLIDES}`;
+        if (btn) btn.textContent = `⏳ ${label}…`;
+        console.log(`[Deck→PDF] Capturing ${label}`);
 
-        // Move track to show slide i
         track.style.transform = `translateX(-${i * 100}%)`;
-        await sleep(350); // allow paint + any CSS transitions/animations
+        await waitForPaint();
+        await sleep(250);
 
-        const captured = await html2canvas(canvas, {
+        const captured = await h2c(canvas, {
           width: SLIDE_W,
           height: SLIDE_H,
           scale: SCALE_FACTOR,
           useCORS: true,
           allowTaint: true,
-          backgroundColor: null, // keep gradients
+          backgroundColor: null,
           logging: false,
-          // Capture exactly the canvas area
           x: 0,
           y: 0,
           scrollX: 0,
@@ -144,68 +167,62 @@
           windowHeight: SLIDE_H,
         });
 
-        captures.push(captured);
+        // Add page (skip for the first — jsPDF starts with one page)
+        if (i > 0) pdf.addPage([SLIDE_W, SLIDE_H], "landscape");
+
+        const imgData = captured.toDataURL("image/jpeg", 0.92);
+        pdf.addImage(imgData, "JPEG", 0, 0, SLIDE_W, SLIDE_H, `slide${i}`, "FAST");
+
+        // Release the canvas to free ~33 MB per slide
+        captured.width = 0;
+        captured.height = 0;
+
+        // Yield to browser so it can GC and stay responsive
+        await sleep(50);
       }
 
-      /* ── Assemble PDF (landscape A4-ish at 1920×1080 ratio) ── */
-      btn.textContent = "⏳ Building PDF…";
+      /* ── Save PDF ── */
+      if (btn) btn.textContent = "⏳ Saving…";
+      console.log("[Deck→PDF] Saving PDF…");
       await sleep(50);
 
-      const { jsPDF } = window.jspdf;
-      // Custom page size in mm (1920×1080 px at 96 DPI → ~508×285.75 mm).
-      // We use points for precision: 1920 px / 96 * 72 = 1440 pt, 1080/96*72 = 810 pt
-      const ptW = (SLIDE_W / 96) * 72;
-      const ptH = (SLIDE_H / 96) * 72;
-      const pdf = new jsPDF({
-        orientation: "landscape",
-        unit: "pt",
-        format: [ptW, ptH],
-        compress: true,
-      });
-
-      for (let i = 0; i < captures.length; i++) {
-        if (i > 0) pdf.addPage([ptW, ptH], "landscape");
-        const imgData = captures[i].toDataURL("image/png");
-        pdf.addImage(imgData, "PNG", 0, 0, ptW, ptH, undefined, "FAST");
-      }
-
       pdf.save(FILENAME);
+      console.log("[Deck→PDF] Saved:", FILENAME);
 
       /* ── Restore original state ── */
-      stage.style.position = origStagePos;
-      stage.style.overflow = origStageOverflow;
-      stage.style.width = origStageWidth;
-      stage.style.height = origStageHeight;
-      stage.style.inset = origStageInset;
-      stage.style.display = origStageDisplay;
+      Object.assign(stage.style, orig.stage);
+      Object.assign(canvas.style, orig.canvas);
+      Object.assign(track.style, orig.track);
+      if (controls) controls.style.display = orig.controls;
 
-      canvas.style.transform = origCanvasTransform;
-      canvas.style.overflow = origCanvasOverflow;
-      canvas.style.willChange = origCanvasWillChange;
-
-      track.style.transform = origTrackTransform;
-      track.style.transition = origTrackTransition;
-      track.style.display = origTrackDisplay;
-
-      if (controls) controls.style.display = origControlsDisplay;
-
-      btn.textContent = "✅ Done!";
-      setTimeout(() => {
+      if (btn) {
+        btn.textContent = "✅ Done!";
+        setTimeout(() => {
+          btn.textContent = "📥 Export PDF";
+          btn.disabled = false;
+        }, 2000);
+      }
+    } catch (err) {
+      console.error("[Deck→PDF]", err);
+      alert("Export failed — check the console.\n\n" + err.message);
+      if (btn) {
         btn.textContent = "📥 Export PDF";
         btn.disabled = false;
-      }, 2000);
-    } catch (err) {
-      console.error("[Slides→PDF]", err);
-      alert("Export failed — check the console for details.\n\n" + err.message);
-      btn.textContent = "📥 Export PDF";
-      btn.disabled = false;
+      }
     }
   }
 
   /* ── Init ── */
+  // 1) Floating button on the page
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => setTimeout(injectButton, 500));
   } else {
     setTimeout(injectButton, 500);
   }
+
+  // 2) Tampermonkey menu command (right-click TM icon → "Export deck to PDF")
+  GM_registerMenuCommand("Export deck to PDF", () => {
+    const btn = document.getElementById("__deckPdfBtn");
+    runExport(btn);
+  });
 })();

@@ -21,6 +21,7 @@ import {
 import { useSearchParams } from "next/navigation";
 import { Section } from "@/components/ui/Section";
 import { siteContent } from "@/content/site";
+import { useHaptics } from "@/hooks/useHaptics";
 
 type RulebookPanelProps = {
   value: number;
@@ -83,6 +84,7 @@ function BasesPageContent() {
   const [maxPanelHeight, setMaxPanelHeight] = useState(0);
   const measureRefs = useRef<Array<HTMLDivElement | null>>([]);
   const highlightActive = searchParams.get("highlight") === "1";
+  const { trigger } = useHaptics();
 
   useEffect(() => {
     const tabId = searchParams.get("tab");
@@ -121,7 +123,7 @@ function BasesPageContent() {
                 orientation="vertical"
                 variant="scrollable"
                 value={tabIndex}
-                onChange={(_event, value) => setTabIndex(value)}
+                onChange={(_event, value) => { trigger("nudge"); setTabIndex(value); }}
                 aria-label="Indice del reglamento"
                 sx={{
                   borderRight: 1,

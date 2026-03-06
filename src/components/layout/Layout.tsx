@@ -12,6 +12,7 @@ import { siteContent } from "@/content/site";
 import { CTAButtons } from "@/components/ui/CTAButtons";
 import { AnimatedBackground } from "@/components/layout/AnimatedBackground";
 import { CursorDot } from "@/components/layout/CursorDot";
+import { useHaptics } from "@/hooks/useHaptics";
 import logo from "../../../img/CEU_Impact_Lab-Logo.png";
 import logoMarginless from "../../../img/CEU_Impact_Lab-Logo-Marginless.png";
 
@@ -30,6 +31,7 @@ export function Layout({ children }: LayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const isPresentation = pathname?.startsWith("/presentacion/");
+  const { trigger } = useHaptics();
 
   useEffect(() => {
     // Keep the mobile drawer state clean when switching to desktop widths.
@@ -82,6 +84,7 @@ export function Layout({ children }: LayoutProps) {
                   component={Link}
                   href="/"
                   onClick={() => {
+                    trigger("nudge");
                     if (typeof window !== "undefined" && window.location.pathname === "/") {
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }
@@ -116,7 +119,7 @@ export function Layout({ children }: LayoutProps) {
                 <Stack direction="row" spacing={1} sx={{ display: { xs: "none", lg: "flex" } }}>
                   {/* Desktop-only primary links. */}
                   {navItems.map((item) => (
-                    <Button key={item.href} component={Link} href={item.href} size="small">
+                    <Button key={item.href} component={Link} href={item.href} size="small" onClick={() => trigger("nudge")}>
                       {item.label}
                     </Button>
                   ))}
@@ -127,7 +130,7 @@ export function Layout({ children }: LayoutProps) {
                 </Box>
                 <IconButton
                   aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
-                  onClick={() => setIsMenuOpen((prev) => !prev)}
+                  onClick={() => { trigger("nudge"); setIsMenuOpen((prev) => !prev); }}
                   sx={{ display: { xs: "inline-flex", lg: "none" } }}
                 >
                   {isMenuOpen ? <CloseIcon /> : <MenuIcon />}
@@ -158,7 +161,7 @@ export function Layout({ children }: LayoutProps) {
                   component={Link}
                   href={item.href}
                   size="large"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => { trigger("nudge"); setIsMenuOpen(false); }}
                 >
                   {item.label}
                 </Button>
@@ -216,7 +219,7 @@ export function Layout({ children }: LayoutProps) {
             </Box>
             <Stack direction="row" spacing={2} flexWrap="wrap">
               {navItems.slice(0, 5).map((item) => (
-                <Button key={item.href} component={Link} href={item.href} size="small">
+                <Button key={item.href} component={Link} href={item.href} size="small" onClick={() => trigger("nudge")}>
                   {item.label}
                 </Button>
               ))}

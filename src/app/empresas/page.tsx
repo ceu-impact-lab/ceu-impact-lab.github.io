@@ -4,8 +4,10 @@ import { Box, Button, Card, CardContent, Grid, Stack, TextField, Typography } fr
 import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { siteContent } from "@/content/site";
+import { useHaptics } from "@/hooks/useHaptics";
 
 export default function EmpresasPage() {
+  const { trigger } = useHaptics();
   return (
     <Box>
       <Section title="Empresas" subtitle="Colaboración">
@@ -53,7 +55,7 @@ export default function EmpresasPage() {
                   <TextField label="Email" type="email" fullWidth />
                   <TextField label="Mensaje" fullWidth multiline minRows={4} />
                   <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-                    <Button variant="contained" size="large">
+                    <Button variant="contained" size="large" onClick={() => trigger("success")}>
                       Enviar solicitud
                     </Button>
                     <Button
@@ -61,6 +63,7 @@ export default function EmpresasPage() {
                       href={siteContent.primaryCTAs.companyContactUrl}
                       variant="outlined"
                       size="large"
+                      onClick={() => trigger("nudge")}
                     >
                       Escribir por email
                     </Button>

@@ -4,6 +4,7 @@ import "./globals.css";
 import { siteContent } from "@/content/site";
 import { ThemeRegistry } from "@/theme/ThemeRegistry";
 import { Layout } from "@/components/layout/Layout";
+import { HapticsProvider } from "@/hooks/useHaptics";
 
 const poppins = localFont({
   variable: "--font-poppins",
@@ -41,7 +42,9 @@ export default function RootLayout({
     <html lang="es">
       <body className={poppins.variable}>
         <ThemeRegistry>
-          <Layout>{children}</Layout>
+          <HapticsProvider>
+            <Layout>{children}</Layout>
+          </HapticsProvider>
         </ThemeRegistry>
       </body>
     </html>

@@ -7,6 +7,7 @@ import { Children, useEffect, useMemo, useRef, useState } from "react";
 import { siteContent } from "@/content/site";
 import styles from "./slides.module.css";
 import logo from "../../../../../img/CEU_Impact_Lab-Logo-Marginless.png";
+import { useHaptics } from "@/hooks/useHaptics";
 
 type SlideFrameProps = {
   children: ReactNode;
@@ -31,6 +32,7 @@ export function ClientSlides() {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const searchParams = useSearchParams();
   const isExport = searchParams.get("export") === "1";
+  const { trigger } = useHaptics();
 
   const visibleDots = (() => {
     if (totalSlides <= visibleDotCount) {
@@ -962,7 +964,7 @@ export function ClientSlides() {
             <button
               type="button"
               className={styles.controlButton}
-              onClick={() => setActiveSlide((prev) => Math.max(prev - 1, 0))}
+              onClick={() => { trigger("nudge"); setActiveSlide((prev) => Math.max(prev - 1, 0)); }}
               aria-label="Diapositiva anterior"
               disabled={activeSlide === 0}
             >
@@ -976,7 +978,7 @@ export function ClientSlides() {
                   key={index}
                   type="button"
                   className={`${styles.dot} ${index === activeSlide ? styles.dotActive : ""}`}
-                  onClick={() => setActiveSlide(index)}
+                  onClick={() => { trigger("nudge"); setActiveSlide(index); }}
                   aria-label={`Ir a la diapositiva ${index + 1}`}
                   aria-pressed={index === activeSlide}
                 />
@@ -985,7 +987,7 @@ export function ClientSlides() {
             <button
               type="button"
               className={styles.controlButton}
-              onClick={() => setActiveSlide((prev) => Math.min(prev + 1, totalSlides - 1))}
+              onClick={() => { trigger("nudge"); setActiveSlide((prev) => Math.min(prev + 1, totalSlides - 1)); }}
               aria-label="Diapositiva siguiente"
               disabled={activeSlide === totalSlides - 1}
             >

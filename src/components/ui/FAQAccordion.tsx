@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import type { ReactNode } from "react";
+import { useHaptics } from "@/hooks/useHaptics";
 
 type FAQItem = {
   question: string;
@@ -20,6 +21,7 @@ type FAQAccordionProps = {
 };
 
 export function FAQAccordion({ items }: FAQAccordionProps) {
+  const { trigger } = useHaptics();
   const renderAnswer = (answer: string): ReactNode[] => {
     const nodes: ReactNode[] = [];
     const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
@@ -58,7 +60,7 @@ export function FAQAccordion({ items }: FAQAccordionProps) {
   return (
     <div>
       {items.map((item) => (
-        <Accordion key={item.question} variant="outlined" disableGutters>
+        <Accordion key={item.question} variant="outlined" disableGutters onChange={() => trigger("nudge")}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle1">{item.question}</Typography>
           </AccordionSummary>

@@ -18,9 +18,11 @@ import { Section } from "@/components/ui/Section";
 import { CTAButtons } from "@/components/ui/CTAButtons";
 import { AnimatedLinearProgress } from "@/components/ui/AnimatedLinearProgress";
 import { siteContent } from "@/content/site";
+import { useHaptics } from "@/hooks/useHaptics";
 
 export default function RubricaPage() {
   const [openRubricIndex, setOpenRubricIndex] = useState<number | null>(null);
+  const { trigger } = useHaptics();
   const activeRubricItem =
     openRubricIndex === null ? null : siteContent.rubric[openRubricIndex];
 
@@ -34,7 +36,7 @@ export default function RubricaPage() {
           </Typography>
           {siteContent.rubric.map((item, index) => (
             <Card key={item.category} variant="outlined">
-              <CardActionArea onClick={() => setOpenRubricIndex(index)}>
+              <CardActionArea onClick={() => { trigger("nudge"); setOpenRubricIndex(index); }}>
                 <CardContent>
                   <Stack spacing={1}>
                     <Stack direction="row" justifyContent="space-between">
@@ -78,7 +80,7 @@ export default function RubricaPage() {
                   {activeRubricItem.category}
                   <IconButton
                     aria-label="Cerrar"
-                    onClick={() => setOpenRubricIndex(null)}
+                    onClick={() => { trigger("nudge"); setOpenRubricIndex(null); }}
                     sx={{ position: "absolute", right: 12, top: 12 }}
                   >
                     <CloseIcon />

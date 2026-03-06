@@ -5,10 +5,12 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { siteContent } from "@/content/site";
+import { useHaptics } from "@/hooks/useHaptics";
 
 export default function InscripcionPage() {
   const registrationUrl = siteContent.primaryCTAs.studentRegistrationUrl;
   const hasRegistration = Boolean(registrationUrl);
+  const { trigger } = useHaptics();
 
   return (
     <Box>
@@ -28,6 +30,7 @@ export default function InscripcionPage() {
                   variant="contained"
                   size="large"
                   disabled={!hasRegistration}
+                  onClick={() => trigger("success")}
                 >
                   Inscríbete (Estudiantes)
                 </Button>

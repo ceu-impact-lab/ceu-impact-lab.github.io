@@ -3,6 +3,7 @@
 import { Button, Stack } from "@mui/material";
 import Link from "next/link";
 import { siteContent } from "@/content/site";
+import { useHaptics } from "@/hooks/useHaptics";
 
 type CTAButtonsProps = {
   direction?: "row" | "column";
@@ -10,6 +11,7 @@ type CTAButtonsProps = {
 };
 
 export function CTAButtons({ direction = "row", size = "large" }: CTAButtonsProps) {
+  const { trigger } = useHaptics();
   const { studentRegistrationUrl, companyContactUrl } =
     siteContent.primaryCTAs;
   const hasRegistration = Boolean(studentRegistrationUrl);
@@ -24,6 +26,7 @@ export function CTAButtons({ direction = "row", size = "large" }: CTAButtonsProp
         variant="contained"
         color="primary"
         disabled={!hasRegistration}
+        onClick={() => trigger("success")}
       >
         Inscríbete (Estudiantes)
       </Button>
@@ -34,6 +37,7 @@ export function CTAButtons({ direction = "row", size = "large" }: CTAButtonsProp
         variant="outlined"
         color="primary"
         disabled={!hasCompanyContact}
+        onClick={() => trigger("nudge")}
       >
         Quiero colaborar (Empresas)
       </Button>

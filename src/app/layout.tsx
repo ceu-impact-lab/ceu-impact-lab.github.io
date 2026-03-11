@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | " + siteContent.eventName,
   },
   description:
-    "Hackathon multidisciplinar en Campus Monteprincipe con retos reales y foco en empleabilidad.",
+    "Hackathon multidisciplinar en Campus Monteprincipe con retos reales y foco en innovación.",
   openGraph: {
     title: siteContent.eventName,
     description:

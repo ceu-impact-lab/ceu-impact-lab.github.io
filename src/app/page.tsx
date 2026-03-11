@@ -110,11 +110,11 @@ export default function Home() {
                   <Typography variant="h6">Lo esencial</Typography>
                   <Typography color="text.secondary">
                     Inscripcion con equipo o individual, retos de empresas y foco en
-                    empleabilidad.
+                    innovación.
                   </Typography>
                   <Stack spacing={1}>
                     <Typography variant="body2" color="text.secondary">
-                      Awards institucionales: {siteContent.awardsDate}
+                      Entrega de premios: {siteContent.awardsDate}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       Entrega: MVP funcional con demo en vivo

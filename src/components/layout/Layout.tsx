@@ -214,7 +214,7 @@ export function Layout({ children }: LayoutProps) {
                 {siteContent.location}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {siteContent.dates} · Awards {siteContent.awardsDate}
+                {siteContent.dates} · Premios: {siteContent.awardsDate}
               </Typography>
             </Box>
             <Stack direction="row" spacing={2} flexWrap="wrap">

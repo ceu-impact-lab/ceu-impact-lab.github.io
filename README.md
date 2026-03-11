@@ -36,8 +36,6 @@ If you rename the repository, update the `repoName` value in next.config.ts.
 
 ## Slide Deck PDF Export (Tampermonkey)
 
-The presentation at `/presentacion/retos/ia-operaciones` is an interactive carousel that cannot be printed to PDF reliably via the browser's built-in print dialog (CSS transforms, `backdrop-filter`, and GPU compositing prevent correct rendering).
-
 A Tampermonkey userscript is included at `scripts/tampermonkey-slides-to-pdf.user.js` that captures each slide at native 1920×1080 resolution (2× scale for retina quality) and assembles them into a single landscape PDF.
 
 ### How to use
